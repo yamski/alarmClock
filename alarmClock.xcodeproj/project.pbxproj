@@ -19,6 +19,8 @@
 		D06DB98F1933B4BB00DCF445 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D06DB9771933B4BB00DCF445 /* UIKit.framework */; };
 		D06DB9971933B4BB00DCF445 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D06DB9951933B4BB00DCF445 /* InfoPlist.strings */; };
 		D06DB9991933B4BB00DCF445 /* alarmClockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9981933B4BB00DCF445 /* alarmClockTests.m */; };
+		D06DB9A61933B63A00DCF445 /* ACAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9A51933B63A00DCF445 /* ACAViewController.m */; };
+		D06DB9A91934B70A00DCF445 /* ACAalarmLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9A81934B70A00DCF445 /* ACAalarmLabel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,10 @@
 		D06DB9941933B4BB00DCF445 /* alarmClockTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "alarmClockTests-Info.plist"; sourceTree = "<group>"; };
 		D06DB9961933B4BB00DCF445 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D06DB9981933B4BB00DCF445 /* alarmClockTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = alarmClockTests.m; sourceTree = "<group>"; };
+		D06DB9A41933B63A00DCF445 /* ACAViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAViewController.h; sourceTree = "<group>"; };
+		D06DB9A51933B63A00DCF445 /* ACAViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAViewController.m; sourceTree = "<group>"; };
+		D06DB9A71934B70A00DCF445 /* ACAalarmLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAalarmLabel.h; sourceTree = "<group>"; };
+		D06DB9A81934B70A00DCF445 /* ACAalarmLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAalarmLabel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +83,10 @@
 		D06DB9671933B4BB00DCF445 = {
 			isa = PBXGroup;
 			children = (
+				D06DB9A71934B70A00DCF445 /* ACAalarmLabel.h */,
+				D06DB9A81934B70A00DCF445 /* ACAalarmLabel.m */,
+				D06DB9A31933B5FF00DCF445 /* Views */,
+				D06DB9A21933B5F200DCF445 /* Controllers */,
 				D06DB9791933B4BB00DCF445 /* alarmClock */,
 				D06DB9921933B4BB00DCF445 /* alarmClockTests */,
 				D06DB9721933B4BB00DCF445 /* Frameworks */,
@@ -142,6 +152,22 @@
 				D06DB9951933B4BB00DCF445 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D06DB9A21933B5F200DCF445 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D06DB9A41933B63A00DCF445 /* ACAViewController.h */,
+				D06DB9A51933B63A00DCF445 /* ACAViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		D06DB9A31933B5FF00DCF445 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,8 +266,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D06DB9A91934B70A00DCF445 /* ACAalarmLabel.m in Sources */,
 				D06DB9841933B4BB00DCF445 /* ACAAppDelegate.m in Sources */,
 				D06DB9801933B4BB00DCF445 /* main.m in Sources */,
+				D06DB9A61933B63A00DCF445 /* ACAViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
