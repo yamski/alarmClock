@@ -21,6 +21,7 @@
 		D06DB9991933B4BB00DCF445 /* alarmClockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9981933B4BB00DCF445 /* alarmClockTests.m */; };
 		D06DB9A61933B63A00DCF445 /* ACAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9A51933B63A00DCF445 /* ACAViewController.m */; };
 		D06DB9A91934B70A00DCF445 /* ACAalarmLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9A81934B70A00DCF445 /* ACAalarmLabel.m */; };
+		D06DB9AF1934FB5500DCF445 /* ACAbgLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9AE1934FB5500DCF445 /* ACAbgLayer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,8 @@
 		D06DB9A51933B63A00DCF445 /* ACAViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAViewController.m; sourceTree = "<group>"; };
 		D06DB9A71934B70A00DCF445 /* ACAalarmLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAalarmLabel.h; sourceTree = "<group>"; };
 		D06DB9A81934B70A00DCF445 /* ACAalarmLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAalarmLabel.m; sourceTree = "<group>"; };
+		D06DB9AD1934FB5500DCF445 /* ACAbgLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAbgLayer.h; sourceTree = "<group>"; };
+		D06DB9AE1934FB5500DCF445 /* ACAbgLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAbgLayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +86,8 @@
 		D06DB9671933B4BB00DCF445 = {
 			isa = PBXGroup;
 			children = (
+				D06DB9AD1934FB5500DCF445 /* ACAbgLayer.h */,
+				D06DB9AE1934FB5500DCF445 /* ACAbgLayer.m */,
 				D06DB9A71934B70A00DCF445 /* ACAalarmLabel.h */,
 				D06DB9A81934B70A00DCF445 /* ACAalarmLabel.m */,
 				D06DB9A31933B5FF00DCF445 /* Views */,
@@ -270,6 +275,7 @@
 				D06DB9841933B4BB00DCF445 /* ACAAppDelegate.m in Sources */,
 				D06DB9801933B4BB00DCF445 /* main.m in Sources */,
 				D06DB9A61933B63A00DCF445 /* ACAViewController.m in Sources */,
+				D06DB9AF1934FB5500DCF445 /* ACAbgLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

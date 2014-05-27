@@ -10,4 +10,6 @@
 
 @interface ACAViewController : UIViewController
 
+@property (nonatomic) BOOL alarmActive;
+
 @end

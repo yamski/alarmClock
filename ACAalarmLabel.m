@@ -18,7 +18,9 @@
         
         self.backgroundColor = [UIColor clearColor];
         
-        self.font = [UIFont fontWithName:@"Avenir-Light" size:30];
+        self.font = [UIFont fontWithName:@"Avenir-Light" size:50];
+        
+        self.textColor = [UIColor whiteColor];
     }
     return self;
 }
