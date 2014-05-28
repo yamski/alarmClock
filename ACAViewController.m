@@ -8,31 +8,36 @@
 
 #import "ACAViewController.h"
 #import "ACAalarmLabel.h"
+#import "ACAtimeButton.h"
 
 #import "ACAbgLayer.h"
+#import "ACAamPM.h"
+#import "ACAalarmSwipe.h"
 
 
-@interface ACAViewController ()
+
+@interface ACAViewController () <ACAalarmSwipeDelegate>
 
 @end
 
 @implementation ACAViewController
 {
-    int day;
-    int hour;
-    int min;
-    int sec;
-    
-    ACAalarmLabel * alarmLabel;
+
+    ACAtimeButton * alarmLabel;
+    ACAamPM * amPM;
     UIButton * alarmToggle;
     
     NSDate * alarmTime;
     NSDate * now;
     NSDateFormatter * formatter;
-    
+    NSDateFormatter * amPMFormat;
     
     CGPoint prevLocation;
     CGPoint location;
+    
+    UIView * menu;
+    
+    ACAalarmSwipe * timeScroll;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -47,12 +52,13 @@
         now = [NSDate date];
         
         formatter = [[NSDateFormatter alloc] init];
-        
-        //[formatter setDateStyle:NSDateFormatterShortStyle];
-        
+
         [formatter setTimeStyle:NSDateFormatterShortStyle];
-//        [formatter setLocale:<#(NSLocale *)#>];
-//        [formatter setTimeZone:<#(NSTimeZone *)#>];
+        
+        [formatter setDateFormat:@"h:mm"];
+        
+        amPMFormat = [[NSDateFormatter alloc] init];
+        [amPMFormat setDateFormat:@"a"];
         
         NSString * formattedDate = [formatter stringFromDate:now];
         
@@ -60,12 +66,23 @@
         
         
         alarmTime = now;
+        alarmLabel = [[ACAtimeButton  alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 130)];
+
+        [alarmLabel setTitle:[formatter stringFromDate:alarmTime] forState:UIControlStateNormal];
         
-        alarmLabel = [[ACAalarmLabel alloc] initWithFrame:CGRectMake(20, 20, 300, 150)];
-        
-        alarmLabel.text = [formatter stringFromDate:alarmTime];
+        [alarmLabel addTarget:self action:@selector(setAlarmTime) forControlEvents:UIControlEventTouchUpInside];
         
         [self.view addSubview:alarmLabel];
+        
+        amPM =  [[ACAamPM alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 65, 135, 80, 40)];
+        amPM.text = [amPMFormat stringFromDate:alarmTime];
+    
+        [self.view addSubview:amPM];
+        
+        menu = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 170)];
+        menu.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.3];
+        [self.view addSubview:menu];
+        
 
     }
     return self;
@@ -80,6 +97,75 @@
     alarmToggle.layer.cornerRadius = 20;
     [alarmToggle addTarget:self action:@selector(onOff) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:alarmToggle];
+}
+
+- (void)setPopUpToggle:(BOOL)popUpToggle
+{
+    _popUpToggle = popUpToggle;
+    
+    popUpToggle = !popUpToggle;
+}
+
+
+- (void)setAlarmSettable:(BOOL)alarmSettable
+{
+    _alarmSettable = alarmSettable;
+    
+    alarmSettable = !alarmSettable;
+}
+
+
+- (void)setAlarmTime
+{
+    if (!self.alarmSettable) {
+        
+        [UIView animateWithDuration:1.5 animations:^{
+            
+            alarmLabel.backgroundColor = [UIColor colorWithRed:0.898f green:0.996f blue:0.412f alpha:1.0f];
+            
+            [alarmLabel setTitleColor:[UIColor colorWithRed:0.231f green:0.427f blue:0.506f alpha:1.0f] forState:UIControlStateNormal];
+            
+            timeScroll = [[ACAalarmSwipe alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+            
+            timeScroll.delegate = self;
+            
+            [self.view addSubview:timeScroll];
+            
+        } ];
+    } else
+    {
+        [UIView animateWithDuration:1.5 animations:^{
+            
+            alarmLabel.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
+            
+            [alarmLabel setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            
+            [timeScroll removeFromSuperview];
+            
+        }];
+    }
+    
+    self.alarmSettable = !self.alarmSettable;
+    
+}
+
+- (void)popup
+{
+    NSLog(@"pop up toggle");
+    
+    if (!self.popUpToggle) {
+        [UIView animateWithDuration:0.5 animations:^{
+            menu.frame = CGRectMake(0, 170, SCREEN_WIDTH, SCREEN_HEIGHT - 170);
+        }];
+    } else if (self.popUpToggle)
+    {
+        [UIView animateWithDuration:0.5 animations:^{
+            menu.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 170);
+        }];
+    }
+    
+    self.popUpToggle = !self.popUpToggle;
+
 }
 
 - (void)onOff
@@ -100,9 +186,10 @@
     };
 }
 
-- (void)updateAlarm
+- (void)updateAlarm:(int)hour :(int)min
 {
     [alarmLabel removeFromSuperview];
+    [amPM removeFromSuperview];
     
     NSCalendar * calender = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     
@@ -111,65 +198,66 @@
     [components setHour:hour];
     [components setMinute:min];
     
+    [formatter setDateFormat:@"h:mm"];
+    
+    
     alarmTime = [calender dateByAddingComponents:components toDate:now options:0];
     
-    alarmLabel.text = [formatter stringFromDate:alarmTime];
+    [alarmLabel setTitle:[formatter stringFromDate:alarmTime] forState:UIControlStateNormal];
+    amPM.text = [amPMFormat stringFromDate:alarmTime];
 
     [self.view addSubview:alarmLabel];
+    [self.view addSubview:amPM];
 }
 
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    UITouch * touch = [touches anyObject];
-    location = [touch locationInView:self.view];
-//    CGPoint prevLocation = [touch previousLocationInView:self.view];
-
-    if (location.x - prevLocation.x > 50) {
-        
-        NSLog(@"swiping right");
-        hour = hour + 1;
-        
-        prevLocation = location;
-        
-    } else if (location.x - prevLocation.x + 10 < -50) {
-        
-        NSLog(@"swiping left");
-        
-        hour = hour - 1;
-        
-        prevLocation = location;
-    }
-    
-    
-    if (location.y - prevLocation.y > 20) {
-        
-        NSLog(@"swiping up");
-        min = min - 1;
-        
-        prevLocation = location;
-    }
-    
-    if (location.y - prevLocation.y < -20){
-        
-        NSLog(@"swiping down");
-        
-        min = min + 1;
-        
-        prevLocation = location;
-    }
-    
-  
-    [self updateAlarm];
-}
-
-
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    UITouch * touch = [touches anyObject];
-    location = [touch locationInView:self.view];
-    prevLocation = location;
-}
+//- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+//    UITouch * touch = [touches anyObject];
+//    location = [touch locationInView:timeScroll];
+//
+//    if (location.x - prevLocation.x > 50) {
+//        
+//        NSLog(@"swiping right");
+//        hour = hour + 1;
+//    
+//        prevLocation = location;
+//        
+//    } else if (location.x - prevLocation.x < -50) {
+//        
+//        NSLog(@"swiping left");
+//        
+//        hour = hour - 1;
+//    
+//        prevLocation = location;
+//    }
+//    
+//    if (location.y - prevLocation.y > 20) {
+//        
+//        NSLog(@"swiping up");
+//        min = min - 1;
+//        
+//        prevLocation = location;
+//    }
+//    
+//    if (location.y - prevLocation.y < -20){
+//        
+//        NSLog(@"swiping down");
+//        
+//        min = min + 1;
+//        
+//        prevLocation = location;
+//    }
+//    
+//    [self updateAlarm];
+//}
+//
+//- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+//    UITouch * touch = [touches anyObject];
+//    location = [touch locationInView:timeScroll];
+//    prevLocation = location;
+//}
 
 - (void) alarmSet
 {

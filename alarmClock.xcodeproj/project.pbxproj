@@ -22,6 +22,10 @@
 		D06DB9A61933B63A00DCF445 /* ACAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9A51933B63A00DCF445 /* ACAViewController.m */; };
 		D06DB9A91934B70A00DCF445 /* ACAalarmLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9A81934B70A00DCF445 /* ACAalarmLabel.m */; };
 		D06DB9AF1934FB5500DCF445 /* ACAbgLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9AE1934FB5500DCF445 /* ACAbgLayer.m */; };
+		D06DB9B21935265000DCF445 /* ACAtriangle.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9B11935265000DCF445 /* ACAtriangle.m */; };
+		D06DB9B519355DBA00DCF445 /* ACAamPM.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9B419355DBA00DCF445 /* ACAamPM.m */; };
+		D06DB9B91935652600DCF445 /* ACAtimeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9B81935652600DCF445 /* ACAtimeButton.m */; };
+		D06DB9BF193588E100DCF445 /* ACAalarmSwipe.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9BE193588E100DCF445 /* ACAalarmSwipe.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +61,14 @@
 		D06DB9A81934B70A00DCF445 /* ACAalarmLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAalarmLabel.m; sourceTree = "<group>"; };
 		D06DB9AD1934FB5500DCF445 /* ACAbgLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAbgLayer.h; sourceTree = "<group>"; };
 		D06DB9AE1934FB5500DCF445 /* ACAbgLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAbgLayer.m; sourceTree = "<group>"; };
+		D06DB9B01935265000DCF445 /* ACAtriangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAtriangle.h; sourceTree = "<group>"; };
+		D06DB9B11935265000DCF445 /* ACAtriangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAtriangle.m; sourceTree = "<group>"; };
+		D06DB9B319355DBA00DCF445 /* ACAamPM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAamPM.h; sourceTree = "<group>"; };
+		D06DB9B419355DBA00DCF445 /* ACAamPM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAamPM.m; sourceTree = "<group>"; };
+		D06DB9B71935652600DCF445 /* ACAtimeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAtimeButton.h; sourceTree = "<group>"; };
+		D06DB9B81935652600DCF445 /* ACAtimeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAtimeButton.m; sourceTree = "<group>"; };
+		D06DB9BD193588E100DCF445 /* ACAalarmSwipe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAalarmSwipe.h; sourceTree = "<group>"; };
+		D06DB9BE193588E100DCF445 /* ACAalarmSwipe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAalarmSwipe.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,10 +98,11 @@
 		D06DB9671933B4BB00DCF445 = {
 			isa = PBXGroup;
 			children = (
+				D06DB9B619355DC900DCF445 /* Labels */,
+				D06DB9B01935265000DCF445 /* ACAtriangle.h */,
+				D06DB9B11935265000DCF445 /* ACAtriangle.m */,
 				D06DB9AD1934FB5500DCF445 /* ACAbgLayer.h */,
 				D06DB9AE1934FB5500DCF445 /* ACAbgLayer.m */,
-				D06DB9A71934B70A00DCF445 /* ACAalarmLabel.h */,
-				D06DB9A81934B70A00DCF445 /* ACAalarmLabel.m */,
 				D06DB9A31933B5FF00DCF445 /* Views */,
 				D06DB9A21933B5F200DCF445 /* Controllers */,
 				D06DB9791933B4BB00DCF445 /* alarmClock */,
@@ -171,8 +184,23 @@
 		D06DB9A31933B5FF00DCF445 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D06DB9BD193588E100DCF445 /* ACAalarmSwipe.h */,
+				D06DB9BE193588E100DCF445 /* ACAalarmSwipe.m */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		D06DB9B619355DC900DCF445 /* Labels */ = {
+			isa = PBXGroup;
+			children = (
+				D06DB9A71934B70A00DCF445 /* ACAalarmLabel.h */,
+				D06DB9A81934B70A00DCF445 /* ACAalarmLabel.m */,
+				D06DB9B319355DBA00DCF445 /* ACAamPM.h */,
+				D06DB9B419355DBA00DCF445 /* ACAamPM.m */,
+				D06DB9B71935652600DCF445 /* ACAtimeButton.h */,
+				D06DB9B81935652600DCF445 /* ACAtimeButton.m */,
+			);
+			name = Labels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -273,9 +301,13 @@
 			files = (
 				D06DB9A91934B70A00DCF445 /* ACAalarmLabel.m in Sources */,
 				D06DB9841933B4BB00DCF445 /* ACAAppDelegate.m in Sources */,
+				D06DB9BF193588E100DCF445 /* ACAalarmSwipe.m in Sources */,
+				D06DB9B91935652600DCF445 /* ACAtimeButton.m in Sources */,
 				D06DB9801933B4BB00DCF445 /* main.m in Sources */,
 				D06DB9A61933B63A00DCF445 /* ACAViewController.m in Sources */,
 				D06DB9AF1934FB5500DCF445 /* ACAbgLayer.m in Sources */,
+				D06DB9B519355DBA00DCF445 /* ACAamPM.m in Sources */,
+				D06DB9B21935265000DCF445 /* ACAtriangle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

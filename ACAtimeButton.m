@@ -1,14 +1,14 @@
 //
-//  ACAalarmLabel.m
+//  ACAtimeButton.m
 //  alarmClock
 //
 //  Created by JOHN YAM on 5/27/14.
 //  Copyright (c) 2014 John Yam. All rights reserved.
 //
 
-#import "ACAalarmLabel.h"
+#import "ACAtimeButton.h"
 
-@implementation ACAalarmLabel
+@implementation ACAtimeButton
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -18,11 +18,11 @@
         
         self.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
         
-        self.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:75];
+        self.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:75];
         
-        self.textColor = [UIColor whiteColor];
+        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
-        self.textAlignment = NSTextAlignmentCenter;
+        self.titleLabel.textAlignment = NSTextAlignmentCenter;
     }
     return self;
 }

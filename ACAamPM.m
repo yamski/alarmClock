@@ -1,26 +1,24 @@
 //
-//  ACAalarmLabel.m
+//  ACAamPM.m
 //  alarmClock
 //
 //  Created by JOHN YAM on 5/27/14.
 //  Copyright (c) 2014 John Yam. All rights reserved.
 //
 
-#import "ACAalarmLabel.h"
+#import "ACAamPM.h"
 
-@implementation ACAalarmLabel
+@implementation ACAamPM
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        self.backgroundColor = [UIColor clearColor];
         
-        self.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
+        self.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:21];
         
-        self.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:75];
-        
-        self.textColor = [UIColor whiteColor];
+        self.textColor = [UIColor colorWithWhite:0.0 alpha:0.4];
         
         self.textAlignment = NSTextAlignmentCenter;
     }

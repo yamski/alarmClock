@@ -11,5 +11,8 @@
 @interface ACAViewController : UIViewController
 
 @property (nonatomic) BOOL alarmActive;
+@property (nonatomic) BOOL popUpToggle;
+@property (nonatomic) BOOL alarmSettable;
+
 
 @end
