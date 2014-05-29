@@ -13,6 +13,7 @@
 #import "ACAbgLayer.h"
 #import "ACAamPM.h"
 #import "ACAalarmSwipe.h"
+#import "ACAmainButtons.h"
 
 
 
@@ -38,12 +39,19 @@
     UIView * menu;
     
     ACAalarmSwipe * timeScroll;
+    
+    ACAmainButtons * options;
+    
+    float currentVal;
+    
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        
+        currentVal = [UIScreen mainScreen].brightness;
         
         CAGradientLayer *bgLayer = [ACAbgLayer blueGradient];
         bgLayer.frame = self.view.bounds;
@@ -80,10 +88,11 @@
         [self.view addSubview:amPM];
         
         menu = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 170)];
-        menu.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.3];
+        menu.backgroundColor = [UIColor colorWithRed:0.890f green:1.000f blue:0.980f alpha:1.0f];
+        
+        
         [self.view addSubview:menu];
         
-
     }
     return self;
 }
@@ -92,10 +101,17 @@
 {
     [super viewDidLoad];
     
-    alarmToggle = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 60, SCREEN_HEIGHT - 60, 40, 40)];
-    alarmToggle.backgroundColor = [UIColor redColor];
-    alarmToggle.layer.cornerRadius = 20;
-    [alarmToggle addTarget:self action:@selector(onOff) forControlEvents:UIControlEventTouchUpInside];
+    int buttonWidth = 80;
+    
+    options = [[ACAmainButtons alloc] initWithFrame:CGRectMake((SCREEN_WIDTH/2) - (buttonWidth/2), SCREEN_HEIGHT - 50, buttonWidth, 40)];
+    [options setTitle:@"Options" forState:UIControlStateNormal];
+    [options addTarget:self action:@selector(popup) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:options];
+    
+    
+    alarmToggle = [[ACAmainButtons alloc] initWithFrame:CGRectMake((SCREEN_WIDTH/2) - (buttonWidth/2) - (buttonWidth + 20), SCREEN_HEIGHT - 50, buttonWidth, 40)];
+    [alarmToggle setTitle:@"Alarm Off" forState:UIControlStateNormal];
+    [alarmToggle addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:alarmToggle];
 }
 
@@ -114,9 +130,17 @@
     alarmSettable = !alarmSettable;
 }
 
+//- (void)alarmSwitchToggle
+//{
+//
+//    self.alarmSettable = !self.alarmSettable;
+//}
+
 
 - (void)setAlarmTime
 {
+    //[self alarmSwitchToggle];
+    
     if (!self.alarmSettable) {
         
         [UIView animateWithDuration:1.5 animations:^{
@@ -156,6 +180,14 @@
     if (!self.popUpToggle) {
         [UIView animateWithDuration:0.5 animations:^{
             menu.frame = CGRectMake(0, 170, SCREEN_WIDTH, SCREEN_HEIGHT - 170);
+            
+            UIButton * saveOptions = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 40, SCREEN_HEIGHT - 240, 80, 40)];
+            saveOptions.backgroundColor = [UIColor clearColor];
+            [saveOptions setTitle:@"Save" forState:UIControlStateNormal];
+            saveOptions.titleLabel.textColor = [UIColor blueColor];
+            
+            [saveOptions addTarget:self action:@selector(popup) forControlEvents:UIControlEventTouchUpInside];
+            [menu addSubview:saveOptions];
         }];
     } else if (self.popUpToggle)
     {
@@ -210,54 +242,56 @@
     [self.view addSubview:amPM];
 }
 
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch * touch = [touches anyObject];
+    prevLocation = [touch locationInView:self.view];
 
-//- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//    UITouch * touch = [touches anyObject];
-//    location = [touch locationInView:timeScroll];
-//
-//    if (location.x - prevLocation.x > 50) {
-//        
-//        NSLog(@"swiping right");
-//        hour = hour + 1;
-//    
-//        prevLocation = location;
-//        
-//    } else if (location.x - prevLocation.x < -50) {
-//        
-//        NSLog(@"swiping left");
-//        
-//        hour = hour - 1;
-//    
-//        prevLocation = location;
-//    }
-//    
-//    if (location.y - prevLocation.y > 20) {
-//        
-//        NSLog(@"swiping up");
-//        min = min - 1;
-//        
-//        prevLocation = location;
-//    }
-//    
-//    if (location.y - prevLocation.y < -20){
-//        
-//        NSLog(@"swiping down");
-//        
-//        min = min + 1;
-//        
-//        prevLocation = location;
-//    }
-//    
-//    [self updateAlarm];
-//}
-//
-//- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//    UITouch * touch = [touches anyObject];
-//    location = [touch locationInView:timeScroll];
-//    prevLocation = location;
-//}
+}
+
+
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch * touch = [touches anyObject];
+    location = [touch locationInView:self.view];
+
+    
+    if (location.y - prevLocation.y > 10) {
+        
+        NSLog(@"swiping down");
+        
+        
+        currentVal = currentVal - .05;
+       
+        [[UIScreen mainScreen] setBrightness: currentVal];
+        
+       // currentVal = [UIScreen mainScreen].brightness;
+        
+        NSLog(@"%f",[UIScreen mainScreen].brightness);
+        
+        prevLocation = location;
+    }
+    
+    if (location.y - prevLocation.y < - 10){
+        
+        NSLog(@"swiping up");
+        
+        currentVal = currentVal + .05;
+        
+        [[UIScreen mainScreen] setBrightness:currentVal];
+        
+        //currentVal = [UIScreen mainScreen].brightness;
+         NSLog(@"%f",[UIScreen mainScreen].brightness);
+        
+        prevLocation = location;
+     
+    }
+    
+}
+
+
+
 
 - (void) alarmSet
 {

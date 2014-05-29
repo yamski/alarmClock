@@ -26,6 +26,7 @@
 		D06DB9B519355DBA00DCF445 /* ACAamPM.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9B419355DBA00DCF445 /* ACAamPM.m */; };
 		D06DB9B91935652600DCF445 /* ACAtimeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9B81935652600DCF445 /* ACAtimeButton.m */; };
 		D06DB9BF193588E100DCF445 /* ACAalarmSwipe.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9BE193588E100DCF445 /* ACAalarmSwipe.m */; };
+		D06DB9C21936447600DCF445 /* ACAmainButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9C11936447600DCF445 /* ACAmainButtons.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,8 @@
 		D06DB9B81935652600DCF445 /* ACAtimeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAtimeButton.m; sourceTree = "<group>"; };
 		D06DB9BD193588E100DCF445 /* ACAalarmSwipe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAalarmSwipe.h; sourceTree = "<group>"; };
 		D06DB9BE193588E100DCF445 /* ACAalarmSwipe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAalarmSwipe.m; sourceTree = "<group>"; };
+		D06DB9C01936447600DCF445 /* ACAmainButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAmainButtons.h; sourceTree = "<group>"; };
+		D06DB9C11936447600DCF445 /* ACAmainButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAmainButtons.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +101,9 @@
 		D06DB9671933B4BB00DCF445 = {
 			isa = PBXGroup;
 			children = (
+				D06DB9C31936448100DCF445 /* buttons */,
+				D06DB9C01936447600DCF445 /* ACAmainButtons.h */,
+				D06DB9C11936447600DCF445 /* ACAmainButtons.m */,
 				D06DB9B619355DC900DCF445 /* Labels */,
 				D06DB9B01935265000DCF445 /* ACAtriangle.h */,
 				D06DB9B11935265000DCF445 /* ACAtriangle.m */,
@@ -203,6 +209,13 @@
 			name = Labels;
 			sourceTree = "<group>";
 		};
+		D06DB9C31936448100DCF445 /* buttons */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = buttons;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -251,6 +264,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "John Yam";
 				TargetAttributes = {
+					D06DB96F1933B4BB00DCF445 = {
+						DevelopmentTeam = GXGPQE8SGC;
+					};
 					D06DB98A1933B4BB00DCF445 = {
 						TestTargetID = D06DB96F1933B4BB00DCF445;
 					};
@@ -303,6 +319,7 @@
 				D06DB9841933B4BB00DCF445 /* ACAAppDelegate.m in Sources */,
 				D06DB9BF193588E100DCF445 /* ACAalarmSwipe.m in Sources */,
 				D06DB9B91935652600DCF445 /* ACAtimeButton.m in Sources */,
+				D06DB9C21936447600DCF445 /* ACAmainButtons.m in Sources */,
 				D06DB9801933B4BB00DCF445 /* main.m in Sources */,
 				D06DB9A61933B63A00DCF445 /* ACAViewController.m in Sources */,
 				D06DB9AF1934FB5500DCF445 /* ACAbgLayer.m in Sources */,
@@ -424,6 +441,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "alarmClock/alarmClock-Prefix.pch";
 				INFOPLIST_FILE = "alarmClock/alarmClock-Info.plist";
@@ -437,6 +455,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "alarmClock/alarmClock-Prefix.pch";
 				INFOPLIST_FILE = "alarmClock/alarmClock-Info.plist";
