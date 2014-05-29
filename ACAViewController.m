@@ -14,6 +14,9 @@
 #import "ACAamPM.h"
 #import "ACAalarmSwipe.h"
 #import "ACAmainButtons.h"
+#import "ACAalarmsTVC.h"
+
+#import "ACAalarmData.h"
 
 
 
@@ -23,7 +26,7 @@
 
 @implementation ACAViewController
 {
-
+    ACAalarmsTVC * alarmsTVC;
     ACAtimeButton * alarmLabel;
     ACAamPM * amPM;
     UIButton * alarmToggle;
@@ -90,8 +93,17 @@
         menu = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 170)];
         menu.backgroundColor = [UIColor colorWithRed:0.890f green:1.000f blue:0.980f alpha:1.0f];
         
-        
         [self.view addSubview:menu];
+        
+        UISwipeGestureRecognizer * swipeTVC = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:nil];
+        swipeTVC.direction = UISwipeGestureRecognizerDirectionLeft;
+        [swipeTVC addTarget:self action:@selector(swipe:)];
+        [self.view addGestureRecognizer:swipeTVC];
+        
+        
+        [[ACAalarmData maindata].alarmList addObject:@"added object"];
+        
+        NSLog(@"my singleton contatins: %@",[ACAalarmData maindata].alarmList);
         
     }
     return self;
@@ -113,6 +125,27 @@
     [alarmToggle setTitle:@"Alarm Off" forState:UIControlStateNormal];
     [alarmToggle addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:alarmToggle];
+    
+    
+    ACAmainButtons * test = [[ACAmainButtons alloc] initWithFrame:CGRectMake((SCREEN_WIDTH/2) - (buttonWidth/2) + (buttonWidth + 20), SCREEN_HEIGHT - 50, buttonWidth, 40)];
+    [test setTitle:@"Test" forState:UIControlStateNormal];
+    [test addTarget:self action:@selector(showTable) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:test];
+    
+    alarmsTVC = [[ACAalarmsTVC alloc] initWithStyle:UITableViewStylePlain];
+    alarmsTVC.view.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    [self.view addSubview:alarmsTVC.view];
+    
+    
+}
+
+- (void) swipe:(UISwipeGestureRecognizer *)gesture
+{
+    NSLog(@"%@",gesture);
+    
+    NSLog(@"%d", (int)gesture.direction);
+    
+    [self showTable];
 }
 
 - (void)setPopUpToggle:(BOOL)popUpToggle
@@ -136,6 +169,15 @@
 //    self.alarmSettable = !self.alarmSettable;
 //}
 
+- (void)showTable
+{
+    [self.navigationController pushViewController:alarmsTVC animated:YES];
+    
+//    [UIView animateWithDuration:.25 animations:^{
+//        alarmsTVC.view.frame = CGRectMake(10, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+//    } ];
+    
+}
 
 - (void)setAlarmTime
 {
@@ -261,7 +303,6 @@
         
         NSLog(@"swiping down");
         
-        
         currentVal = currentVal - .05;
        
         [[UIScreen mainScreen] setBrightness: currentVal];
@@ -287,11 +328,7 @@
         prevLocation = location;
      
     }
-    
 }
-
-
-
 
 - (void) alarmSet
 {
@@ -303,7 +340,6 @@
         wakeUp.timeZone = [NSTimeZone localTimeZone];
         wakeUp.alertBody = @"Eat your Wheaties";
         wakeUp.repeatInterval = NSDayCalendarUnit;
-        wakeUp.repeatCalendar = [NSCalendar currentCalendar];
         wakeUp.soundName = UILocalNotificationDefaultSoundName;
         
         [[UIApplication sharedApplication] scheduleLocalNotification:wakeUp];
@@ -316,7 +352,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 
 @end

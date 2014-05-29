@@ -16,7 +16,15 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-    self.window.rootViewController = [[ACAViewController alloc] init];
+//    [application cancelAllLocalNotifications];
+    
+    ACAViewController * mainController = [[ACAViewController alloc] init];
+    
+    UINavigationController * nc = [[UINavigationController alloc] initWithRootViewController:mainController];
+    
+    [nc.navigationBar setHidden:YES];
+    
+    self.window.rootViewController = nc;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
