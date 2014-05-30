@@ -76,6 +76,7 @@
         NSLog(@"%@",formattedDate);
         
         
+        // alarm time
         alarmTime = now;
         alarmLabel = [[ACAtimeButton  alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 130)];
 
@@ -84,6 +85,8 @@
         [alarmLabel addTarget:self action:@selector(setAlarmTime) forControlEvents:UIControlEventTouchUpInside];
         
         [self.view addSubview:alarmLabel];
+        //
+        
         
         amPM =  [[ACAamPM alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 65, 135, 80, 40)];
         amPM.text = [amPMFormat stringFromDate:alarmTime];
@@ -101,9 +104,11 @@
         [self.view addGestureRecognizer:swipeTVC];
         
         
-        [[ACAalarmData maindata].alarmList addObject:@"added object"];
+    
+        //[[ACAalarmData maindata].alarmList addObject:@"added object"];
         
-        NSLog(@"my singleton contatins: %@",[ACAalarmData maindata].alarmList);
+       // NSLog(@"my singleton contatins: %@",[ACAalarmData maindata].alarmList);
+       
         
     }
     return self;
@@ -129,7 +134,7 @@
     
     ACAmainButtons * test = [[ACAmainButtons alloc] initWithFrame:CGRectMake((SCREEN_WIDTH/2) - (buttonWidth/2) + (buttonWidth + 20), SCREEN_HEIGHT - 50, buttonWidth, 40)];
     [test setTitle:@"Test" forState:UIControlStateNormal];
-    [test addTarget:self action:@selector(showTable) forControlEvents:UIControlEventTouchUpInside];
+    [test addTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:test];
     
     alarmsTVC = [[ACAalarmsTVC alloc] initWithStyle:UITableViewStylePlain];
@@ -141,10 +146,6 @@
 
 - (void) swipe:(UISwipeGestureRecognizer *)gesture
 {
-    NSLog(@"%@",gesture);
-    
-    NSLog(@"%d", (int)gesture.direction);
-    
     [self showTable];
 }
 
@@ -172,10 +173,6 @@
 - (void)showTable
 {
     [self.navigationController pushViewController:alarmsTVC animated:YES];
-    
-//    [UIView animateWithDuration:.25 animations:^{
-//        alarmsTVC.view.frame = CGRectMake(10, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-//    } ];
     
 }
 
@@ -282,6 +279,8 @@
 
     [self.view addSubview:alarmLabel];
     [self.view addSubview:amPM];
+    
+
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -291,6 +290,23 @@
 
 }
 
+- (void) savedData
+{
+    [[ACAalarmData maindata].alarmList addObject:alarmTime];
+    
+    [alarmsTVC.tableView reloadData];
+    
+    NSLog(@"%@ has been saved", [ACAalarmData maindata].alarmList);
+    
+    
+    NSString * formattedTime = [formatter stringFromDate:alarmTime];
+    
+    [[ACAalarmData maindata].formattedAlarm addObject:formattedTime];
+    
+    
+    NSLog(@"%@ has been formatted", [ACAalarmData maindata].formattedAlarm);
+    
+}
 
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -326,6 +342,7 @@
          NSLog(@"%f",[UIScreen mainScreen].brightness);
         
         prevLocation = location;
+        
      
     }
 }

@@ -29,7 +29,14 @@
         _alarmList = [@[] mutableCopy];
     }
     
-    _alarmList = [@[@"2:30", @"5:30", @"12:30", @"4:30", @"10:45"] mutableCopy];
+   // _alarmList = [@[@"2:30", @"5:30", @"12:30", @"4:30", @"10:45"] mutableCopy];
     return _alarmList;
+}
+
+- (NSMutableArray *)formattedAlarm{
+    if (_formattedAlarm == nil) {
+        _formattedAlarm = [@[] mutableCopy];
+    }
+    return _formattedAlarm;
 }
 @end

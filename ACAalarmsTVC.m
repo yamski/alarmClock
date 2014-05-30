@@ -10,11 +10,19 @@
 #import "ACAalarmData.h"
 #import "ACATVCell.h"
 
+
 @interface ACAalarmsTVC ()
 
 @end
 
 @implementation ACAalarmsTVC
+{
+    //NSDateFormatter * tvcFormatter;
+    
+//    NSArray * alarmTimes;
+//    NSMutableArray * formattedArray;
+//    NSString * formattedDate;
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -33,10 +41,7 @@
         
         self.tableView.tableHeaderView = header;
         
-        
     
-        
-        
     }
     return self;
 }
@@ -81,7 +86,11 @@
         cell = [[ACATVCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
-    cell.timesLabel.text = [ACAalarmData maindata].alarmList[indexPath.row];
+    
+    
+    cell.timesLabel.text = [ACAalarmData maindata].formattedAlarm[indexPath.row];
+    
+    
     
     return cell;
 }

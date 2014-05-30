@@ -13,5 +13,6 @@
 + (ACAalarmData *)maindata;
 
 @property (nonatomic) NSMutableArray * alarmList;
+@property (nonatomic) NSMutableArray * formattedAlarm;
 
 @end
