@@ -9,6 +9,7 @@
 #import "ACAalarmsTVC.h"
 #import "ACAalarmData.h"
 #import "ACATVCell.h"
+#import "ACAalarmLabel.h"
 
 
 @interface ACAalarmsTVC ()
@@ -29,17 +30,26 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        
+        self.view.backgroundColor = [UIColor colorWithRed:0.906f green:0.980f blue:0.937f alpha:1.0f];
         self.tableView.separatorInset = UIEdgeInsetsZero;
         self.tableView.separatorColor = [UIColor whiteColor];
         
         self.tableView.rowHeight = 125;
         
-        UIView * header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_HEIGHT, 80)];
+        UIView * header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
         
         header.backgroundColor = [UIColor colorWithRed:0.631f green:0.671f blue:0.671f alpha:1.0f];
         
         self.tableView.tableHeaderView = header;
+        
+        ACAalarmLabel * headerLabel = [[ACAalarmLabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
+        [header addSubview:headerLabel];
+        
+        headerLabel.text = @"Saved Alarms";
+        headerLabel.textAlignment = NSTextAlignmentCenter;
+        headerLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:32];
+        
+        
         
     
     }
@@ -98,10 +108,10 @@
 - (void)tableView: (UITableView*)tableView willDisplayCell: (UITableViewCell*)cell forRowAtIndexPath: (NSIndexPath*)indexPath
 {
     
-    if(indexPath.row % 2 == 0)
-        cell.backgroundColor = [UIColor colorWithRed:0.898f green:0.996f blue:0.412f alpha:1.0f];
-    else
-        cell.backgroundColor = [UIColor colorWithRed:0.816f green:0.875f blue:0.875f alpha:1.0f];
+//    if(indexPath.row % 2 == 0)
+//        cell.backgroundColor = [UIColor colorWithRed:0.898f green:0.996f blue:0.412f alpha:1.0f];
+//    else
+//        cell.backgroundColor = [UIColor colorWithRed:0.816f green:0.875f blue:0.875f alpha:1.0f];
 }
 
 - (BOOL)prefersStatusBarHidden

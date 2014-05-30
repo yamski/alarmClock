@@ -29,6 +29,7 @@
 		D06DB9C619375E7F00DCF445 /* ACAalarmsTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9C519375E7F00DCF445 /* ACAalarmsTVC.m */; };
 		D06DB9C91937B81E00DCF445 /* ACATVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9C81937B81E00DCF445 /* ACATVCell.m */; };
 		D06DB9CC1937C57900DCF445 /* ACAalarmData.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9CB1937C57900DCF445 /* ACAalarmData.m */; };
+		D06DBA171938FA6300DCF445 /* MOVE.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DBA161938FA6300DCF445 /* MOVE.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,8 @@
 		D06DB9C81937B81E00DCF445 /* ACATVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACATVCell.m; sourceTree = "<group>"; };
 		D06DB9CA1937C57900DCF445 /* ACAalarmData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAalarmData.h; sourceTree = "<group>"; };
 		D06DB9CB1937C57900DCF445 /* ACAalarmData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAalarmData.m; sourceTree = "<group>"; };
+		D06DBA151938FA6300DCF445 /* MOVE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOVE.h; sourceTree = "<group>"; };
+		D06DBA161938FA6300DCF445 /* MOVE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOVE.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,10 +110,9 @@
 		D06DB9671933B4BB00DCF445 = {
 			isa = PBXGroup;
 			children = (
+				D06DBA141938FA0E00DCF445 /* cell related */,
 				D06DB9CA1937C57900DCF445 /* ACAalarmData.h */,
 				D06DB9CB1937C57900DCF445 /* ACAalarmData.m */,
-				D06DB9C71937B81E00DCF445 /* ACATVCell.h */,
-				D06DB9C81937B81E00DCF445 /* ACATVCell.m */,
 				D06DB9AD1934FB5500DCF445 /* ACAbgLayer.h */,
 				D06DB9AE1934FB5500DCF445 /* ACAbgLayer.m */,
 				D06DB9C31936448100DCF445 /* buttons */,
@@ -226,6 +228,17 @@
 			name = buttons;
 			sourceTree = "<group>";
 		};
+		D06DBA141938FA0E00DCF445 /* cell related */ = {
+			isa = PBXGroup;
+			children = (
+				D06DBA151938FA6300DCF445 /* MOVE.h */,
+				D06DBA161938FA6300DCF445 /* MOVE.m */,
+				D06DB9C71937B81E00DCF445 /* ACATVCell.h */,
+				D06DB9C81937B81E00DCF445 /* ACATVCell.m */,
+			);
+			name = "cell related";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -325,6 +338,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D06DBA171938FA6300DCF445 /* MOVE.m in Sources */,
 				D06DB9A91934B70A00DCF445 /* ACAalarmLabel.m in Sources */,
 				D06DB9841933B4BB00DCF445 /* ACAAppDelegate.m in Sources */,
 				D06DB9BF193588E100DCF445 /* ACAalarmSwipe.m in Sources */,

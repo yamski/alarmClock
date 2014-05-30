@@ -47,6 +47,8 @@
     
     float currentVal;
     
+    UISwipeGestureRecognizer * swipeTVC;
+    
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -87,7 +89,6 @@
         [self.view addSubview:alarmLabel];
         //
         
-        
         amPM =  [[ACAamPM alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 65, 135, 80, 40)];
         amPM.text = [amPMFormat stringFromDate:alarmTime];
     
@@ -98,10 +99,10 @@
         
         [self.view addSubview:menu];
         
-        UISwipeGestureRecognizer * swipeTVC = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:nil];
+        swipeTVC = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
         swipeTVC.direction = UISwipeGestureRecognizerDirectionLeft;
-        [swipeTVC addTarget:self action:@selector(swipe:)];
         [self.view addGestureRecognizer:swipeTVC];
+    
         
         
     
@@ -179,10 +180,17 @@
 - (void)setAlarmTime
 {
     //[self alarmSwitchToggle];
+   
+      [alarmLabel addTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
     
+
     if (!self.alarmSettable) {
         
+        swipeTVC.enabled = NO;
+        [alarmLabel addTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
+        
         [UIView animateWithDuration:1.5 animations:^{
+            
             
             alarmLabel.backgroundColor = [UIColor colorWithRed:0.898f green:0.996f blue:0.412f alpha:1.0f];
             
@@ -196,7 +204,13 @@
             
         } ];
     } else
+        
     {
+        [alarmLabel addTarget:self action:NULL forControlEvents:UIControlEventAllTouchEvents];
+        //[alarmLabel removeTarget:self action:NULL forControlEvents:UIControlEventAllTouchEvents];
+        
+        swipeTVC.enabled = YES;
+        
         [UIView animateWithDuration:1.5 animations:^{
             
             alarmLabel.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
@@ -204,7 +218,7 @@
             [alarmLabel setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             
             [timeScroll removeFromSuperview];
-            
+           
         }];
     }
     
