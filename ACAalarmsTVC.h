@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ACATVCell.h"
 
-@interface ACAalarmsTVC : UITableViewController
+
+@interface ACAalarmsTVC : UITableViewController <ACATVCellDelegate>
 
 @end

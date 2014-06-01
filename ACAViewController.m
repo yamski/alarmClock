@@ -28,6 +28,8 @@
 {
     ACAalarmsTVC * alarmsTVC;
     ACAtimeButton * alarmLabel;
+    
+    
     ACAamPM * amPM;
     UIButton * alarmToggle;
     
@@ -102,15 +104,12 @@
         swipeTVC = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
         swipeTVC.direction = UISwipeGestureRecognizerDirectionLeft;
         [self.view addGestureRecognizer:swipeTVC];
-    
         
-        
-    
-        //[[ACAalarmData maindata].alarmList addObject:@"added object"];
-        
-       // NSLog(@"my singleton contatins: %@",[ACAalarmData maindata].alarmList);
-       
-        
+        timeScroll = [[ACAalarmSwipe alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        timeScroll.delegate = self;
+
+        //self.alarmSettable = YES;
+        //NSLog(@"the value is %d", self.alarmSettable);
     }
     return self;
 }
@@ -142,12 +141,11 @@
     alarmsTVC.view.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     [self.view addSubview:alarmsTVC.view];
     
-    
 }
 
 - (void) swipe:(UISwipeGestureRecognizer *)gesture
 {
-    [self showTable];
+    [self.navigationController pushViewController:alarmsTVC animated:YES];
 }
 
 - (void)setPopUpToggle:(BOOL)popUpToggle
@@ -158,12 +156,14 @@
 }
 
 
-- (void)setAlarmSettable:(BOOL)alarmSettable
-{
-    _alarmSettable = alarmSettable;
-    
-    alarmSettable = !alarmSettable;
-}
+//- (void)setAlarmSettable:(BOOL)alarmSettable
+//{
+//    _alarmSettable = alarmSettable;
+//    
+//    alarmSettable = !alarmSettable;
+//}
+
+
 
 //- (void)alarmSwitchToggle
 //{
@@ -171,58 +171,24 @@
 //    self.alarmSettable = !self.alarmSettable;
 //}
 
-- (void)showTable
-{
-    [self.navigationController pushViewController:alarmsTVC animated:YES];
-    
-}
+
 
 - (void)setAlarmTime
 {
     //[self alarmSwitchToggle];
-   
-      [alarmLabel addTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
     
-
-    if (!self.alarmSettable) {
-        
         swipeTVC.enabled = NO;
         [alarmLabel addTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
-        
-        [UIView animateWithDuration:1.5 animations:^{
-            
-            
-            alarmLabel.backgroundColor = [UIColor colorWithRed:0.898f green:0.996f blue:0.412f alpha:1.0f];
-            
-            [alarmLabel setTitleColor:[UIColor colorWithRed:0.231f green:0.427f blue:0.506f alpha:1.0f] forState:UIControlStateNormal];
-            
-            timeScroll = [[ACAalarmSwipe alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-            
-            timeScroll.delegate = self;
-            
-            [self.view addSubview:timeScroll];
-            
-        } ];
-    } else
-        
-    {
-        [alarmLabel addTarget:self action:NULL forControlEvents:UIControlEventAllTouchEvents];
-        //[alarmLabel removeTarget:self action:NULL forControlEvents:UIControlEventAllTouchEvents];
-        
-        swipeTVC.enabled = YES;
-        
-        [UIView animateWithDuration:1.5 animations:^{
-            
-            alarmLabel.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
-            
-            [alarmLabel setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            
-            [timeScroll removeFromSuperview];
-           
-        }];
-    }
     
-    self.alarmSettable = !self.alarmSettable;
+        [self.view insertSubview:timeScroll belowSubview:alarmLabel];
+    
+    [UIView animateWithDuration:1.5 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+        
+        alarmLabel.backgroundColor = [UIColor colorWithRed:0.898f green:0.996f blue:0.412f alpha:1.0f];
+        
+        [alarmLabel setTitleColor:[UIColor colorWithRed:0.231f green:0.427f blue:0.506f alpha:1.0f] forState:UIControlStateNormal];
+        
+    } completion:nil];
     
 }
 
@@ -230,7 +196,10 @@
 {
     NSLog(@"pop up toggle");
     
+    
     if (!self.popUpToggle) {
+        self.popUpToggle = !self.popUpToggle;
+        
         [UIView animateWithDuration:0.5 animations:^{
             menu.frame = CGRectMake(0, 170, SCREEN_WIDTH, SCREEN_HEIGHT - 170);
             
@@ -241,40 +210,47 @@
             
             [saveOptions addTarget:self action:@selector(popup) forControlEvents:UIControlEventTouchUpInside];
             [menu addSubview:saveOptions];
+            
+        } completion:^(BOOL finished) {
+            nil;
         }];
-    } else if (self.popUpToggle)
+    } else
     {
+         self.popUpToggle = !self.popUpToggle;
+        
         [UIView animateWithDuration:0.5 animations:^{
+            
             menu.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 170);
+            
+        }completion:^(BOOL finished) {
+            nil;
         }];
     }
     
-    self.popUpToggle = !self.popUpToggle;
-
 }
 
-- (void)onOff
-{
-    self.alarmActive = !self.alarmActive;
-    
-    if (!self.alarmActive) {
-        [self alarmSet];
-        
-        alarmToggle.backgroundColor = [UIColor greenColor];
-        
-        NSLog(@"alarm is on");
-        
-    } else
-    {
-        alarmToggle.backgroundColor = [UIColor redColor];
-        NSLog(@"alarm is off");
-    };
-}
+//- (void)onOff
+//{
+//    self.alarmActive = !self.alarmActive;
+//    
+//    if (!self.alarmActive) {
+//        [self alarmSet];
+//        
+//        alarmToggle.backgroundColor = [UIColor greenColor];
+//        
+//        NSLog(@"alarm is on");
+//        
+//    } else
+//    {
+//        alarmToggle.backgroundColor = [UIColor redColor];
+//        NSLog(@"alarm is off");
+//    };
+//}
 
 - (void)updateAlarm:(int)hour :(int)min
 {
-    [alarmLabel removeFromSuperview];
-    [amPM removeFromSuperview];
+//    [alarmLabel removeFromSuperview];
+//    [amPM removeFromSuperview];
     
     NSCalendar * calender = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     
@@ -285,16 +261,14 @@
     
     [formatter setDateFormat:@"h:mm"];
     
-    
     alarmTime = [calender dateByAddingComponents:components toDate:now options:0];
     
     [alarmLabel setTitle:[formatter stringFromDate:alarmTime] forState:UIControlStateNormal];
     amPM.text = [amPMFormat stringFromDate:alarmTime];
 
-    [self.view addSubview:alarmLabel];
-    [self.view addSubview:amPM];
+//    [self.view addSubview:alarmLabel];
+//    [self.view addSubview:amPM];
     
-
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -306,6 +280,9 @@
 
 - (void) savedData
 {
+    [alarmLabel addTarget:self action:@selector(setAlarmTime) forControlEvents:UIControlEventTouchUpInside];
+
+    
     [[ACAalarmData maindata].alarmList addObject:alarmTime];
     
     [alarmsTVC.tableView reloadData];
@@ -317,8 +294,27 @@
     
     [[ACAalarmData maindata].formattedAlarm addObject:formattedTime];
     
-    
+
     NSLog(@"%@ has been formatted", [ACAalarmData maindata].formattedAlarm);
+    
+    
+    /////
+    
+    [timeScroll removeFromSuperview];
+    
+    swipeTVC.enabled = YES;
+    
+    [alarmLabel addTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
+    
+    [UIView animateWithDuration:1.5 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+        
+        alarmLabel.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
+        
+        [alarmLabel setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        
+//        timeScroll.alpha = 0;
+        
+    } completion:nil];
     
 }
 
@@ -327,7 +323,6 @@
 {
     UITouch * touch = [touches anyObject];
     location = [touch locationInView:self.view];
-
     
     if (location.y - prevLocation.y > 10) {
         
@@ -356,8 +351,6 @@
          NSLog(@"%f",[UIScreen mainScreen].brightness);
         
         prevLocation = location;
-        
-     
     }
 }
 

@@ -30,6 +30,7 @@
 		D06DB9C91937B81E00DCF445 /* ACATVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9C81937B81E00DCF445 /* ACATVCell.m */; };
 		D06DB9CC1937C57900DCF445 /* ACAalarmData.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9CB1937C57900DCF445 /* ACAalarmData.m */; };
 		D06DBA171938FA6300DCF445 /* MOVE.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DBA161938FA6300DCF445 /* MOVE.m */; };
+		D06DBA1A193AD83600DCF445 /* ACATableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DBA19193AD83600DCF445 /* ACATableView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,8 @@
 		D06DB9CB1937C57900DCF445 /* ACAalarmData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAalarmData.m; sourceTree = "<group>"; };
 		D06DBA151938FA6300DCF445 /* MOVE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOVE.h; sourceTree = "<group>"; };
 		D06DBA161938FA6300DCF445 /* MOVE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOVE.m; sourceTree = "<group>"; };
+		D06DBA18193AD83600DCF445 /* ACATableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACATableView.h; sourceTree = "<group>"; };
+		D06DBA19193AD83600DCF445 /* ACATableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACATableView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +205,8 @@
 			children = (
 				D06DB9BD193588E100DCF445 /* ACAalarmSwipe.h */,
 				D06DB9BE193588E100DCF445 /* ACAalarmSwipe.m */,
+				D06DBA18193AD83600DCF445 /* ACATableView.h */,
+				D06DBA19193AD83600DCF445 /* ACATableView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -347,6 +352,7 @@
 				D06DB9CC1937C57900DCF445 /* ACAalarmData.m in Sources */,
 				D06DB9C21936447600DCF445 /* ACAmainButtons.m in Sources */,
 				D06DB9801933B4BB00DCF445 /* main.m in Sources */,
+				D06DBA1A193AD83600DCF445 /* ACATableView.m in Sources */,
 				D06DB9A61933B63A00DCF445 /* ACAViewController.m in Sources */,
 				D06DB9C619375E7F00DCF445 /* ACAalarmsTVC.m in Sources */,
 				D06DB9AF1934FB5500DCF445 /* ACAbgLayer.m in Sources */,

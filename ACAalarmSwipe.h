@@ -13,6 +13,7 @@
 @interface ACAalarmSwipe : UIView
 
 @property (nonatomic, assign) id <ACAalarmSwipeDelegate> delegate;
+@property (nonatomic) UIButton * options;
 
 @end
 

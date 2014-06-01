@@ -7,6 +7,7 @@
 //
 
 #import "ACAalarmSwipe.h"
+#import "ACATableView.h"
 
 @implementation ACAalarmSwipe
 {
@@ -23,13 +24,35 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        self.options = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 20, SCREEN_HEIGHT - 60, 40, 40)];
+        self.options.backgroundColor = [UIColor lightGrayColor];
+        self.options.alpha = 0;
+        self.options.layer.cornerRadius = 20;
+        [self.options addTarget:self action:@selector(optionsTable) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self buttonAppear];
+     
     }
     return self;
 }
+
+- (void)buttonAppear
+{
+    [UIView animateWithDuration:1.5 animations:^{
+        
+        [self addSubview:self.options];
+        self.options.alpha = 1;
+    } ];
+}
+
+- (void)optionsTable
+{
+    ACATableView * menu = [[ACATableView alloc] initWithFrame:CGRectMake(0, 80, SCREEN_WIDTH, SCREEN_HEIGHT - 170)];
+    [self addSubview:menu];
+}
+
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
- 
-    
     UITouch * touch = [touches anyObject];
     location = [touch locationInView:self];
     
@@ -48,8 +71,6 @@
         
         prevLocation = location;
     }
-    
-    
     
     if (location.y - prevLocation.y > 20) {
         
@@ -70,7 +91,6 @@
     
     [self.delegate updateAlarm:hour :min];
     
-  
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

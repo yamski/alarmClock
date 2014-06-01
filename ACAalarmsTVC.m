@@ -10,26 +10,23 @@
 #import "ACAalarmData.h"
 #import "ACATVCell.h"
 #import "ACAalarmLabel.h"
+#import "ACAbgLayer.h"
 
 
-@interface ACAalarmsTVC ()
+@interface ACAalarmsTVC () 
 
 @end
 
 @implementation ACAalarmsTVC
 {
-    //NSDateFormatter * tvcFormatter;
-    
-//    NSArray * alarmTimes;
-//    NSMutableArray * formattedArray;
-//    NSString * formattedDate;
+    ACATVCell * cell;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+
         self.view.backgroundColor = [UIColor colorWithRed:0.906f green:0.980f blue:0.937f alpha:1.0f];
         self.tableView.separatorInset = UIEdgeInsetsZero;
         self.tableView.separatorColor = [UIColor whiteColor];
@@ -51,7 +48,6 @@
         
         
         
-    
     }
     return self;
 }
@@ -66,8 +62,6 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
-
-
 
 
 - (void)didReceiveMemoryWarning
@@ -90,19 +84,33 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ACATVCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    
+    cell.delegate = self;
     
     if (cell == nil) {
         cell = [[ACATVCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        
+        cell.delegate = self;
+        
     }
     
-    
-    
-    cell.timesLabel.text = [ACAalarmData maindata].formattedAlarm[indexPath.row];
-    
-    
+    [cell.timesButton setTitle:[ACAalarmData maindata].formattedAlarm[indexPath.row] forState:UIControlStateNormal];
+   
     
     return cell;
+}
+
+//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    NSLog(@"You selected a cell %d", indexPath.row);
+//    
+//}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"deselected");
+    [tableView cellForRowAtIndexPath:indexPath];
+    cell.timesButton.backgroundColor = [UIColor redColor];
 }
 
 - (void)tableView: (UITableView*)tableView willDisplayCell: (UITableViewCell*)cell forRowAtIndexPath: (NSIndexPath*)indexPath
@@ -112,6 +120,21 @@
 //        cell.backgroundColor = [UIColor colorWithRed:0.898f green:0.996f blue:0.412f alpha:1.0f];
 //    else
 //        cell.backgroundColor = [UIColor colorWithRed:0.816f green:0.875f blue:0.875f alpha:1.0f];
+}
+- (void)deleteCell: (ACATVCell *)selectedCell
+{
+    NSLog(@"Delete");
+  
+    NSIndexPath * indexPath = [self.tableView indexPathForCell:selectedCell];
+    [[ACAalarmData maindata].formattedAlarm removeObjectAtIndex:indexPath.row];
+    [[ACAalarmData maindata].alarmList removeObjectAtIndex:indexPath.row];
+    
+    
+
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+   
+    
+    
 }
 
 - (BOOL)prefersStatusBarHidden

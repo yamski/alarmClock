@@ -7,9 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol ACATVCellDelegate;
+
 
 @interface ACATVCell : UITableViewCell
 
-@property (nonatomic) UILabel * timesLabel;
+@property (nonatomic, assign) id <ACATVCellDelegate> delegate;
+@property (nonatomic) UIButton * timesButton;
+@property (nonatomic) UIButton * deleteButton;
+@property (nonatomic) BOOL allowSwipe;
+@property (nonatomic) BOOL alarmActive;
+
+@end
+
+@protocol ACATVCellDelegate <NSObject>
+
+- (void)deleteCell: (ACATVCell *)cell;
 
 @end
