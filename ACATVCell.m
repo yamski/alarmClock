@@ -11,9 +11,7 @@
 #import "MOVE.h"
 
 @implementation ACATVCell
-{
-    
-}
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -27,7 +25,7 @@
         
         self.timesButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 270, 0, 270, 125)];
         self.timesButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-        self.timesButton.backgroundColor = [UIColor colorWithRed:0.898f green:0.996f blue:0.412f alpha:1.0f];
+        self.timesButton.backgroundColor = [UIColor colorWithRed:0.212f green:0.392f blue:0.475f alpha:1.0f];
         self.timesButton.titleLabel.textColor = [UIColor grayColor];
         self.timesButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:70];
         
@@ -46,11 +44,13 @@
         swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
         [self addGestureRecognizer:swipeRight];
         
-        self.deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH -125, 0, 125, 125)];
-        self.deleteButton.backgroundColor = [UIColor greenColor];
+        self.deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH -130, 0, 130, 125)];
+        self.deleteButton.backgroundColor = [UIColor colorWithRed:0.729f green:0.373f blue:0.349f alpha:1.0f];
         [self.deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
         
         [self.deleteButton addTarget:self action:@selector(pressingDelete) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self selectedAlarmTime];
        
     }
     return self;
@@ -91,8 +91,6 @@
 
 - (void) selectedAlarmTime
 {
-    
-   
     if (self.alarmActive == YES) {
         
         [UIView animateWithDuration:0.75 animations:^{
@@ -107,16 +105,13 @@
         
         [UIView animateWithDuration:0.75 animations:^{
             
-            self.timesButton.backgroundColor = [UIColor colorWithRed:0.878f green:0.353f blue:0.271f alpha:1.0f];
+            self.timesButton.backgroundColor = [UIColor colorWithRed:0.212f green:0.392f blue:0.475f alpha:1.0f];
             
         } completion:^(BOOL finished) {
             self.alarmActive = YES;
             self.allowSwipe = YES;
         }];
     }
-    
-
-    
 }
 
 - (void)pressingDelete

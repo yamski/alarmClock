@@ -16,6 +16,8 @@
     
     int hour;
     int min;
+    
+    ACATableView * menu;
    
 }
 
@@ -28,9 +30,11 @@
         self.options.backgroundColor = [UIColor lightGrayColor];
         self.options.alpha = 0;
         self.options.layer.cornerRadius = 20;
-        [self.options addTarget:self action:@selector(optionsTable) forControlEvents:UIControlEventTouchUpInside];
+        [self.options addTarget:self action:@selector(optionsMenu) forControlEvents:UIControlEventTouchUpInside];
         
         [self buttonAppear];
+        
+        menu = [[ACATableView alloc] initWithFrame:CGRectMake(0, 80, SCREEN_WIDTH, SCREEN_HEIGHT - 170)];
      
     }
     return self;
@@ -45,10 +49,19 @@
     } ];
 }
 
-- (void)optionsTable
+- (void)optionsMenu
 {
-    ACATableView * menu = [[ACATableView alloc] initWithFrame:CGRectMake(0, 80, SCREEN_WIDTH, SCREEN_HEIGHT - 170)];
     [self addSubview:menu];
+    
+    [self.options addTarget:self action:@selector(removeMenu) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)removeMenu
+{
+    [menu removeFromSuperview];
+    
+    [self.options addTarget:self action:@selector(optionsMenu) forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event

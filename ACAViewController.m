@@ -117,31 +117,40 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    int buttonWidth = 80;
-    
-    options = [[ACAmainButtons alloc] initWithFrame:CGRectMake((SCREEN_WIDTH/2) - (buttonWidth/2), SCREEN_HEIGHT - 50, buttonWidth, 40)];
-    [options setTitle:@"Options" forState:UIControlStateNormal];
-    [options addTarget:self action:@selector(popup) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:options];
-    
-    
-    alarmToggle = [[ACAmainButtons alloc] initWithFrame:CGRectMake((SCREEN_WIDTH/2) - (buttonWidth/2) - (buttonWidth + 20), SCREEN_HEIGHT - 50, buttonWidth, 40)];
-    [alarmToggle setTitle:@"Alarm Off" forState:UIControlStateNormal];
-    [alarmToggle addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:alarmToggle];
-    
-    
-    ACAmainButtons * test = [[ACAmainButtons alloc] initWithFrame:CGRectMake((SCREEN_WIDTH/2) - (buttonWidth/2) + (buttonWidth + 20), SCREEN_HEIGHT - 50, buttonWidth, 40)];
-    [test setTitle:@"Test" forState:UIControlStateNormal];
-    [test addTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:test];
-    
+//    
+//    int buttonWidth = 80;
+//    
+//    options = [[ACAmainButtons alloc] initWithFrame:CGRectMake((SCREEN_WIDTH/2) - (buttonWidth/2), SCREEN_HEIGHT - 50, buttonWidth, 40)];
+//    [options setTitle:@"Options" forState:UIControlStateNormal];
+//    [options addTarget:self action:@selector(popup) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:options];
+//    
+//    
+//    alarmToggle = [[ACAmainButtons alloc] initWithFrame:CGRectMake((SCREEN_WIDTH/2) - (buttonWidth/2) - (buttonWidth + 20), SCREEN_HEIGHT - 50, buttonWidth, 40)];
+//    [alarmToggle setTitle:@"Alarm Off" forState:UIControlStateNormal];
+//    [alarmToggle addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:alarmToggle];
+//    
+//    
+//    ACAmainButtons * test = [[ACAmainButtons alloc] initWithFrame:CGRectMake((SCREEN_WIDTH/2) - (buttonWidth/2) + (buttonWidth + 20), SCREEN_HEIGHT - 50, buttonWidth, 40)];
+//    [test setTitle:@"Test" forState:UIControlStateNormal];
+//    [test addTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:test];
+//    
     alarmsTVC = [[ACAalarmsTVC alloc] initWithStyle:UITableViewStylePlain];
     alarmsTVC.view.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     [self.view addSubview:alarmsTVC.view];
     
+    
+    self.alarmStatus = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 20, SCREEN_HEIGHT - 60, 40, 40)];
+    self.alarmStatus.layer.cornerRadius = 20;
+    self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
+    
+    [self.view addSubview:self.alarmStatus];
+
+    
 }
+
 
 - (void) swipe:(UISwipeGestureRecognizer *)gesture
 {
@@ -156,31 +165,13 @@
 }
 
 
-//- (void)setAlarmSettable:(BOOL)alarmSettable
-//{
-//    _alarmSettable = alarmSettable;
-//    
-//    alarmSettable = !alarmSettable;
-//}
-
-
-
-//- (void)alarmSwitchToggle
-//{
-//
-//    self.alarmSettable = !self.alarmSettable;
-//}
-
-
-
 - (void)setAlarmTime
 {
-    //[self alarmSwitchToggle];
+    swipeTVC.enabled = NO;
     
-        swipeTVC.enabled = NO;
-        [alarmLabel addTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
-    
-        [self.view insertSubview:timeScroll belowSubview:alarmLabel];
+    [alarmLabel addTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
+
+    [self.view insertSubview:timeScroll belowSubview:alarmLabel];
     
     [UIView animateWithDuration:1.5 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
         
@@ -226,7 +217,7 @@
             nil;
         }];
     }
-    
+
 }
 
 //- (void)onOff
@@ -249,9 +240,6 @@
 
 - (void)updateAlarm:(int)hour :(int)min
 {
-//    [alarmLabel removeFromSuperview];
-//    [amPM removeFromSuperview];
-    
     NSCalendar * calender = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     
     NSDateComponents * components = [[NSDateComponents alloc] init];
@@ -265,24 +253,13 @@
     
     [alarmLabel setTitle:[formatter stringFromDate:alarmTime] forState:UIControlStateNormal];
     amPM.text = [amPMFormat stringFromDate:alarmTime];
-
-//    [self.view addSubview:alarmLabel];
-//    [self.view addSubview:amPM];
-    
 }
 
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    UITouch * touch = [touches anyObject];
-    prevLocation = [touch locationInView:self.view];
-
-}
 
 - (void) savedData
 {
     [alarmLabel addTarget:self action:@selector(setAlarmTime) forControlEvents:UIControlEventTouchUpInside];
 
-    
     [[ACAalarmData maindata].alarmList addObject:alarmTime];
     
     [alarmsTVC.tableView reloadData];
@@ -294,7 +271,6 @@
     
     [[ACAalarmData maindata].formattedAlarm addObject:formattedTime];
     
-
     NSLog(@"%@ has been formatted", [ACAalarmData maindata].formattedAlarm);
     
     
@@ -312,19 +288,28 @@
         
         [alarmLabel setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
-//        timeScroll.alpha = 0;
-        
     } completion:nil];
+    ///
     
+    self.alarmStatus.backgroundColor = [UIColor colorWithRed:0.235f green:0.878f blue:0.388f alpha:1.0f];
+
+    
+    [self alarmSet];
 }
 
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch * touch = [touches anyObject];
+    prevLocation = [touch locationInView:self.view];
+    
+}
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch * touch = [touches anyObject];
     location = [touch locationInView:self.view];
     
-    if (location.y - prevLocation.y > 10) {
+    if (location.y - prevLocation.y > 5) {
         
         NSLog(@"swiping down");
         
@@ -339,7 +324,7 @@
         prevLocation = location;
     }
     
-    if (location.y - prevLocation.y < - 10){
+    if (location.y - prevLocation.y < - 5){
         
         NSLog(@"swiping up");
         
@@ -356,18 +341,26 @@
 
 - (void) alarmSet
 {
-    if (self.alarmActive == YES){
+    UILocalNotification * wakeUp = [[UILocalNotification alloc] init];
     
-        UILocalNotification * wakeUp = [[UILocalNotification alloc] init];
-        wakeUp.fireDate = alarmTime;
-        
-        wakeUp.timeZone = [NSTimeZone localTimeZone];
-        wakeUp.alertBody = @"Eat your Wheaties";
-        wakeUp.repeatInterval = NSDayCalendarUnit;
-        wakeUp.soundName = UILocalNotificationDefaultSoundName;
-        
-        [[UIApplication sharedApplication] scheduleLocalNotification:wakeUp];
-    }
+    wakeUp.fireDate = alarmTime;
+    
+    wakeUp.timeZone = [NSTimeZone localTimeZone];
+    wakeUp.alertBody = @"Eat your Wheaties";
+    //wakeUp.repeatInterval = NSDayCalendarUnit;
+    wakeUp.soundName = UILocalNotificationDefaultSoundName;
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:wakeUp];
+    
+    [[UIApplication sharedApplication] cancelLocalNotification:wakeUp];
+    
+    NSLog(@"Your alarm for %@ is set",[formatter stringFromDate:alarmTime]);
+    
+    NSString * timeString = [NSString stringWithString:[formatter stringFromDate:alarmTime]];
+    NSLog(@"%@", timeString);
+    
+    
+
 }
 
 

@@ -113,11 +113,11 @@
 		D06DB9671933B4BB00DCF445 = {
 			isa = PBXGroup;
 			children = (
-				D06DBA141938FA0E00DCF445 /* cell related */,
 				D06DB9CA1937C57900DCF445 /* ACAalarmData.h */,
 				D06DB9CB1937C57900DCF445 /* ACAalarmData.m */,
 				D06DB9AD1934FB5500DCF445 /* ACAbgLayer.h */,
 				D06DB9AE1934FB5500DCF445 /* ACAbgLayer.m */,
+				D06DBA141938FA0E00DCF445 /* cell related */,
 				D06DB9C31936448100DCF445 /* buttons */,
 				D06DB9B619355DC900DCF445 /* Labels */,
 				D06DB9A31933B5FF00DCF445 /* Views */,
@@ -555,6 +555,7 @@
 				D06DB99E1933B4BB00DCF445 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D06DB99F1933B4BB00DCF445 /* Build configuration list for PBXNativeTarget "alarmClockTests" */ = {
 			isa = XCConfigurationList;
@@ -563,6 +564,7 @@
 				D06DB9A11933B4BB00DCF445 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
