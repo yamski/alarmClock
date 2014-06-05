@@ -68,6 +68,9 @@
         bgLayer.frame = self.view.bounds;
         [self.view.layer insertSublayer:bgLayer atIndex:0];
         
+        
+        
+        calendar = [NSCalendar currentCalendar];
         now = [NSDate date];
         
         formatter = [[NSDateFormatter alloc] init];
@@ -79,12 +82,11 @@
         
         // alarm time
         alarmTime = now;
+        
+        
         alarmLabel = [[ACAtimeButton  alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 130)];
-
         [alarmLabel setTitle:[formatter stringFromDate:alarmTime] forState:UIControlStateNormal];
-        
         [alarmLabel addTarget:self action:@selector(setAlarmTime) forControlEvents:UIControlEventTouchUpInside];
-        
        [self.view addSubview:alarmLabel];
         
         //
@@ -234,9 +236,8 @@
     [alarmLabel setTitle:[formatter stringFromDate:alarmTime] forState:UIControlStateNormal];
     amPM.text = [amPMFormat stringFromDate:alarmTime];
     
-    calendar = [NSCalendar currentCalendar];
     
-    unsigned int flags = NSHourCalendarUnit | NSMinuteCalendarUnit;
+    int flags = NSHourCalendarUnit | NSMinuteCalendarUnit;
     
     NSDateComponents* hrMinComp = [calendar components:flags fromDate:alarmTime];
     

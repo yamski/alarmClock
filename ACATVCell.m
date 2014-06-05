@@ -29,7 +29,7 @@
         self.timesButton.titleLabel.textColor = [UIColor grayColor];
         self.timesButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30];
         
-        [self.timesButton addTarget:self action:@selector(selectedAlarmTime) forControlEvents:UIControlEventTouchUpInside];
+        [self.timesButton addTarget:self action:@selector(activateTime) forControlEvents:UIControlEventTouchUpInside];
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self.contentView addSubview:self.timesButton];
@@ -115,41 +115,58 @@
     // Configure the view for the selected state
 }
 
-- (void) activateTime: (NSInteger)index
+- (void) activateTime
 {
-//   NSDate * alarmTime = [ACAalarmData maindata].alarmList[index][@"NSDate"];
-//    
-//    NSCalendar * calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-//    NSDateComponents * components = [[NSDateComponents alloc] init];
-//    
-//    NSCalendarUnit units = NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
-//    ///
-//    
-//    components = [calendar components:units fromDate:alarmTime];
-//
-//    [components setHour: [components hour]];
-//    [components setMinute:[components minute]];
-//    [components setSecond:0];
-//    
-//    
-//    if ([alarmTime compare: ????] != NSOrderedDescending) {
-//    
-//        NSDateComponents *oneDay = [[NSDateComponents alloc] init];
-//        [oneDay setDay:1];
-//        
-//        NSDate * newAlarmTime = [cal dateByAddingComponents:oneDay toDate:alarm options:0];
-//    }
-//    
-//   // NSDate * newAlarmTime = [calendar dateFromComponents:components];
-//    
+    NSDate * now = [NSDate date];
+    
+    NSCalendar * calendar = [NSCalendar currentCalendar];
+    NSDateComponents * components = [[NSDateComponents alloc] init];
+    NSCalendarUnit units = NSDayCalendarUnit;
+    
+    components = [calendar components:units fromDate:now];
+    
+    NSInteger currentDay = [components day] - 1;
+    
+    NSLog(@"current day of the month is %d", currentDay);
+    
+    //
+    
+    NSDate * alarmTime = [ACAalarmData maindata].alarmList[self.index][@"NSDateNoDay"];
+    NSDateComponents * alarmComponents = [[NSDateComponents alloc] init];
+    [alarmComponents setDay:currentDay];
+ 
+    NSDate * newAlarmTime = [calendar dateByAddingComponents:alarmComponents toDate:alarmTime options:0];
+   
+    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateFormat:@"d h:mm a"];
+    
+    NSLog(@"new alarm time is %@",[formatter stringFromDate:newAlarmTime]);
+   
+    NSDate * completeAlarmTime;
+    
+    if ([newAlarmTime compare: now] != NSOrderedAscending) {
+    
+        NSDateComponents *oneDay = [[NSDateComponents alloc] init];
+        [oneDay setDay: 1];
+        
+        completeAlarmTime = [calendar dateByAddingComponents:oneDay toDate:newAlarmTime options:0];
+        
+    } else {
+        completeAlarmTime = newAlarmTime;
+    }
+
+         NSLog(@"complete alarm time is %@",[formatter stringFromDate:completeAlarmTime]);
+    
+    NSLog(@"%@", [ACAalarmData maindata].sortedTimes);
+    
 //    UILocalNotification * wakeUp = [[UILocalNotification alloc] init];
 //    
 //    wakeUp.fireDate = newAlarmTime;
 //    wakeUp.timeZone = [NSTimeZone localTimeZone];
 //    wakeUp.alertBody = @"It's time to wake up!";
 //    wakeUp.soundName = UILocalNotificationDefaultSoundName;
-//  
-//    
+
 //    [[UIApplication sharedApplication] scheduleLocalNotification:wakeUp];
     
 }

@@ -96,6 +96,8 @@
     
     cell.delegate = self;
     
+    cell.index = indexPath.row;
+    
     if (cell == nil) {
         cell = [[ACATVCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         

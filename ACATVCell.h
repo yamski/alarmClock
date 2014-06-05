@@ -18,6 +18,8 @@
 @property (nonatomic) BOOL allowSwipe;
 @property (nonatomic) BOOL alarmActive;
 
+@property (nonatomic) NSInteger index;
+
 @end
 
 @protocol ACATVCellDelegate <NSObject>
