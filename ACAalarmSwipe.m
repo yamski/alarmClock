@@ -18,6 +18,8 @@
     int min;
     
     ACATableView * menu;
+    
+    NSTimeInterval timeInterval;
    
 }
 
@@ -35,7 +37,9 @@
         [self buttonAppear];
         
         menu = [[ACATableView alloc] initWithFrame:CGRectMake(0, 80, SCREEN_WIDTH, SCREEN_HEIGHT - 170)];
-     
+        
+        timeInterval = 0;
+        
     }
     return self;
 }
@@ -64,45 +68,45 @@
     
 }
 
+
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch * touch = [touches anyObject];
     location = [touch locationInView:self];
     
+    
     if (location.x - prevLocation.x > 50) {
         
-        NSLog(@"swiping right");
-        hour = hour + 1;
+        timeInterval = timeInterval + 3600.0;
         
         prevLocation = location;
         
     } else if (location.x - prevLocation.x < -50) {
         
-        NSLog(@"swiping left");
-        
-        hour = hour - 1;
+        timeInterval = timeInterval - 3600.0;
         
         prevLocation = location;
     }
     
     if (location.y - prevLocation.y > 20) {
         
-        NSLog(@"swiping up");
-        min = min - 1;
+        timeInterval = timeInterval - 60.0;
         
         prevLocation = location;
     }
     
     if (location.y - prevLocation.y < -20){
         
-        NSLog(@"swiping down");
-        
-        min = min + 1;
-        
+        timeInterval = timeInterval + 60.0;
+      
         prevLocation = location;
     }
     
-    [self.delegate updateAlarm:hour :min];
+    
+    if(timeInterval < 0) timeInterval = (60 * 60 * 24) + timeInterval;
+    if(timeInterval > (60 * 60 * 24)) timeInterval = timeInterval - (60 * 60 * 24);
+    
+   [self.delegate updateAlarm:timeInterval];
     
 }
 

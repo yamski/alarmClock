@@ -13,7 +13,9 @@
 + (ACAalarmData *)maindata;
 
 @property (nonatomic) NSMutableArray * alarmList;
-@property (nonatomic) NSMutableArray * formattedAlarm;
+//@property (nonatomic) NSMutableArray * formattedAlarm;
+
+@property (nonatomic) NSMutableArray * sortedTimes;
 
 
 @end

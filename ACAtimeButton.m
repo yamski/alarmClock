@@ -18,7 +18,7 @@
         
         self.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
         
-        self.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:75];
+        self.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
         
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         

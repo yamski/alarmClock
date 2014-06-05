@@ -27,7 +27,7 @@
         self.timesButton.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.timesButton.backgroundColor = [UIColor colorWithRed:0.212f green:0.392f blue:0.475f alpha:1.0f];
         self.timesButton.titleLabel.textColor = [UIColor grayColor];
-        self.timesButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:70];
+        self.timesButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30];
         
         [self.timesButton addTarget:self action:@selector(selectedAlarmTime) forControlEvents:UIControlEventTouchUpInside];
         
@@ -35,14 +35,13 @@
         [self.contentView addSubview:self.timesButton];
         
         
-        
         UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeCell:)];
         swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
-        [self addGestureRecognizer:swipeLeft];
+        [self.timesButton addGestureRecognizer:swipeLeft];
         
         UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeCell:)];
         swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
-        [self addGestureRecognizer:swipeRight];
+        [self.timesButton addGestureRecognizer:swipeRight];
         
         self.deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH -130, 0, 130, 125)];
         self.deleteButton.backgroundColor = [UIColor colorWithRed:0.729f green:0.373f blue:0.349f alpha:1.0f];
@@ -60,33 +59,17 @@
 
 - (void) swipeCell:(UISwipeGestureRecognizer *)gesture
 {
-    
     if(gesture.direction == 2 && self.allowSwipe == YES) {
         
         [MOVE animateView:self.timesButton properties:@{@"x": @-80, @"duration": @0.3}];
-        
         [self.contentView addSubview:self.deleteButton];
-        
-        
     }
-    
     if(gesture.direction == 1 && self.allowSwipe == YES){
         
         [MOVE animateView:self.timesButton properties:@{@"x": @50, @"duration": @0.3}];
-        
         [self.deleteButton removeFromSuperview];
-  
     }
-    
 }
-
-//- (void)setAlarmActive:(BOOL)alarmActive
-//{
-//    _alarmActive = alarmActive;
-//    
-//    _alarmActive = YES;
-//
-//}
 
 
 - (void) selectedAlarmTime
@@ -116,9 +99,7 @@
 
 - (void)pressingDelete
 {
-    NSLog(@"pressing delete button");
     [self.delegate deleteCell: self];
-    
 }
 
 
@@ -132,6 +113,45 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void) activateTime: (NSInteger)index
+{
+//   NSDate * alarmTime = [ACAalarmData maindata].alarmList[index][@"NSDate"];
+//    
+//    NSCalendar * calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+//    NSDateComponents * components = [[NSDateComponents alloc] init];
+//    
+//    NSCalendarUnit units = NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+//    ///
+//    
+//    components = [calendar components:units fromDate:alarmTime];
+//
+//    [components setHour: [components hour]];
+//    [components setMinute:[components minute]];
+//    [components setSecond:0];
+//    
+//    
+//    if ([alarmTime compare: ????] != NSOrderedDescending) {
+//    
+//        NSDateComponents *oneDay = [[NSDateComponents alloc] init];
+//        [oneDay setDay:1];
+//        
+//        NSDate * newAlarmTime = [cal dateByAddingComponents:oneDay toDate:alarm options:0];
+//    }
+//    
+//   // NSDate * newAlarmTime = [calendar dateFromComponents:components];
+//    
+//    UILocalNotification * wakeUp = [[UILocalNotification alloc] init];
+//    
+//    wakeUp.fireDate = newAlarmTime;
+//    wakeUp.timeZone = [NSTimeZone localTimeZone];
+//    wakeUp.alertBody = @"It's time to wake up!";
+//    wakeUp.soundName = UILocalNotificationDefaultSoundName;
+//  
+//    
+//    [[UIApplication sharedApplication] scheduleLocalNotification:wakeUp];
+    
 }
 
 @end

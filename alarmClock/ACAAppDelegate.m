@@ -8,6 +8,9 @@
 
 #import "ACAAppDelegate.h"
 #import "ACAViewController.h"
+//
+#import "ACATweetVC.h"
+//
 
 @implementation ACAAppDelegate
 
@@ -25,6 +28,9 @@
     [nc.navigationBar setHidden:YES];
     
     self.window.rootViewController = nc;
+    
+    //self.window.rootViewController = [[ACATweetVC alloc] init];
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;

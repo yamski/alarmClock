@@ -15,28 +15,31 @@
 #import "ACAalarmSwipe.h"
 #import "ACAmainButtons.h"
 #import "ACAalarmsTVC.h"
+#import "ACATweetVC.h"
 
 #import "ACAalarmData.h"
 
-
-
-@interface ACAViewController () <ACAalarmSwipeDelegate>
+@interface ACAViewController () <ACAalarmSwipeDelegate, UIGestureRecognizerDelegate>
 
 @end
 
 @implementation ACAViewController
 {
     ACAalarmsTVC * alarmsTVC;
+    ACATweetVC * tweetVC;
     ACAtimeButton * alarmLabel;
-    
     
     ACAamPM * amPM;
     UIButton * alarmToggle;
     
+    NSDate * alarmTimeNoDay;
     NSDate * alarmTime;
     NSDate * now;
     NSDateFormatter * formatter;
     NSDateFormatter * amPMFormat;
+    
+    NSCalendar * calendar;
+    NSDateComponents * components;
     
     CGPoint prevLocation;
     CGPoint location;
@@ -50,13 +53,14 @@
     float currentVal;
     
     UISwipeGestureRecognizer * swipeTVC;
-    
+    UISwipeGestureRecognizer * swipeTweet;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        
         
         currentVal = [UIScreen mainScreen].brightness;
         
@@ -67,18 +71,11 @@
         now = [NSDate date];
         
         formatter = [[NSDateFormatter alloc] init];
-
         [formatter setTimeStyle:NSDateFormatterShortStyle];
-        
         [formatter setDateFormat:@"h:mm"];
         
         amPMFormat = [[NSDateFormatter alloc] init];
         [amPMFormat setDateFormat:@"a"];
-        
-        NSString * formattedDate = [formatter stringFromDate:now];
-        
-        NSLog(@"%@",formattedDate);
-        
         
         // alarm time
         alarmTime = now;
@@ -88,9 +85,10 @@
         
         [alarmLabel addTarget:self action:@selector(setAlarmTime) forControlEvents:UIControlEventTouchUpInside];
         
-        [self.view addSubview:alarmLabel];
-        //
+       [self.view addSubview:alarmLabel];
         
+        //
+    
         amPM =  [[ACAamPM alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 65, 135, 80, 40)];
         amPM.text = [amPMFormat stringFromDate:alarmTime];
     
@@ -100,16 +98,31 @@
         menu.backgroundColor = [UIColor colorWithRed:0.890f green:1.000f blue:0.980f alpha:1.0f];
         
         [self.view addSubview:menu];
-        
-        swipeTVC = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
+        ///
+        ////
+        swipeTVC = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeft:)];
         swipeTVC.direction = UISwipeGestureRecognizerDirectionLeft;
         [self.view addGestureRecognizer:swipeTVC];
         
+        swipeTweet = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
+        swipeTweet.direction = UISwipeGestureRecognizerDirectionRight;
+        
+        swipeTweet.delegate = self;
+        
+        [self.view addGestureRecognizer:swipeTweet];
+        
         timeScroll = [[ACAalarmSwipe alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         timeScroll.delegate = self;
-
-        //self.alarmSettable = YES;
-        //NSLog(@"the value is %d", self.alarmSettable);
+        
+        alarmsTVC = [[ACAalarmsTVC alloc] initWithStyle:UITableViewStylePlain];
+        alarmsTVC.view.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        [self.view addSubview:alarmsTVC.view];
+        
+        self.alarmStatus = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 20, SCREEN_HEIGHT - 60, 40, 40)];
+        self.alarmStatus.layer.cornerRadius = 20;
+        self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
+        
+        [self.view addSubview:self.alarmStatus];
     }
     return self;
 }
@@ -137,37 +150,37 @@
 //    [test addTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
 //    [self.view addSubview:test];
 //    
-    alarmsTVC = [[ACAalarmsTVC alloc] initWithStyle:UITableViewStylePlain];
-    alarmsTVC.view.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    [self.view addSubview:alarmsTVC.view];
-    
-    
-    self.alarmStatus = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 20, SCREEN_HEIGHT - 60, 40, 40)];
-    self.alarmStatus.layer.cornerRadius = 20;
-    self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
-    
-    [self.view addSubview:self.alarmStatus];
 
-    
 }
 
 
-- (void) swipe:(UISwipeGestureRecognizer *)gesture
+- (void) swipeLeft:(UISwipeGestureRecognizer *)gesture
 {
-    [self.navigationController pushViewController:alarmsTVC animated:YES];
+    [UIView animateWithDuration:0.5 animations:^{
+        alarmsTVC.view.frame = CGRectMake(0, 0,  SCREEN_WIDTH, SCREEN_HEIGHT);
+    }];
 }
 
-- (void)setPopUpToggle:(BOOL)popUpToggle
+- (void) swipeRight:(UISwipeGestureRecognizer *)gesture
 {
-    _popUpToggle = popUpToggle;
-    
-    popUpToggle = !popUpToggle;
+    if(!tweetVC.view.superview)
+    {
+        tweetVC = [[ACATweetVC alloc]init];
+        tweetVC.view.frame = CGRectMake(0-SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        [self.view addSubview:tweetVC.view];
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            tweetVC.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        }];
+    }
 }
 
 
 - (void)setAlarmTime
 {
     swipeTVC.enabled = NO;
+    
+    swipeTweet.enabled = NO;
     
     [alarmLabel addTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
 
@@ -180,14 +193,10 @@
         [alarmLabel setTitleColor:[UIColor colorWithRed:0.231f green:0.427f blue:0.506f alpha:1.0f] forState:UIControlStateNormal];
         
     } completion:nil];
-    
 }
 
 - (void)popup
 {
-    NSLog(@"pop up toggle");
-    
-    
     if (!self.popUpToggle) {
         self.popUpToggle = !self.popUpToggle;
         
@@ -202,9 +211,7 @@
             [saveOptions addTarget:self action:@selector(popup) forControlEvents:UIControlEventTouchUpInside];
             [menu addSubview:saveOptions];
             
-        } completion:^(BOOL finished) {
-            nil;
-        }];
+        } completion:nil];
     } else
     {
          self.popUpToggle = !self.popUpToggle;
@@ -213,75 +220,43 @@
             
             menu.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 170);
             
-        }completion:^(BOOL finished) {
-            nil;
-        }];
+        }completion:nil];
     }
-
 }
 
-//- (void)onOff
-//{
-//    self.alarmActive = !self.alarmActive;
-//    
-//    if (!self.alarmActive) {
-//        [self alarmSet];
-//        
-//        alarmToggle.backgroundColor = [UIColor greenColor];
-//        
-//        NSLog(@"alarm is on");
-//        
-//    } else
-//    {
-//        alarmToggle.backgroundColor = [UIColor redColor];
-//        NSLog(@"alarm is off");
-//    };
-//}
 
-- (void)updateAlarm:(int)hour :(int)min
+- (void)updateAlarm:(NSTimeInterval)interval
 {
-    NSCalendar * calender = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    [formatter setDateFormat:@"h:mm  a"];
     
-    NSDateComponents * components = [[NSDateComponents alloc] init];
-    
-    [components setHour:hour];
-    [components setMinute:min];
-    
-    [formatter setDateFormat:@"h:mm"];
-    
-    alarmTime = [calender dateByAddingComponents:components toDate:now options:0];
-    
+    alarmTime = [NSDate dateWithTimeIntervalSinceNow:interval];
+  
     [alarmLabel setTitle:[formatter stringFromDate:alarmTime] forState:UIControlStateNormal];
     amPM.text = [amPMFormat stringFromDate:alarmTime];
+    
+    calendar = [NSCalendar currentCalendar];
+    
+    unsigned int flags = NSHourCalendarUnit | NSMinuteCalendarUnit;
+    
+    NSDateComponents* hrMinComp = [calendar components:flags fromDate:alarmTime];
+    
+    alarmTimeNoDay = [calendar dateFromComponents:hrMinComp];
+    
 }
 
 
 - (void) savedData
 {
+    swipeTweet.enabled = YES;
+    
+    [alarmLabel removeTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
     [alarmLabel addTarget:self action:@selector(setAlarmTime) forControlEvents:UIControlEventTouchUpInside];
 
-    [[ACAalarmData maindata].alarmList addObject:alarmTime];
-    
-    [alarmsTVC.tableView reloadData];
-    
-    NSLog(@"%@ has been saved", [ACAalarmData maindata].alarmList);
-    
-    
-    NSString * formattedTime = [formatter stringFromDate:alarmTime];
-    
-    [[ACAalarmData maindata].formattedAlarm addObject:formattedTime];
-    
-    NSLog(@"%@ has been formatted", [ACAalarmData maindata].formattedAlarm);
-    
-    
-    /////
-    
     [timeScroll removeFromSuperview];
     
     swipeTVC.enabled = YES;
     
-    [alarmLabel addTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
-    
+    // animating yellow label
     [UIView animateWithDuration:1.5 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
         
         alarmLabel.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
@@ -293,15 +268,44 @@
     
     self.alarmStatus.backgroundColor = [UIColor colorWithRed:0.235f green:0.878f blue:0.388f alpha:1.0f];
 
+    // LOCAL NOTIFICATIONS
+    UILocalNotification * wakeUp = [[UILocalNotification alloc] init];
     
-    [self alarmSet];
+    wakeUp.fireDate = alarmTime;
+    wakeUp.timeZone = [NSTimeZone localTimeZone];
+    wakeUp.alertBody = @"It's time to wake up!";
+    wakeUp.soundName = UILocalNotificationDefaultSoundName;
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:wakeUp];
+    
+    //[[UIApplication sharedApplication] cancelLocalNotification:wakeUp];
+    
+    // CREATING DICTIONARY AND ADDING TO ARRAY
+    
+    NSString * formattedTime = [formatter stringFromDate:alarmTimeNoDay];
+
+    NSMutableDictionary * timeKey = [@{
+               @"NSDate": alarmTime,
+               @"NSDateNoDay": alarmTimeNoDay,
+               @"NSString": formattedTime,
+               @"Notification": wakeUp,
+               } mutableCopy];
+    
+    [[ACAalarmData maindata].alarmList addObject:timeKey];
+    
+    NSSortDescriptor *sortByDateAscending = [NSSortDescriptor sortDescriptorWithKey:@"NSDateNoDay" ascending:YES];
+    NSMutableArray *descriptors = [[NSMutableArray  arrayWithObject:sortByDateAscending] mutableCopy];
+    
+    [ACAalarmData maindata].sortedTimes = [[[ACAalarmData maindata].alarmList sortedArrayUsingDescriptors:descriptors] mutableCopy];
+    
+    [alarmsTVC.tableView reloadData];
+
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch * touch = [touches anyObject];
     prevLocation = [touch locationInView:self.view];
-    
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -310,59 +314,23 @@
     location = [touch locationInView:self.view];
     
     if (location.y - prevLocation.y > 5) {
-        
-        NSLog(@"swiping down");
-        
+
         currentVal = currentVal - .05;
        
         [[UIScreen mainScreen] setBrightness: currentVal];
-        
-       // currentVal = [UIScreen mainScreen].brightness;
-        
-        NSLog(@"%f",[UIScreen mainScreen].brightness);
         
         prevLocation = location;
     }
     
     if (location.y - prevLocation.y < - 5){
         
-        NSLog(@"swiping up");
-        
         currentVal = currentVal + .05;
         
         [[UIScreen mainScreen] setBrightness:currentVal];
         
-        //currentVal = [UIScreen mainScreen].brightness;
-         NSLog(@"%f",[UIScreen mainScreen].brightness);
-        
         prevLocation = location;
     }
 }
-
-- (void) alarmSet
-{
-    UILocalNotification * wakeUp = [[UILocalNotification alloc] init];
-    
-    wakeUp.fireDate = alarmTime;
-    
-    wakeUp.timeZone = [NSTimeZone localTimeZone];
-    wakeUp.alertBody = @"Eat your Wheaties";
-    //wakeUp.repeatInterval = NSDayCalendarUnit;
-    wakeUp.soundName = UILocalNotificationDefaultSoundName;
-    
-    [[UIApplication sharedApplication] scheduleLocalNotification:wakeUp];
-    
-    [[UIApplication sharedApplication] cancelLocalNotification:wakeUp];
-    
-    NSLog(@"Your alarm for %@ is set",[formatter stringFromDate:alarmTime]);
-    
-    NSString * timeString = [NSString stringWithString:[formatter stringFromDate:alarmTime]];
-    NSLog(@"%@", timeString);
-    
-    
-
-}
-
 
 - (void)didReceiveMemoryWarning
 {

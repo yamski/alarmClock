@@ -46,7 +46,9 @@
         headerLabel.textAlignment = NSTextAlignmentCenter;
         headerLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:32];
         
-        
+        UISwipeGestureRecognizer * rightGest = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
+        rightGest.direction = UISwipeGestureRecognizerDirectionRight;
+        [self.view addGestureRecognizer:rightGest];
         
     }
     return self;
@@ -63,13 +65,19 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+- (void)swipeRight:gesture
+{
+    [UIView animateWithDuration:0.5 animations:^{
+        self.view.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }];
+    
+}
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -78,7 +86,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return  [[ACAalarmData maindata].alarmList count];
+    return  [[ACAalarmData maindata].sortedTimes count];
 }
 
 
@@ -92,49 +100,21 @@
         cell = [[ACATVCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         
         cell.delegate = self;
-        
     }
     
-    [cell.timesButton setTitle:[ACAalarmData maindata].formattedAlarm[indexPath.row] forState:UIControlStateNormal];
-   
-    
+    [cell.timesButton setTitle:[[ACAalarmData maindata].sortedTimes[indexPath.row] objectForKey:@"NSString"] forState:UIControlStateNormal];
+       
     return cell;
 }
 
-//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    NSLog(@"You selected a cell %d", indexPath.row);
-//    
-//}
 
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"deselected");
-    [tableView cellForRowAtIndexPath:indexPath];
-    cell.timesButton.backgroundColor = [UIColor redColor];
-}
-
-- (void)tableView: (UITableView*)tableView willDisplayCell: (UITableViewCell*)cell forRowAtIndexPath: (NSIndexPath*)indexPath
-{
-    
-//    if(indexPath.row % 2 == 0)
-//        cell.backgroundColor = [UIColor colorWithRed:0.898f green:0.996f blue:0.412f alpha:1.0f];
-//    else
-//        cell.backgroundColor = [UIColor colorWithRed:0.816f green:0.875f blue:0.875f alpha:1.0f];
-}
 - (void)deleteCell: (ACATVCell *)selectedCell
 {
-    NSLog(@"Delete");
-  
     NSIndexPath * indexPath = [self.tableView indexPathForCell:selectedCell];
-    [[ACAalarmData maindata].formattedAlarm removeObjectAtIndex:indexPath.row];
-    [[ACAalarmData maindata].alarmList removeObjectAtIndex:indexPath.row];
+    [[ACAalarmData maindata].sortedTimes removeObjectAtIndex:indexPath.row];
     
-    
-
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
    
-    
-    
 }
 
 - (BOOL)prefersStatusBarHidden

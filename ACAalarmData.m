@@ -33,10 +33,10 @@
     return _alarmList;
 }
 
-- (NSMutableArray *)formattedAlarm{
-    if (_formattedAlarm == nil) {
-        _formattedAlarm = [@[] mutableCopy];
+- (NSMutableArray *)sortedTimes{
+    if (_sortedTimes == nil) {
+        _sortedTimes = [@[] mutableCopy];
     }
-    return _formattedAlarm;
+    return _sortedTimes;
 }
 @end

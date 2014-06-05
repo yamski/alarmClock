@@ -22,7 +22,7 @@
 
 @required
 
-- (void)updateAlarm:(int)hour :(int)min;
+- (void)updateAlarm:(NSTimeInterval) interval;
 
 @end
 
