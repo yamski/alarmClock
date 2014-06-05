@@ -19,7 +19,7 @@
 
 @implementation ACAalarmsTVC
 {
-    ACATVCell * cell;
+//    ACATVCell * cell;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -50,6 +50,7 @@
         rightGest.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rightGest];
         
+        [self.tableView registerClass:[ACATVCell class] forCellReuseIdentifier:@"cell"];
     }
     return self;
 }
@@ -70,7 +71,6 @@
     [UIView animateWithDuration:0.5 animations:^{
         self.view.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }];
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -86,36 +86,47 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSLog(@"alarms %lu",(unsigned long)[[ACAalarmData maindata].sortedTimes count]);
+    
     return  [[ACAalarmData maindata].sortedTimes count];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    ACATVCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
     cell.delegate = self;
     
     cell.index = indexPath.row;
-    
-    if (cell == nil) {
-        cell = [[ACATVCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-        
-        cell.delegate = self;
-    }
     
     [cell.timesButton setTitle:[[ACAalarmData maindata].sortedTimes[indexPath.row] objectForKey:@"NSString"] forState:UIControlStateNormal];
        
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"%@",indexPath);
+    
+    ACATVCell * cell = (ACATVCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    
+    cell.contentView.backgroundColor = [UIColor magentaColor];
+}
 
 - (void)deleteCell: (ACATVCell *)selectedCell
 {
     NSIndexPath * indexPath = [self.tableView indexPathForCell:selectedCell];
-    [[ACAalarmData maindata].sortedTimes removeObjectAtIndex:indexPath.row];
+    [[ACAalarmData maindata].alarmList removeObjectAtIndex:indexPath.row];
     
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+
+    NSSortDescriptor *sortByDateAscending = [NSSortDescriptor sortDescriptorWithKey:@"NSDateNoDay" ascending:YES];
+    NSMutableArray *descriptors = [[NSMutableArray  arrayWithObject:sortByDateAscending] mutableCopy];
+
+    [ACAalarmData maindata].sortedTimes = [[[ACAalarmData maindata].alarmList sortedArrayUsingDescriptors:descriptors] mutableCopy];
+    
+    [self.tableView reloadData];
    
 }
 
@@ -124,27 +135,45 @@
     return YES;
 }
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
+
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        
+//        ACATVCell * cell = (ACATVCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+//        NSIndexPath * indexPath = [self.tableView indexPathForCell:selectedCell];
+        
+        [[ACAalarmData maindata].alarmList removeObjectIdenticalTo:[ACAalarmData maindata].sortedTimes[indexPath.row]];
+        
+//        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+        NSSortDescriptor *sortByDateAscending = [NSSortDescriptor sortDescriptorWithKey:@"NSDateNoDay" ascending:YES];
+        NSMutableArray *descriptors = [[NSMutableArray  arrayWithObject:sortByDateAscending] mutableCopy];
+        
+        [ACAalarmData maindata].sortedTimes = [[[ACAalarmData maindata].alarmList sortedArrayUsingDescriptors:descriptors] mutableCopy];
+        
+        NSLog(@"sorted %d",[[ACAalarmData maindata].alarmList count]);
+        NSLog(@"sorted %d",[[ACAalarmData maindata].sortedTimes count]);
+        
+//        [self.tableView reloadData];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
+
 
 /*
 // Override to support rearranging the table view.

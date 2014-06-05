@@ -29,19 +29,19 @@
         self.timesButton.titleLabel.textColor = [UIColor grayColor];
         self.timesButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30];
         
-        [self.timesButton addTarget:self action:@selector(activateTime) forControlEvents:UIControlEventTouchUpInside];
+        [self.timesButton addTarget:self action:@selector(selectedAlarmTime) forControlEvents:UIControlEventTouchUpInside];
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self.contentView addSubview:self.timesButton];
         
         
-        UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeCell:)];
-        swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
-        [self.timesButton addGestureRecognizer:swipeLeft];
-        
-        UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeCell:)];
-        swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
-        [self.timesButton addGestureRecognizer:swipeRight];
+//        UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeCell:)];
+//        swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+//        [self.timesButton addGestureRecognizer:swipeLeft];
+//        
+//        UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeCell:)];
+//        swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+//        [self.timesButton addGestureRecognizer:swipeRight];
         
         self.deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH -130, 0, 130, 125)];
         self.deleteButton.backgroundColor = [UIColor colorWithRed:0.729f green:0.373f blue:0.349f alpha:1.0f];
@@ -49,7 +49,7 @@
         
         [self.deleteButton addTarget:self action:@selector(pressingDelete) forControlEvents:UIControlEventTouchUpInside];
         
-        [self selectedAlarmTime];
+       [self selectedAlarmTime];
        
     }
     return self;
@@ -57,19 +57,19 @@
 
 
 
-- (void) swipeCell:(UISwipeGestureRecognizer *)gesture
-{
-    if(gesture.direction == 2 && self.allowSwipe == YES) {
-        
-        [MOVE animateView:self.timesButton properties:@{@"x": @-80, @"duration": @0.3}];
-        [self.contentView addSubview:self.deleteButton];
-    }
-    if(gesture.direction == 1 && self.allowSwipe == YES){
-        
-        [MOVE animateView:self.timesButton properties:@{@"x": @50, @"duration": @0.3}];
-        [self.deleteButton removeFromSuperview];
-    }
-}
+//- (void) swipeCell:(UISwipeGestureRecognizer *)gesture
+//{
+//    if(gesture.direction == 2 && self.allowSwipe == YES) {
+//        
+//        [MOVE animateView:self.timesButton properties:@{@"x": @-80, @"duration": @0.3}];
+//        [self.contentView addSubview:self.deleteButton];
+//    }
+//    if(gesture.direction == 1 && self.allowSwipe == YES){
+//        
+//        [MOVE animateView:self.timesButton properties:@{@"x": @50, @"duration": @0.3}];
+//        [self.deleteButton removeFromSuperview];
+//    }
+//}
 
 
 - (void) selectedAlarmTime
@@ -81,8 +81,13 @@
             self.timesButton.backgroundColor = [UIColor colorWithRed:0.235f green:0.878f blue:0.388f alpha:1.0f];
             
         } completion:^(BOOL finished) {
+            
+            [self activateTime];
+            
             self.alarmActive = NO;
             self.allowSwipe = NO;
+            
+            NSLog(@"alarm is active");
         }];
     } else {
         
@@ -91,15 +96,25 @@
             self.timesButton.backgroundColor = [UIColor colorWithRed:0.212f green:0.392f blue:0.475f alpha:1.0f];
             
         } completion:^(BOOL finished) {
+            
+            NSLog(@"canceling alarm");
+            
+            UILocalNotification * canceledNotification = [ACAalarmData maindata].sortedTimes[self.index][@"Notification"];
+            [[UIApplication sharedApplication] cancelLocalNotification:canceledNotification];
+            
             self.alarmActive = YES;
             self.allowSwipe = YES;
         }];
     }
 }
 
-- (void)pressingDelete
+
+
+- (void)setIndex:(NSInteger)index
 {
-    [self.delegate deleteCell: self];
+    _index = index;
+    
+    [self setNeedsDisplay];
 }
 
 
@@ -117,6 +132,8 @@
 
 - (void) activateTime
 {
+    NSLog(@"activating alarm");
+    
     NSDate * now = [NSDate date];
     
     NSCalendar * calendar = [NSCalendar currentCalendar];
@@ -127,11 +144,11 @@
     
     NSInteger currentDay = [components day] - 1;
     
-    NSLog(@"current day of the month is %d", currentDay);
+    //NSLog(@"current day of the month is %d", currentDay);
     
     //
     
-    NSDate * alarmTime = [ACAalarmData maindata].alarmList[self.index][@"NSDateNoDay"];
+    NSDate * alarmTime = [ACAalarmData maindata].sortedTimes[self.index][@"NSDateNoDay"];
     NSDateComponents * alarmComponents = [[NSDateComponents alloc] init];
     [alarmComponents setDay:currentDay];
  
@@ -141,11 +158,12 @@
     [formatter setTimeStyle:NSDateFormatterShortStyle];
     [formatter setDateFormat:@"d h:mm a"];
     
-    NSLog(@"new alarm time is %@",[formatter stringFromDate:newAlarmTime]);
+    //NSLog(@"new alarm time is %@",[formatter stringFromDate:newAlarmTime]);
+    
    
     NSDate * completeAlarmTime;
     
-    if ([newAlarmTime compare: now] != NSOrderedAscending) {
+    if ([newAlarmTime compare: now] != NSOrderedDescending) {
     
         NSDateComponents *oneDay = [[NSDateComponents alloc] init];
         [oneDay setDay: 1];
@@ -156,18 +174,20 @@
         completeAlarmTime = newAlarmTime;
     }
 
-         NSLog(@"complete alarm time is %@",[formatter stringFromDate:completeAlarmTime]);
+    
+    //NSLog(@"complete alarm time is %@",[formatter stringFromDate:completeAlarmTime]);
+    
+    //
+    UILocalNotification * wakeUp = [[UILocalNotification alloc] init];
+    wakeUp.fireDate = newAlarmTime;
+    wakeUp.timeZone = [NSTimeZone localTimeZone];
+    wakeUp.alertBody = @"It's time to wake up!";
+    wakeUp.soundName = UILocalNotificationDefaultSoundName;
+    [[UIApplication sharedApplication] scheduleLocalNotification:wakeUp];
+    
+    [[ACAalarmData maindata].sortedTimes[self.index]setObject:wakeUp forKey:@"Notification"];
     
     NSLog(@"%@", [ACAalarmData maindata].sortedTimes);
-    
-//    UILocalNotification * wakeUp = [[UILocalNotification alloc] init];
-//    
-//    wakeUp.fireDate = newAlarmTime;
-//    wakeUp.timeZone = [NSTimeZone localTimeZone];
-//    wakeUp.alertBody = @"It's time to wake up!";
-//    wakeUp.soundName = UILocalNotificationDefaultSoundName;
-
-//    [[UIApplication sharedApplication] scheduleLocalNotification:wakeUp];
     
 }
 

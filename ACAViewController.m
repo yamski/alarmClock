@@ -120,11 +120,11 @@
         alarmsTVC.view.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         [self.view addSubview:alarmsTVC.view];
         
-        self.alarmStatus = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 20, SCREEN_HEIGHT - 60, 40, 40)];
-        self.alarmStatus.layer.cornerRadius = 20;
-        self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
-        
-        [self.view addSubview:self.alarmStatus];
+//        self.alarmStatus = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 20, SCREEN_HEIGHT - 60, 40, 40)];
+//        self.alarmStatus.layer.cornerRadius = 20;
+//        self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
+//        
+//        [self.view addSubview:self.alarmStatus];
     }
     return self;
 }
@@ -197,34 +197,34 @@
     } completion:nil];
 }
 
-- (void)popup
-{
-    if (!self.popUpToggle) {
-        self.popUpToggle = !self.popUpToggle;
-        
-        [UIView animateWithDuration:0.5 animations:^{
-            menu.frame = CGRectMake(0, 170, SCREEN_WIDTH, SCREEN_HEIGHT - 170);
-            
-            UIButton * saveOptions = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 40, SCREEN_HEIGHT - 240, 80, 40)];
-            saveOptions.backgroundColor = [UIColor clearColor];
-            [saveOptions setTitle:@"Save" forState:UIControlStateNormal];
-            saveOptions.titleLabel.textColor = [UIColor blueColor];
-            
-            [saveOptions addTarget:self action:@selector(popup) forControlEvents:UIControlEventTouchUpInside];
-            [menu addSubview:saveOptions];
-            
-        } completion:nil];
-    } else
-    {
-         self.popUpToggle = !self.popUpToggle;
-        
-        [UIView animateWithDuration:0.5 animations:^{
-            
-            menu.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 170);
-            
-        }completion:nil];
-    }
-}
+//- (void)popup
+//{
+//    if (!self.popUpToggle) {
+//        self.popUpToggle = !self.popUpToggle;
+//        
+//        [UIView animateWithDuration:0.5 animations:^{
+//            menu.frame = CGRectMake(0, 170, SCREEN_WIDTH, SCREEN_HEIGHT - 170);
+//            
+//            UIButton * saveOptions = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 40, SCREEN_HEIGHT - 240, 80, 40)];
+//            saveOptions.backgroundColor = [UIColor clearColor];
+//            [saveOptions setTitle:@"Save" forState:UIControlStateNormal];
+//            saveOptions.titleLabel.textColor = [UIColor blueColor];
+//            
+//            [saveOptions addTarget:self action:@selector(popup) forControlEvents:UIControlEventTouchUpInside];
+//            [menu addSubview:saveOptions];
+//            
+//        } completion:nil];
+//    } else
+//    {
+//         self.popUpToggle = !self.popUpToggle;
+//        
+//        [UIView animateWithDuration:0.5 animations:^{
+//            
+//            menu.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 170);
+//            
+//        }completion:nil];
+//    }
+//}
 
 
 - (void)updateAlarm:(NSTimeInterval)interval

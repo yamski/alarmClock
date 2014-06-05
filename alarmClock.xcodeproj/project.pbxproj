@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D02FA47F193CE0B000A05AA4 /* ACATweetVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D02FA47E193CE0B000A05AA4 /* ACATweetVC.m */; };
-		D02FA482193D16D600A05AA4 /* ACAcollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D02FA481193D16D600A05AA4 /* ACAcollectionVC.m */; };
 		D06DB9741933B4BB00DCF445 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D06DB9731933B4BB00DCF445 /* Foundation.framework */; };
 		D06DB9761933B4BB00DCF445 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D06DB9751933B4BB00DCF445 /* CoreGraphics.framework */; };
 		D06DB9781933B4BB00DCF445 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D06DB9771933B4BB00DCF445 /* UIKit.framework */; };
@@ -49,8 +48,6 @@
 /* Begin PBXFileReference section */
 		D02FA47D193CE0B000A05AA4 /* ACATweetVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACATweetVC.h; sourceTree = "<group>"; };
 		D02FA47E193CE0B000A05AA4 /* ACATweetVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACATweetVC.m; sourceTree = "<group>"; };
-		D02FA480193D16D600A05AA4 /* ACAcollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAcollectionVC.h; sourceTree = "<group>"; };
-		D02FA481193D16D600A05AA4 /* ACAcollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAcollectionVC.m; sourceTree = "<group>"; };
 		D06DB9701933B4BB00DCF445 /* alarmClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = alarmClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D06DB9731933B4BB00DCF445 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D06DB9751933B4BB00DCF445 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -209,8 +206,6 @@
 				D06DB9A51933B63A00DCF445 /* ACAViewController.m */,
 				D06DB9C419375E7F00DCF445 /* ACAalarmsTVC.h */,
 				D06DB9C519375E7F00DCF445 /* ACAalarmsTVC.m */,
-				D02FA480193D16D600A05AA4 /* ACAcollectionVC.h */,
-				D02FA481193D16D600A05AA4 /* ACAcollectionVC.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -365,7 +360,6 @@
 				D06DB9BF193588E100DCF445 /* ACAalarmSwipe.m in Sources */,
 				D06DB9B91935652600DCF445 /* ACAtimeButton.m in Sources */,
 				D06DB9C91937B81E00DCF445 /* ACATVCell.m in Sources */,
-				D02FA482193D16D600A05AA4 /* ACAcollectionVC.m in Sources */,
 				D06DB9CC1937C57900DCF445 /* ACAalarmData.m in Sources */,
 				D06DB9C21936447600DCF445 /* ACAmainButtons.m in Sources */,
 				D06DB9801933B4BB00DCF445 /* main.m in Sources */,
@@ -495,6 +489,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "alarmClock/alarmClock-Prefix.pch";
 				INFOPLIST_FILE = "alarmClock/alarmClock-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -509,6 +504,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "alarmClock/alarmClock-Prefix.pch";
 				INFOPLIST_FILE = "alarmClock/alarmClock-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
