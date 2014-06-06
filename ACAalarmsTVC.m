@@ -104,16 +104,11 @@
         cell.timesButton.backgroundColor = [UIColor colorWithRed:0.235f green:0.878f blue:0.388f alpha:1.0f];
         cell.alarmActive = YES;
     
-        NSLog(@"green background");
-    
     } else {
         cell.timesButton.backgroundColor = [UIColor colorWithRed:0.212f green:0.392f blue:0.475f alpha:1.0f];
         cell.alarmActive = NO;
-        
-         NSLog(@"blue background");
+
     }
-    
-    
     return cell;
 }
 
@@ -145,16 +140,9 @@
         NSMutableArray *descriptors = [[NSMutableArray  arrayWithObject:sortByDateAscending] mutableCopy];
         
         [ACAalarmData maindata].sortedTimes = [[[ACAalarmData maindata].alarmList sortedArrayUsingDescriptors:descriptors] mutableCopy];
-        
-        NSLog(@"sorted %d",[[ACAalarmData maindata].alarmList count]);
-        NSLog(@"sorted %d",[[ACAalarmData maindata].sortedTimes count]);
-      
 
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        
-          NSLog(@"cell %d deleted", indexPath.row);
-        
-        //[self.tableView reloadData];
+
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   

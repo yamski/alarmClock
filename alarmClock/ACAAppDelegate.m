@@ -23,17 +23,24 @@
     
     ACAViewController * mainController = [[ACAViewController alloc] init];
     
-    UINavigationController * nc = [[UINavigationController alloc] initWithRootViewController:mainController];
-    
-    [nc.navigationBar setHidden:YES];
-    
-    self.window.rootViewController = nc;
-    
-    //self.window.rootViewController = [[ACATweetVC alloc] init];
+    self.window.rootViewController = mainController;
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
+}
+- (void)application:(UIApplication *)application
+didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"MyAlertView"
+                                                        message:@"Local notification was received"
+                                                       delegate:self cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+    [alertView show];
+  
+   // ACAViewController * mainController = (ACAViewController *)self.window.rootViewController;
+    
+//    [mainController showView];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

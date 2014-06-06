@@ -79,9 +79,7 @@
         amPMFormat = [[NSDateFormatter alloc] init];
         [amPMFormat setDateFormat:@"a"];
         
-        // alarm time
         alarmTime = now;
-        
         
         alarmLabel = [[ACAtimeButton  alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 130)];
         [alarmLabel setTitle:[formatter stringFromDate:alarmTime] forState:UIControlStateNormal];
@@ -185,6 +183,15 @@
     
     swipeTweet.enabled = NO;
     
+    alarmTime = now;
+    
+    int flags = NSHourCalendarUnit | NSMinuteCalendarUnit;
+    
+    NSDateComponents* hrMinComp = [calendar components:flags fromDate:alarmTime];
+    
+    alarmTimeNoDay = [calendar dateFromComponents:hrMinComp];
+
+    
     [alarmLabel addTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
 
     [self.view insertSubview:timeScroll belowSubview:alarmLabel];
@@ -195,37 +202,10 @@
         
         [alarmLabel setTitleColor:[UIColor colorWithRed:0.231f green:0.427f blue:0.506f alpha:1.0f] forState:UIControlStateNormal];
         
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        nil;
+    }];
 }
-
-//- (void)popup
-//{
-//    if (!self.popUpToggle) {
-//        self.popUpToggle = !self.popUpToggle;
-//        
-//        [UIView animateWithDuration:0.5 animations:^{
-//            menu.frame = CGRectMake(0, 170, SCREEN_WIDTH, SCREEN_HEIGHT - 170);
-//            
-//            UIButton * saveOptions = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 40, SCREEN_HEIGHT - 240, 80, 40)];
-//            saveOptions.backgroundColor = [UIColor clearColor];
-//            [saveOptions setTitle:@"Save" forState:UIControlStateNormal];
-//            saveOptions.titleLabel.textColor = [UIColor blueColor];
-//            
-//            [saveOptions addTarget:self action:@selector(popup) forControlEvents:UIControlEventTouchUpInside];
-//            [menu addSubview:saveOptions];
-//            
-//        } completion:nil];
-//    } else
-//    {
-//         self.popUpToggle = !self.popUpToggle;
-//        
-//        [UIView animateWithDuration:0.5 animations:^{
-//            
-//            menu.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 170);
-//            
-//        }completion:nil];
-//    }
-//}
 
 
 - (void)updateAlarm:(NSTimeInterval)interval
@@ -237,13 +217,11 @@
     [alarmLabel setTitle:[formatter stringFromDate:alarmTime] forState:UIControlStateNormal];
     amPM.text = [amPMFormat stringFromDate:alarmTime];
     
-    
     int flags = NSHourCalendarUnit | NSMinuteCalendarUnit;
     
     NSDateComponents* hrMinComp = [calendar components:flags fromDate:alarmTime];
     
     alarmTimeNoDay = [calendar dateFromComponents:hrMinComp];
-    
 }
 
 
@@ -280,7 +258,6 @@
     
     [[UIApplication sharedApplication] scheduleLocalNotification:wakeUp];
     
-    //[[UIApplication sharedApplication] cancelLocalNotification:wakeUp];
     
     // CREATING DICTIONARY AND ADDING TO ARRAY
     
@@ -301,10 +278,6 @@
     [ACAalarmData maindata].sortedTimes = [[[ACAalarmData maindata].alarmList sortedArrayUsingDescriptors:descriptors] mutableCopy];
     
     [alarmsTVC.tableView reloadData];
-    
-    NSLog(@"alarmData was saved: %d",[[ACAalarmData maindata].alarmList count]);
-    NSLog(@"sortedData was saved: %d",[[ACAalarmData maindata].sortedTimes count]);
-
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

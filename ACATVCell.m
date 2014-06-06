@@ -75,9 +75,6 @@
         } completion:^(BOOL finished) {
             
             NSLog(@"canceling alarm");
-//            
-//            UILocalNotification * canceledNotification = [ACAalarmData maindata].sortedTimes[self.index][@"Notification"];
-//            [[UIApplication sharedApplication] cancelLocalNotification:canceledNotification];
             
             
             [[ACAalarmData maindata].sortedTimes[self.index] removeObjectForKey:@"Notification"];
@@ -197,6 +194,8 @@
     [[ACAalarmData maindata].sortedTimes[self.index]setObject:wakeUp forKey:@"Notification"];
     
     NSLog(@"HERE ARE ALL OF YOUR DICTIONARIES:%@", [ACAalarmData maindata].sortedTimes);
+    
+   // [[UIApplication sharedApplication] scheduledLocalNotifications];
     
 }
 
