@@ -44,6 +44,7 @@
     CGPoint location;
     
     UIView * menu;
+    UIView * alarmBG;
     
     ACAalarmSwipe * timeScroll;
     
@@ -60,6 +61,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         
+        //[self showAlarmView];
         
         currentVal = [UIScreen mainScreen].brightness;
         
@@ -84,7 +86,6 @@
        [self.view addSubview:alarmLabel];
         
         //
-    
         
         menu = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 170)];
         menu.backgroundColor = [UIColor colorWithRed:0.890f green:1.000f blue:0.980f alpha:1.0f];
@@ -303,6 +304,51 @@
         
         prevLocation = location;
     }
+}
+
+- (void)darkMode
+{
+    
+}
+
+- (void)showAlarmView
+{
+    alarmBG = [[UIView alloc]initWithFrame: CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    alarmBG.backgroundColor = [UIColor colorWithRed:0.937f green:0.863f blue:0.129f alpha:1.0f];
+    [self.view addSubview:alarmBG];
+    
+    UILabel * alarmBGText = [[UILabel alloc] initWithFrame:CGRectMake(0, 120, SCREEN_WIDTH, 200)];
+    alarmBGText.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.1];
+    
+    alarmBGText.backgroundColor = [UIColor clearColor];
+    
+    alarmBGText.text = @"It's about that time!";
+    alarmBGText.textAlignment = NSTextAlignmentCenter;
+    alarmBGText.font = [UIFont fontWithName:@"AvenirNext-Bold" size:28];
+    alarmBGText.textColor = [UIColor colorWithRed:0.525f green:0.486f blue:0.075f alpha:1.0f];
+    
+    [alarmBG addSubview:alarmBGText];
+    
+    UIButton * dismissNotif = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 20, SCREEN_HEIGHT - 60, 40, 40)];
+    dismissNotif.layer.cornerRadius = 20;
+    dismissNotif.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
+    
+    [dismissNotif addTarget:self action:@selector(removeAlarmBG) forControlEvents:UIControlEventTouchUpInside];
+
+    [alarmBG addSubview:dismissNotif];
+    
+}
+
+- (void) removeAlarmBG
+{
+    [UIView animateWithDuration:1.0 animations:^{
+        
+        alarmBG.alpha = 0;
+        
+    } completion:^(BOOL finished) {
+        [alarmBG removeFromSuperview];
+    }];
+    
 }
 
 - (void)didReceiveMemoryWarning

@@ -16,5 +16,6 @@
 
 @property (nonatomic) UIButton * alarmStatus;
 
+- (void)showAlarmView;
 
 @end

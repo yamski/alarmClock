@@ -38,9 +38,9 @@ didReceiveLocalNotification:(UILocalNotification *)notification
                                               otherButtonTitles:nil];
     [alertView show];
   
-   // ACAViewController * mainController = (ACAViewController *)self.window.rootViewController;
+   ACAViewController * mainController = (ACAViewController *)self.window.rootViewController;
     
-//    [mainController showView];
+   [mainController showAlarmView];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
