@@ -29,7 +29,6 @@
     ACATweetVC * tweetVC;
     ACAtimeButton * alarmLabel;
     
-    ACAamPM * amPM;
     UIButton * alarmToggle;
     
     NSDate * alarmTimeNoDay;
@@ -74,10 +73,8 @@
         
         formatter = [[NSDateFormatter alloc] init];
         [formatter setTimeStyle:NSDateFormatterShortStyle];
-        [formatter setDateFormat:@"h:mm"];
+        [formatter setDateFormat:@"h:mm  a"];
         
-        amPMFormat = [[NSDateFormatter alloc] init];
-        [amPMFormat setDateFormat:@"a"];
         
         alarmTime = now;
         
@@ -88,10 +85,6 @@
         
         //
     
-        amPM =  [[ACAamPM alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 65, 135, 80, 40)];
-        amPM.text = [amPMFormat stringFromDate:alarmTime];
-    
-        [self.view addSubview:amPM];
         
         menu = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 170)];
         menu.backgroundColor = [UIColor colorWithRed:0.890f green:1.000f blue:0.980f alpha:1.0f];
@@ -122,6 +115,13 @@
 //        self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
 //        
 //        [self.view addSubview:self.alarmStatus];
+        
+        
+        int noDay = NSHourCalendarUnit | NSMinuteCalendarUnit;
+        
+        NSDateComponents* noDayComp = [calendar components:noDay fromDate:alarmTime];
+        
+        alarmTimeNoDay = [calendar dateFromComponents:noDayComp];
     }
     return self;
 }
@@ -182,15 +182,8 @@
     swipeTVC.enabled = NO;
     
     swipeTweet.enabled = NO;
-    
-    alarmTime = now;
-    
-    int flags = NSHourCalendarUnit | NSMinuteCalendarUnit;
-    
-    NSDateComponents* hrMinComp = [calendar components:flags fromDate:alarmTime];
-    
-    alarmTimeNoDay = [calendar dateFromComponents:hrMinComp];
 
+    //[self updateAlarm:0];
     
     [alarmLabel addTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
 
@@ -210,18 +203,18 @@
 
 - (void)updateAlarm:(NSTimeInterval)interval
 {
-    [formatter setDateFormat:@"h:mm  a"];
     
     alarmTime = [NSDate dateWithTimeIntervalSinceNow:interval];
   
     [alarmLabel setTitle:[formatter stringFromDate:alarmTime] forState:UIControlStateNormal];
-    amPM.text = [amPMFormat stringFromDate:alarmTime];
+  
     
     int flags = NSHourCalendarUnit | NSMinuteCalendarUnit;
     
     NSDateComponents* hrMinComp = [calendar components:flags fromDate:alarmTime];
     
     alarmTimeNoDay = [calendar dateFromComponents:hrMinComp];
+    
 }
 
 
@@ -278,6 +271,8 @@
     [ACAalarmData maindata].sortedTimes = [[[ACAalarmData maindata].alarmList sortedArrayUsingDescriptors:descriptors] mutableCopy];
     
     [alarmsTVC.tableView reloadData];
+    
+    NSLog(@"this is the alarmtime WHEN I HIT SAVE: %@",[formatter stringFromDate:alarmTime]);
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
