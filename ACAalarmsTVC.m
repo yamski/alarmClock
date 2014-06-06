@@ -18,9 +18,7 @@
 @end
 
 @implementation ACAalarmsTVC
-{
-//    ACATVCell * cell;
-}
+
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -59,6 +57,7 @@
 {
     [super viewDidLoad];
     
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -86,8 +85,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"alarms %lu",(unsigned long)[[ACAalarmData maindata].sortedTimes count]);
-    
     return  [[ACAalarmData maindata].sortedTimes count];
 }
 
@@ -101,34 +98,25 @@
     cell.index = indexPath.row;
     
     [cell.timesButton setTitle:[[ACAalarmData maindata].sortedTimes[indexPath.row] objectForKey:@"NSString"] forState:UIControlStateNormal];
-       
+    
+    if ([ACAalarmData maindata].sortedTimes[indexPath.row][@"Notification"] != NULL) {
+    
+        cell.timesButton.backgroundColor = [UIColor colorWithRed:0.235f green:0.878f blue:0.388f alpha:1.0f];
+        cell.alarmActive = YES;
+    
+        NSLog(@"green background");
+    
+    } else {
+        cell.timesButton.backgroundColor = [UIColor colorWithRed:0.212f green:0.392f blue:0.475f alpha:1.0f];
+        cell.alarmActive = NO;
+        
+         NSLog(@"blue background");
+    }
+    
+    
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"%@",indexPath);
-    
-    ACATVCell * cell = (ACATVCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-    
-    cell.contentView.backgroundColor = [UIColor magentaColor];
-}
-
-- (void)deleteCell: (ACATVCell *)selectedCell
-{
-    NSIndexPath * indexPath = [self.tableView indexPathForCell:selectedCell];
-    [[ACAalarmData maindata].alarmList removeObjectAtIndex:indexPath.row];
-    
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-
-    NSSortDescriptor *sortByDateAscending = [NSSortDescriptor sortDescriptorWithKey:@"NSDateNoDay" ascending:YES];
-    NSMutableArray *descriptors = [[NSMutableArray  arrayWithObject:sortByDateAscending] mutableCopy];
-
-    [ACAalarmData maindata].sortedTimes = [[[ACAalarmData maindata].alarmList sortedArrayUsingDescriptors:descriptors] mutableCopy];
-    
-    [self.tableView reloadData];
-   
-}
 
 - (BOOL)prefersStatusBarHidden
 {
@@ -149,14 +137,9 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        
-//        ACATVCell * cell = (ACATVCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-//        NSIndexPath * indexPath = [self.tableView indexPathForCell:selectedCell];
+
         
         [[ACAalarmData maindata].alarmList removeObjectIdenticalTo:[ACAalarmData maindata].sortedTimes[indexPath.row]];
-        
-//        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         NSSortDescriptor *sortByDateAscending = [NSSortDescriptor sortDescriptorWithKey:@"NSDateNoDay" ascending:YES];
         NSMutableArray *descriptors = [[NSMutableArray  arrayWithObject:sortByDateAscending] mutableCopy];
@@ -165,10 +148,13 @@
         
         NSLog(@"sorted %d",[[ACAalarmData maindata].alarmList count]);
         NSLog(@"sorted %d",[[ACAalarmData maindata].sortedTimes count]);
-        
-//        [self.tableView reloadData];
+      
+
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
+          NSLog(@"cell %d deleted", indexPath.row);
+        
+        //[self.tableView reloadData];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   

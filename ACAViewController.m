@@ -68,8 +68,7 @@
         bgLayer.frame = self.view.bounds;
         [self.view.layer insertSublayer:bgLayer atIndex:0];
         
-        
-        
+
         calendar = [NSCalendar currentCalendar];
         now = [NSDate date];
         
@@ -158,6 +157,8 @@
 
 - (void) swipeLeft:(UISwipeGestureRecognizer *)gesture
 {
+    [alarmsTVC.tableView reloadData];
+    
     [UIView animateWithDuration:0.5 animations:^{
         alarmsTVC.view.frame = CGRectMake(0, 0,  SCREEN_WIDTH, SCREEN_HEIGHT);
     }];
@@ -300,6 +301,9 @@
     [ACAalarmData maindata].sortedTimes = [[[ACAalarmData maindata].alarmList sortedArrayUsingDescriptors:descriptors] mutableCopy];
     
     [alarmsTVC.tableView reloadData];
+    
+    NSLog(@"alarmData was saved: %d",[[ACAalarmData maindata].alarmList count]);
+    NSLog(@"sortedData was saved: %d",[[ACAalarmData maindata].sortedTimes count]);
 
 }
 

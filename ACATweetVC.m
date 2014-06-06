@@ -8,8 +8,6 @@
 
 #import "ACATweetVC.h"
 #import "ACATableView.h"
-
-#import "ACAcollectionVC.h"
 #import "ACAalarmData.h"
 
 @interface ACATweetVC () <UITextViewDelegate>

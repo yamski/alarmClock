@@ -14,7 +14,8 @@
 
 @property (nonatomic, assign) id <ACATVCellDelegate> delegate;
 @property (nonatomic) UIButton * timesButton;
-@property (nonatomic) UIButton * deleteButton;
+@property (nonatomic) UIButton * activateButton;
+//@property (nonatomic) UIButton * deleteButton;
 @property (nonatomic) BOOL allowSwipe;
 @property (nonatomic) BOOL alarmActive;
 
