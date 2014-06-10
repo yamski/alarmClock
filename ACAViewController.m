@@ -274,6 +274,9 @@
     [alarmsTVC.tableView reloadData];
     
     NSLog(@"this is the alarmtime WHEN I HIT SAVE: %@",[formatter stringFromDate:alarmTime]);
+    
+    NSLog(@"notification: %@",wakeUp);
+
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

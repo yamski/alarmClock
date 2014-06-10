@@ -11,6 +11,7 @@
 //
 #import "ACATweetVC.h"
 //
+#import <Crashlytics/Crashlytics.h>
 
 @implementation ACAAppDelegate
 
@@ -24,6 +25,9 @@
     ACAViewController * mainController = [[ACAViewController alloc] init];
     
     self.window.rootViewController = mainController;
+    
+    [Crashlytics startWithAPIKey:@"de2e55b9cfbb6d5fef305b952886de5d7f96f7cd"];
+    
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];

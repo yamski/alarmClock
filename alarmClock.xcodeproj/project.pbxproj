@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D0197B4919462CE500A140C4 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0197B4819462CE500A140C4 /* Crashlytics.framework */; };
 		D02FA47F193CE0B000A05AA4 /* ACATweetVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D02FA47E193CE0B000A05AA4 /* ACATweetVC.m */; };
 		D06DB9741933B4BB00DCF445 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D06DB9731933B4BB00DCF445 /* Foundation.framework */; };
 		D06DB9761933B4BB00DCF445 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D06DB9751933B4BB00DCF445 /* CoreGraphics.framework */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D0197B4819462CE500A140C4 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		D02FA47D193CE0B000A05AA4 /* ACATweetVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACATweetVC.h; sourceTree = "<group>"; };
 		D02FA47E193CE0B000A05AA4 /* ACATweetVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACATweetVC.m; sourceTree = "<group>"; };
 		D06DB9701933B4BB00DCF445 /* alarmClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = alarmClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +98,7 @@
 			files = (
 				D06DB9761933B4BB00DCF445 /* CoreGraphics.framework in Frameworks */,
 				D06DB9781933B4BB00DCF445 /* UIKit.framework in Frameworks */,
+				D0197B4919462CE500A140C4 /* Crashlytics.framework in Frameworks */,
 				D06DB9741933B4BB00DCF445 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,6 +149,7 @@
 		D06DB9721933B4BB00DCF445 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D0197B4819462CE500A140C4 /* Crashlytics.framework */,
 				D06DB9731933B4BB00DCF445 /* Foundation.framework */,
 				D06DB9751933B4BB00DCF445 /* CoreGraphics.framework */,
 				D06DB9771933B4BB00DCF445 /* UIKit.framework */,
@@ -259,6 +263,7 @@
 				D06DB96C1933B4BB00DCF445 /* Sources */,
 				D06DB96D1933B4BB00DCF445 /* Frameworks */,
 				D06DB96E1933B4BB00DCF445 /* Resources */,
+				D0197B4719462CB100A140C4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -342,6 +347,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D0197B4719462CB100A140C4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "./Crashlytics.framework/run de2e55b9cfbb6d5fef305b952886de5d7f96f7cd afc502ce1778d61b4c65c1e4facd6b99ec2c34fd80b5f867c69d058d48b2d8e9";
+			shellScript = "./Crashlytics.framework/run a26d0a2d3d3631b380d39fead4eadf0728fb51e9 50dae8c2478540a513f641a395695231a0cbfd44576e7da942b567b4ee4b497f";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D06DB96C1933B4BB00DCF445 /* Sources */ = {
@@ -481,6 +502,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "alarmClock/alarmClock-Prefix.pch";
 				INFOPLIST_FILE = "alarmClock/alarmClock-Info.plist";
@@ -498,6 +523,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "alarmClock/alarmClock-Prefix.pch";
 				INFOPLIST_FILE = "alarmClock/alarmClock-Info.plist";
