@@ -9,7 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "ACATVCell.h"
 
+@protocol ACAalarmsTVCDelegate;
 
-@interface ACAalarmsTVC : UITableViewController <ACATVCellDelegate>
+
+@interface ACAalarmsTVC : UITableViewController
+
+@property (nonatomic) id <ACAalarmsTVCDelegate> delegate;
+
 
 @end
+
+@protocol ACAalarmsTVCDelegate <NSObject>
+
+- (void)statusColor: (NSInteger)num;
+
+@end
+

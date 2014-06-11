@@ -29,7 +29,6 @@
         _alarmList = [@[] mutableCopy];
     }
     
-   // _alarmList = [@[@"2:30", @"5:30", @"12:30", @"4:30", @"10:45"] mutableCopy];
     return _alarmList;
 }
 

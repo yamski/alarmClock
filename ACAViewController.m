@@ -18,8 +18,9 @@
 #import "ACATweetVC.h"
 
 #import "ACAalarmData.h"
+#import "ACATVCell.h"
 
-@interface ACAViewController () <ACAalarmSwipeDelegate, UIGestureRecognizerDelegate>
+@interface ACAViewController () <ACAalarmSwipeDelegate, UIGestureRecognizerDelegate, ACAalarmsTVCDelegate>
 
 @end
 
@@ -53,7 +54,7 @@
     float currentVal;
     
     UISwipeGestureRecognizer * swipeTVC;
-    UISwipeGestureRecognizer * swipeTweet;
+  
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -62,6 +63,7 @@
     if (self) {
         
         //[self showAlarmView];
+
         
         currentVal = [UIScreen mainScreen].brightness;
         
@@ -97,25 +99,15 @@
         swipeTVC.direction = UISwipeGestureRecognizerDirectionLeft;
         [self.view addGestureRecognizer:swipeTVC];
         
-        swipeTweet = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
-        swipeTweet.direction = UISwipeGestureRecognizerDirectionRight;
-        
-        swipeTweet.delegate = self;
-        
-        [self.view addGestureRecognizer:swipeTweet];
-        
         timeScroll = [[ACAalarmSwipe alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         timeScroll.delegate = self;
         
         alarmsTVC = [[ACAalarmsTVC alloc] initWithStyle:UITableViewStylePlain];
         alarmsTVC.view.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        [self.view addSubview:alarmsTVC.view];
         
-//        self.alarmStatus = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 20, SCREEN_HEIGHT - 60, 40, 40)];
-//        self.alarmStatus.layer.cornerRadius = 20;
-//        self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
-//        
-//        [self.view addSubview:self.alarmStatus];
+        alarmsTVC.delegate = self;
+        
+        [self.view addSubview:alarmsTVC.view];
         
         
         int noDay = NSHourCalendarUnit | NSMinuteCalendarUnit;
@@ -123,6 +115,8 @@
         NSDateComponents* noDayComp = [calendar components:noDay fromDate:alarmTime];
         
         alarmTimeNoDay = [calendar dateFromComponents:noDayComp];
+        
+       
     }
     return self;
 }
@@ -149,7 +143,13 @@
 //    [test setTitle:@"Test" forState:UIControlStateNormal];
 //    [test addTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
 //    [self.view addSubview:test];
-//    
+//
+    self.alarmStatus = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 20, SCREEN_HEIGHT - 60, 40, 40)];
+    self.alarmStatus.layer.cornerRadius = 20;
+    self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.2];
+    self.alarmStatus.alpha = 0;
+    
+    [self.view addSubview:self.alarmStatus];
 
 }
 
@@ -158,43 +158,30 @@
 {
     [alarmsTVC.tableView reloadData];
     
-    [UIView animateWithDuration:0.5 animations:^{
-        alarmsTVC.view.frame = CGRectMake(0, 0,  SCREEN_WIDTH, SCREEN_HEIGHT);
-    }];
+    [self.navigationController pushViewController:alarmsTVC animated:YES];
 }
 
-- (void) swipeRight:(UISwipeGestureRecognizer *)gesture
-{
-    if(!tweetVC.view.superview)
-    {
-        tweetVC = [[ACATweetVC alloc]init];
-        tweetVC.view.frame = CGRectMake(0-SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        [self.view addSubview:tweetVC.view];
-        
-        [UIView animateWithDuration:0.5 animations:^{
-            tweetVC.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        }];
-    }
-}
+
 
 
 - (void)setAlarmTime
 {
     swipeTVC.enabled = NO;
     
-    swipeTweet.enabled = NO;
-
-    //[self updateAlarm:0];
-    
     [alarmLabel addTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
 
     [self.view insertSubview:timeScroll belowSubview:alarmLabel];
+    
+    ///
+
     
     [UIView animateWithDuration:1.5 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
         
         alarmLabel.backgroundColor = [UIColor colorWithRed:0.898f green:0.996f blue:0.412f alpha:1.0f];
         
         [alarmLabel setTitleColor:[UIColor colorWithRed:0.231f green:0.427f blue:0.506f alpha:1.0f] forState:UIControlStateNormal];
+        
+        self.alarmStatus.alpha = 1;
         
     } completion:^(BOOL finished) {
         nil;
@@ -221,7 +208,6 @@
 
 - (void) savedData
 {
-    swipeTweet.enabled = YES;
     
     [alarmLabel removeTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
     [alarmLabel addTarget:self action:@selector(setAlarmTime) forControlEvents:UIControlEventTouchUpInside];
@@ -240,7 +226,7 @@
     } completion:nil];
     ///
     
-    self.alarmStatus.backgroundColor = [UIColor colorWithRed:0.235f green:0.878f blue:0.388f alpha:1.0f];
+    self.alarmStatus.backgroundColor = [UIColor greenColor];
 
     // LOCAL NOTIFICATIONS
     UILocalNotification * wakeUp = [[UILocalNotification alloc] init];
@@ -279,6 +265,21 @@
 
 }
 
+- (void)statusColor: (NSInteger)num
+{
+    NSLog(@"status button color should change");
+    
+    if (num == 1) {
+        
+        self.alarmStatus.backgroundColor = [UIColor greenColor];
+        
+    } else {
+        
+        self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.2];
+    }
+    
+}
+
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch * touch = [touches anyObject];
@@ -309,10 +310,6 @@
     }
 }
 
-- (void)darkMode
-{
-    
-}
 
 - (void)showAlarmView
 {

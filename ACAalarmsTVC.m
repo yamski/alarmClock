@@ -12,8 +12,10 @@
 #import "ACAalarmLabel.h"
 #import "ACAbgLayer.h"
 
+#import "ACATweetVC.h"
 
-@interface ACAalarmsTVC () 
+
+@interface ACAalarmsTVC () <ACATVCellDelegate>
 
 @end
 
@@ -29,15 +31,15 @@
         self.tableView.separatorInset = UIEdgeInsetsZero;
         self.tableView.separatorColor = [UIColor whiteColor];
         
-        self.tableView.rowHeight = 125;
+        self.tableView.rowHeight = 100;
         
-        UIView * header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
+        UIView * header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 120)];
         
         header.backgroundColor = [UIColor colorWithRed:0.631f green:0.671f blue:0.671f alpha:1.0f];
         
         self.tableView.tableHeaderView = header;
         
-        ACAalarmLabel * headerLabel = [[ACAalarmLabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
+        ACAalarmLabel * headerLabel = [[ACAalarmLabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 120)];
         [header addSubview:headerLabel];
         
         headerLabel.text = @"Saved Alarms";
@@ -48,7 +50,13 @@
         rightGest.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rightGest];
         
+        UISwipeGestureRecognizer * leftGest = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeft:)];
+        leftGest.direction = UISwipeGestureRecognizerDirectionLeft;
+        [self.view addGestureRecognizer:leftGest];
+        
         [self.tableView registerClass:[ACATVCell class] forCellReuseIdentifier:@"cell"];
+
+        
     }
     return self;
 }
@@ -67,9 +75,19 @@
 
 - (void)swipeRight:gesture
 {
-    [UIView animateWithDuration:0.5 animations:^{
-        self.view.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    }];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)swipeLeft:gesture
+{
+    ACATweetVC * tweetVC = [[ACATweetVC alloc] init];
+    
+    [self.navigationController pushViewController:tweetVC animated:YES];
+}
+
+-(void)talktoTVC:(NSInteger)num
+{
+    [self.delegate statusColor:num];
 }
 
 - (void)didReceiveMemoryWarning
@@ -78,10 +96,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -97,16 +111,20 @@
     
     cell.index = indexPath.row;
     
-    [cell.timesButton setTitle:[[ACAalarmData maindata].sortedTimes[indexPath.row] objectForKey:@"NSString"] forState:UIControlStateNormal];
+    cell.timesLabel.text = [[ACAalarmData maindata].sortedTimes[indexPath.row] objectForKey:@"NSString"];
     
     if ([ACAalarmData maindata].sortedTimes[indexPath.row][@"Notification"] != NULL) {
     
-        cell.timesButton.backgroundColor = [UIColor colorWithRed:0.235f green:0.878f blue:0.388f alpha:1.0f];
+        cell.bgLabel.backgroundColor = [UIColor colorWithRed:0.235f green:0.878f blue:0.388f alpha:1.0f];
         cell.alarmActive = YES;
+        
+        [self.delegate statusColor:1];
     
     } else {
-        cell.timesButton.backgroundColor = [UIColor colorWithRed:0.212f green:0.392f blue:0.475f alpha:1.0f];
+        cell.bgLabel.backgroundColor = [UIColor colorWithRed:0.212f green:0.392f blue:0.475f alpha:1.0f];
         cell.alarmActive = NO;
+        
+        [self.delegate statusColor:2];
 
     }
     return cell;
@@ -133,6 +151,7 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
 
+        [self.delegate statusColor:2];
         
         [[ACAalarmData maindata].alarmList removeObjectIdenticalTo:[ACAalarmData maindata].sortedTimes[indexPath.row]];
         
@@ -144,9 +163,22 @@
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table vie
+        
     }   
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([ACAalarmData maindata].sortedTimes[indexPath.row][@"Notification"]) {
+        
+        ACATweetVC * tweetVC = [[ACATweetVC alloc] init];
+        
+        [self.navigationController pushViewController:tweetVC animated:YES];
+        
+    }
+}
+
 
 
 /*

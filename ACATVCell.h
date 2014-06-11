@@ -13,18 +13,16 @@
 @interface ACATVCell : UITableViewCell
 
 @property (nonatomic, assign) id <ACATVCellDelegate> delegate;
-@property (nonatomic) UIButton * timesButton;
+@property (nonatomic) UILabel * bgLabel;
+@property (nonatomic) UILabel * timesLabel;
 @property (nonatomic) UIButton * activateButton;
-//@property (nonatomic) UIButton * deleteButton;
-@property (nonatomic) BOOL allowSwipe;
 @property (nonatomic) BOOL alarmActive;
-
 @property (nonatomic) NSInteger index;
 
 @end
 
 @protocol ACATVCellDelegate <NSObject>
 
-- (void)deleteCell: (ACATVCell *)cell;
+-(void)talktoTVC :(NSInteger)num;
 
 @end

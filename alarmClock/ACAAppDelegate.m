@@ -20,11 +20,16 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-//    [application cancelAllLocalNotifications];
+//   [application cancelAllLocalNotifications];
     
-    ACAViewController * mainController = [[ACAViewController alloc] init];
+     ACAViewController * mainController = [[ACAViewController alloc] init];
     
-    self.window.rootViewController = mainController;
+    UINavigationController * nc = [[UINavigationController alloc] initWithRootViewController:mainController];
+    
+    [nc setNavigationBarHidden:YES];
+    
+    
+    self.window.rootViewController = nc;
     
     [Crashlytics startWithAPIKey:@"de2e55b9cfbb6d5fef305b952886de5d7f96f7cd"];
     
@@ -32,6 +37,8 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
+    
+    
 }
 - (void)application:(UIApplication *)application
 didReceiveLocalNotification:(UILocalNotification *)notification
@@ -41,10 +48,11 @@ didReceiveLocalNotification:(UILocalNotification *)notification
                                                        delegate:self cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
     [alertView show];
-  
-   ACAViewController * mainController = (ACAViewController *)self.window.rootViewController;
-    
-   [mainController showAlarmView];
+//  
+//   ACAViewController * mainController = (ACAViewController *)self.window.rootViewController;
+//    
+//    
+//   [mainController showAlarmView];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

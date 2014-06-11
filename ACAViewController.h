@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ACAViewController : UIViewController
+@interface ACAViewController : UIViewController 
 
 //@property (nonatomic) BOOL alarmActive;
 @property (nonatomic) BOOL popUpToggle;
@@ -17,5 +17,6 @@
 @property (nonatomic) UIButton * alarmStatus;
 
 - (void)showAlarmView;
+//- (void)statusColor: (NSInteger)num;
 
 @end
