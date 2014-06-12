@@ -123,26 +123,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    
-//    int buttonWidth = 80;
-//    
-//    options = [[ACAmainButtons alloc] initWithFrame:CGRectMake((SCREEN_WIDTH/2) - (buttonWidth/2), SCREEN_HEIGHT - 50, buttonWidth, 40)];
-//    [options setTitle:@"Options" forState:UIControlStateNormal];
-//    [options addTarget:self action:@selector(popup) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:options];
-//    
-//    
-//    alarmToggle = [[ACAmainButtons alloc] initWithFrame:CGRectMake((SCREEN_WIDTH/2) - (buttonWidth/2) - (buttonWidth + 20), SCREEN_HEIGHT - 50, buttonWidth, 40)];
-//    [alarmToggle setTitle:@"Alarm Off" forState:UIControlStateNormal];
-//    [alarmToggle addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:alarmToggle];
-//    
-//    
-//    ACAmainButtons * test = [[ACAmainButtons alloc] initWithFrame:CGRectMake((SCREEN_WIDTH/2) - (buttonWidth/2) + (buttonWidth + 20), SCREEN_HEIGHT - 50, buttonWidth, 40)];
-//    [test setTitle:@"Test" forState:UIControlStateNormal];
-//    [test addTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:test];
-//
+
     self.alarmStatus = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 20, SCREEN_HEIGHT - 60, 40, 40)];
     self.alarmStatus.layer.cornerRadius = 20;
     self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.2];
@@ -217,14 +198,9 @@
 
 - (void)updateAlarm:(NSTimeInterval)interval
 {
-    
-    //alarmTime = [NSDate dateWithTimeIntervalSinceNow:interval];
-    
     alarmTime = [nowNoSecs dateByAddingTimeInterval:interval];
     
-  
     [alarmLabel setTitle:[formatter stringFromDate:alarmTime] forState:UIControlStateNormal];
-  
     
     int flags = NSHourCalendarUnit | NSMinuteCalendarUnit;
     
@@ -244,15 +220,6 @@
     [timeScroll removeFromSuperview];
     
     swipeTVC.enabled = YES;
-    
-    //
-    
-//    NSDateComponents * secComponents = [calendar components:NSSecondCalendarUnit fromDate:alarmTime];
-//    [secComponents setSecond:0];
-//    
-//    alarmTime = [calendar dateFromComponents:secComponents];
-    
-    //
     
     
     // animating yellow label
@@ -378,6 +345,16 @@
 
     [alarmBG addSubview:dismissNotif];
     
+    ////
+    
+    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle]
+                                         pathForResource:@"song"
+                                         ofType:@"mp3"]];
+    
+    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+    
+    [self.player play];
+    
 }
 
 - (void) removeAlarmBG
@@ -388,6 +365,8 @@
         
     } completion:^(BOOL finished) {
         [alarmBG removeFromSuperview];
+        
+        [self.player stop];
     }];
     
 }

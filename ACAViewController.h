@@ -7,16 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
+
 
 @interface ACAViewController : UIViewController 
 
-//@property (nonatomic) BOOL alarmActive;
+
 @property (nonatomic) BOOL popUpToggle;
 @property (nonatomic) BOOL alarmSettable;
-
 @property (nonatomic) UIButton * alarmStatus;
+@property (nonatomic) AVAudioPlayer * player;
 
 - (void)showAlarmView;
-//- (void)statusColor: (NSInteger)num;
+
 
 @end
