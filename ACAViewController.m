@@ -20,6 +20,8 @@
 #import "ACAalarmData.h"
 #import "ACATVCell.h"
 
+#import <AudioToolbox/AudioServices.h>
+
 @interface ACAViewController () <ACAalarmSwipeDelegate, UIGestureRecognizerDelegate, ACAalarmsTVCDelegate>
 
 @end
@@ -54,6 +56,15 @@
     float currentVal;
     
     UISwipeGestureRecognizer * swipeTVC;
+    
+    //
+    int volumeSetting;
+    
+    
+    
+    //
+    
+    
   
 }
 
@@ -62,9 +73,17 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         
-       // [self showAlarmView];
-        
         [self loadListItems];
+        
+        //////////////////////
+        //////////////////////
+        UIApplication *app = [UIApplication sharedApplication];
+        NSArray *eventArray = [app scheduledLocalNotifications];
+        
+        NSLog(@"These are the scheduled notifications%@", eventArray);
+        
+        //////////////////////
+        ///////////////////////
         
         currentVal = [UIScreen mainScreen].brightness;
         
@@ -80,13 +99,9 @@
         nowNoSecs = [calendar dateFromComponents:noSecs];
         //
         
-        
         formatter = [[NSDateFormatter alloc] init];
         [formatter setTimeStyle:NSDateFormatterShortStyle];
         [formatter setDateFormat:@"h:mm  a"];
-        
-        
-       
         
         alarmLabel = [[ACAtimeButton  alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 130)];
         [alarmLabel setTitle:[formatter stringFromDate:nowNoSecs] forState:UIControlStateNormal];
@@ -114,7 +129,6 @@
         alarmsTVC.delegate = self;
         
         [self.view addSubview:alarmsTVC.view];
-        
        
     }
     return self;
@@ -130,7 +144,7 @@
     self.alarmStatus.alpha = 0;
     
     [self.view addSubview:self.alarmStatus];
-
+    
 }
 
 ///////
@@ -167,8 +181,6 @@
     
     [self.navigationController pushViewController:alarmsTVC animated:YES];
 }
-
-
 
 
 - (void)setAlarmTime
@@ -235,6 +247,9 @@
     self.alarmStatus.backgroundColor = [UIColor greenColor];
 
     // LOCAL NOTIFICATIONS
+    
+    NSString * alarmName = [formatter stringFromDate:alarmTime];
+    
     UILocalNotification * wakeUp = [[UILocalNotification alloc] init];
     
     wakeUp.fireDate = alarmTime;
@@ -332,7 +347,7 @@
     
     alarmBGText.text = @"It's about that time!";
     alarmBGText.textAlignment = NSTextAlignmentCenter;
-    alarmBGText.font = [UIFont fontWithName:@"AvenirNext-Bold" size:28];
+    alarmBGText.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:28];
     alarmBGText.textColor = [UIColor colorWithRed:0.525f green:0.486f blue:0.075f alpha:1.0f];
     
     [alarmBG addSubview:alarmBGText];
@@ -354,6 +369,9 @@
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     
     [self.player play];
+    
+    
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     
 }
 
