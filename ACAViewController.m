@@ -34,7 +34,7 @@
     
     NSDate * alarmTimeNoDay;
     NSDate * alarmTime;
-    NSDate * now;
+    NSDate * nowNoSecs;
     NSDateFormatter * formatter;
     NSDateFormatter * amPMFormat;
     
@@ -62,8 +62,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         
-        //[self showAlarmView];
-
+       // [self showAlarmView];
+        
+        [self loadListItems];
         
         currentVal = [UIScreen mainScreen].brightness;
         
@@ -71,19 +72,24 @@
         bgLayer.frame = self.view.bounds;
         [self.view.layer insertSublayer:bgLayer atIndex:0];
         
-
+        ///
+        NSDate * now = [NSDate date];
         calendar = [NSCalendar currentCalendar];
-        now = [NSDate date];
+        unsigned int flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit| NSHourCalendarUnit|NSMinuteCalendarUnit;
+        NSDateComponents * noSecs = [calendar components:flags fromDate:now];
+        nowNoSecs = [calendar dateFromComponents:noSecs];
+        //
+        
         
         formatter = [[NSDateFormatter alloc] init];
         [formatter setTimeStyle:NSDateFormatterShortStyle];
         [formatter setDateFormat:@"h:mm  a"];
         
         
-        alarmTime = now;
+       
         
         alarmLabel = [[ACAtimeButton  alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 130)];
-        [alarmLabel setTitle:[formatter stringFromDate:alarmTime] forState:UIControlStateNormal];
+        [alarmLabel setTitle:[formatter stringFromDate:nowNoSecs] forState:UIControlStateNormal];
         [alarmLabel addTarget:self action:@selector(setAlarmTime) forControlEvents:UIControlEventTouchUpInside];
        [self.view addSubview:alarmLabel];
         
@@ -108,13 +114,6 @@
         alarmsTVC.delegate = self;
         
         [self.view addSubview:alarmsTVC.view];
-        
-        
-        int noDay = NSHourCalendarUnit | NSMinuteCalendarUnit;
-        
-        NSDateComponents* noDayComp = [calendar components:noDay fromDate:alarmTime];
-        
-        alarmTimeNoDay = [calendar dateFromComponents:noDayComp];
         
        
     }
@@ -153,6 +152,33 @@
 
 }
 
+///////
+///////
+- (void)archiveData
+{
+    NSString *path = [self listArchivePath];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:[ACAalarmData maindata].sortedTimes];
+    [data writeToFile:path options:NSDataWritingAtomic error:nil];
+}
+
+- (NSString *)listArchivePath
+{
+    NSArray *documentDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = documentDirectories[0];
+    return [documentDirectory stringByAppendingPathComponent:@"list.data"];
+}
+
+- (void)loadListItems
+{
+    NSString *path = [self listArchivePath];
+    if([[NSFileManager defaultManager] fileExistsAtPath:path])
+    {
+        [ACAalarmData maindata].sortedTimes = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    }
+}
+
+/////
+/////
 
 - (void) swipeLeft:(UISwipeGestureRecognizer *)gesture
 {
@@ -192,7 +218,10 @@
 - (void)updateAlarm:(NSTimeInterval)interval
 {
     
-    alarmTime = [NSDate dateWithTimeIntervalSinceNow:interval];
+    //alarmTime = [NSDate dateWithTimeIntervalSinceNow:interval];
+    
+    alarmTime = [nowNoSecs dateByAddingTimeInterval:interval];
+    
   
     [alarmLabel setTitle:[formatter stringFromDate:alarmTime] forState:UIControlStateNormal];
   
@@ -215,6 +244,16 @@
     [timeScroll removeFromSuperview];
     
     swipeTVC.enabled = YES;
+    
+    //
+    
+//    NSDateComponents * secComponents = [calendar components:NSSecondCalendarUnit fromDate:alarmTime];
+//    [secComponents setSecond:0];
+//    
+//    alarmTime = [calendar dateFromComponents:secComponents];
+    
+    //
+    
     
     // animating yellow label
     [UIView animateWithDuration:1.5 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
@@ -262,6 +301,8 @@
     NSLog(@"this is the alarmtime WHEN I HIT SAVE: %@",[formatter stringFromDate:alarmTime]);
     
     NSLog(@"notification: %@",wakeUp);
+    
+    [self archiveData];
 
 }
 

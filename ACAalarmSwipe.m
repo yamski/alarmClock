@@ -45,7 +45,7 @@
     UIButton * vibrateOff;
     
     UIButton * volumeButton;
-   
+    UISlider * volumeSlider;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -71,6 +71,7 @@
         menuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         
         menuView.contentSize = CGSizeMake(SCREEN_WIDTH,480);
+        menuView.alpha = 0;
         
         //
         
@@ -93,6 +94,8 @@
         
         soundsView = [[UIView alloc] initWithFrame:CGRectMake(0, 105, SCREEN_WIDTH, 80)];
         soundsView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.1];
+     
+        
         [menuView addSubview:soundsView];
         //
         soundsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
@@ -107,7 +110,10 @@
         
         volumeView = [[UIView alloc] initWithFrame:CGRectMake(0, 190, SCREEN_WIDTH, 80)];
         volumeView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.1];
+
+        
         [menuView addSubview:volumeView];
+        
         //
         volumeButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
         [volumeButton setTitle:@"Volume" forState:UIControlStateNormal];
@@ -121,6 +127,7 @@
         
         vibrateView = [[UIView alloc] initWithFrame:CGRectMake(0, 275, SCREEN_WIDTH, 80)];
         vibrateView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.1];
+
         [menuView addSubview:vibrateView];
         //
         vibrateButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
@@ -130,11 +137,6 @@
         vibrateButton.titleLabel.textAlignment = NSTextAlignmentCenter;
         [vibrateButton addTarget:self action:@selector(vibrateOptions) forControlEvents:UIControlEventTouchUpInside];
         [vibrateView addSubview:vibrateButton];
-        
-        
-    
-        
-        
         
     }
     return self;
@@ -151,19 +153,38 @@
 
 - (void)optionsMenu
 {
-   // [self addSubview:menu];
-    
-    [self insertSubview:menuView aboveSubview:self];
-    
-    
+    [self.options removeTarget:self action:@selector(optionsMenu) forControlEvents:UIControlEventTouchUpInside];
     [self.options addTarget:self action:@selector(removeMenu) forControlEvents:UIControlEventTouchUpInside];
+    
+   [self addSubview:menuView];
+    
+    
+    [UIView animateWithDuration:0.5 animations:^{
+       
+        //[self insertSubview:menuView aboveSubview:self];
+        
+        menuView.alpha = 1;
+    }];
+    
+    
+    
 }
 
 - (void)removeMenu
 {
-    [menuView removeFromSuperview];
+    [self.options removeTarget:self action:@selector(removeMenu) forControlEvents:UIControlEventTouchUpInside];
     
     [self.options addTarget:self action:@selector(optionsMenu) forControlEvents:UIControlEventTouchUpInside];
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        
+        menuView.alpha = 0;
+        
+    }completion:^(BOOL finished) {
+        
+         [menuView removeFromSuperview];
+        
+    }];
     
 }
 
@@ -233,7 +254,6 @@
     [snoozeButton removeTarget:self action:@selector(closeSnooze) forControlEvents:UIControlEventTouchUpInside];
     [snoozeButton addTarget:self action:@selector(snoozeOptions) forControlEvents:UIControlEventTouchUpInside];
     
-
     [UIView animateWithDuration:0.5 animations:^{
         
         snoozeView.frame = CGRectMake(0, 20, SCREEN_WIDTH, 80);
@@ -242,6 +262,11 @@
         snooze10.alpha = 0;
         snooze30.alpha = 0;
         snooze60.alpha = 0;
+        
+        soundsView.alpha = 1;
+        soundsButton.alpha = 1;
+        volumeView.alpha = 1;
+        vibrateView.alpha = 1;
         
     } completion:^(BOOL finished) {
         
@@ -366,6 +391,16 @@
     [UIView animateWithDuration:0.5 animations:^{
         
         volumeView.frame = CGRectMake(0, 20, SCREEN_WIDTH, 305);
+    } completion:^(BOOL finished) {
+        
+        volumeSlider = [[UISlider alloc]initWithFrame:CGRectMake((SCREEN_WIDTH /2) - 110, 120, 220, 2)];
+        volumeSlider.minimumValue = 0.0;
+        volumeSlider.maximumValue = 1.0;
+        volumeSlider.value = .5;
+        [volumeSlider addTarget:self action:@selector(volumeControl) forControlEvents:UIControlEventValueChanged];
+        
+        [volumeView addSubview:volumeSlider];
+        
     }];
 }
 
@@ -374,6 +409,7 @@
     [volumeButton removeTarget:self action:@selector(closeVolume) forControlEvents:UIControlEventTouchUpInside];
     [volumeButton addTarget:self action:@selector(volumeOptions) forControlEvents:UIControlEventTouchUpInside];
     
+    [volumeSlider removeFromSuperview];
   
     
     [UIView animateWithDuration:0.5 animations:^{
@@ -400,7 +436,7 @@
     [volumeView removeFromSuperview];
     //
     
-    vibrateOn = [[UIButton alloc] initWithFrame: CGRectMake(middle - 62, 80, 50, 50)];
+    vibrateOn = [[UIButton alloc] initWithFrame: CGRectMake(middle - 82, 80, 50, 50)];
     vibrateOn.layer.cornerRadius = 25;
     vibrateOn.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.3];
     [vibrateOn setTitleColor:[UIColor colorWithRed:0.431f green:0.835f blue:0.318f alpha:1.0f] forState:UIControlStateNormal];
@@ -410,7 +446,7 @@
     [vibrateView addSubview:vibrateOn];
     
     
-    vibrateOff = [[UIButton alloc] initWithFrame: CGRectMake(middle + 12, 80, 50, 50)];
+    vibrateOff = [[UIButton alloc] initWithFrame: CGRectMake(middle + 32, 80, 50, 50)];
     vibrateOff.layer.cornerRadius = 25;
     vibrateOff.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.3];
     [vibrateOff setTitleColor:[UIColor colorWithRed:0.431f green:0.835f blue:0.318f alpha:1.0f] forState:UIControlStateNormal];

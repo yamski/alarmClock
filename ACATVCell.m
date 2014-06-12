@@ -141,6 +141,7 @@
     NSDateComponents * nowComponents = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:now];
     [nowComponents setHour:hrs];
     [nowComponents setMinute:mins];
+    //[nowComponents setSecond:0];
     
     
     NSDate * newAlarmTime = [calendar dateFromComponents:nowComponents];

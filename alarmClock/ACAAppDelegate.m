@@ -43,12 +43,12 @@
 - (void)application:(UIApplication *)application
 didReceiveLocalNotification:(UILocalNotification *)notification
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"MyAlertView"
-                                                        message:@"Local notification was received"
-                                                       delegate:self cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-    [alertView show];
-//  
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"MyAlertView"
+//                                                        message:@"Local notification was received"
+//                                                       delegate:self cancelButtonTitle:@"OK"
+//                                              otherButtonTitles:nil];
+   // [alertView show];
+  
 //   ACAViewController * mainController = (ACAViewController *)self.window.rootViewController;
 //    
 //    
