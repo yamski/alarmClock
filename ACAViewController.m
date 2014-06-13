@@ -63,6 +63,8 @@
   
     NSMutableArray * songChoices;
     
+    NSMutableArray * snoozeNotifications;
+    
   
 }
 
@@ -72,6 +74,8 @@
     if (self) {
         
        [self loadListItems];
+        
+        //[self showAlarmView];
         
         //////////////////////
         //////////////////////
@@ -174,6 +178,8 @@
         [ACAalarmData maindata].alarmList = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     }
 }
+
+
 
 
 
@@ -351,25 +357,55 @@
     alarmBG.backgroundColor = [UIColor colorWithRed:0.937f green:0.863f blue:0.129f alpha:1.0f];
     [self.view addSubview:alarmBG];
     
-    UILabel * alarmBGText = [[UILabel alloc] initWithFrame:CGRectMake(0, 120, SCREEN_WIDTH, 200)];
+    
+    UILabel * currentTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 130)];
+    NSDate * currentDate = [NSDate date];
+    currentTimeLabel.text = [formatter stringFromDate:currentDate];
+    
+    currentTimeLabel.backgroundColor = [UIColor clearColor];
+    
+    currentTimeLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
+    
+    currentTimeLabel.textColor = [UIColor whiteColor];
+    
+    currentTimeLabel.textAlignment = NSTextAlignmentCenter;
+   
+    [self.view addSubview:currentTimeLabel];
+    
+    
+    UILabel * alarmBGText = [[UILabel alloc] initWithFrame:CGRectMake(0, 70, SCREEN_WIDTH, 200)];
     alarmBGText.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.1];
     
     alarmBGText.backgroundColor = [UIColor clearColor];
     
     alarmBGText.text = @"It's about that time!";
     alarmBGText.textAlignment = NSTextAlignmentCenter;
-    alarmBGText.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:28];
+    alarmBGText.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:35];
     alarmBGText.textColor = [UIColor colorWithRed:0.525f green:0.486f blue:0.075f alpha:1.0f];
     
     [alarmBG addSubview:alarmBGText];
     
-    UIButton * dismissNotif = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 20, SCREEN_HEIGHT - 60, 40, 40)];
+    UIButton * dismissNotif = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 125, 275, 100, 100)];
     dismissNotif.layer.cornerRadius = 20;
     dismissNotif.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
+    
+    [dismissNotif setTitle:@"Dismiss" forState:UIControlStateNormal];;
+    dismissNotif.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:21];
     
     [dismissNotif addTarget:self action:@selector(removeAlarmBG) forControlEvents:UIControlEventTouchUpInside];
 
     [alarmBG addSubview:dismissNotif];
+    
+    
+    UIButton * snoozeButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 + 25, 275, 100, 100)];
+    snoozeButton.layer.cornerRadius = 20;
+    snoozeButton.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
+    [snoozeButton setTitle:@"Snooze" forState:UIControlStateNormal];
+    snoozeButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:21];
+    
+    [snoozeButton addTarget:self action:@selector(addingSnooze) forControlEvents:UIControlEventTouchUpInside];
+    
+    [alarmBG addSubview:snoozeButton];
     
     ////
     
@@ -382,9 +418,36 @@
     
     [self.player play];
     
-    
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     
+}
+
+- (void)addingSnooze
+{
+    [self removeAlarmBG];
+
+    snoozeNotifications = [@[] mutableCopy];
+    
+    if (snoozeNotifications[0]) {
+        
+        UILocalNotification * notification = snoozeNotifications[0];
+        [[UIApplication sharedApplication] cancelLocalNotification:notification];
+        [snoozeNotifications removeObjectAtIndex:0];
+    }
+    
+
+    NSDate * snoozeDate = [NSDate dateWithTimeInterval:10 sinceDate:[NSDate date]];
+    UILocalNotification * snoozeNoti = [[UILocalNotification alloc] init];
+    
+    snoozeNoti.fireDate = snoozeDate;
+    snoozeNoti.timeZone = [NSTimeZone localTimeZone];
+    snoozeNoti.alertBody = @"It's time to wake up!";
+    snoozeNoti.soundName = UILocalNotificationDefaultSoundName;
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:snoozeNoti];
+    
+    [snoozeNotifications addObject:snoozeNoti];
+
 }
 
 - (void) removeAlarmBG
