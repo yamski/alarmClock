@@ -86,6 +86,15 @@
         
         /////
         
+        alarmOptions = [@{
+                          @"Snooze": [NSNumber numberWithInt:10],
+                          @"Song": [NSNumber numberWithInt:0],
+                          @"Vibrate": [NSNumber numberWithInt:1],
+                          @"Volume": [NSNumber numberWithFloat: 0.7],
+                          } mutableCopy];
+        //////
+        
+        
         currentVal = [UIScreen mainScreen].brightness;
         
         CAGradientLayer *bgLayer = [ACAbgLayer blueGradient];
@@ -255,7 +264,10 @@
                @"NSDateNoDay": alarmTimeNoDay,
                @"NSString": formattedTime,
                @"Notification": wakeUp,
+             //  @"Options": alarmOptions
                } mutableCopy];
+    
+    [self addAlarmOptions];
     
     [[ACAalarmData maindata].alarmList addObject:timeKey];
     
@@ -269,12 +281,17 @@
     NSLog(@"this is the alarmtime WHEN I HIT SAVE: %@",[formatter stringFromDate:alarmTime]);
     NSLog(@"notification: %@",wakeUp);
     
+    NSLog(@"HERES THAT TIMEKEY: %@ ",timeKey);
+    
     [self archiveData];
 }
 
 - (void)updateAlarmOptions: (NSMutableDictionary *)dict
 {
+    NSLog(@"update alarm options ran");
     alarmOptions = dict;
+    
+   
 }
 
 

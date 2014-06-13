@@ -20,5 +20,5 @@
 
 - (void)showAlarmView;
 - (void)archiveData;
-- (void)addAlarmOptions: (NSMutableDictionary *)dict;
+- (void)addAlarmOptions;
 @end
