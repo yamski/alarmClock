@@ -40,31 +40,7 @@
         tweetText.delegate = self;
         [self.view addSubview:tweetText];
         
-//        UIButton * alarms = [[UIButton alloc]initWithFrame:CGRectMake(10, boxHeight + 50, boxWidth, 40)];
-//        alarms.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
-//        [alarms setTitle:@"Alarms" forState:UIControlStateNormal];
-//        [self.view addSubview:alarms];
-        
-        
-      
-//        UIScrollView * scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(10, boxHeight + 40, boxWidth, 130)];
-//        scrollView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
-//        scrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-//        scrollView.contentSize = CGSizeMake(70,SCREEN_WIDTH);
-//        [self.view addSubview:scrollView];
-//        
-//        int numAlarms = (int)[[ACAalarmData maindata].sortedTimes count];
-//     
-//        for (int i = 0; i < numAlarms; i++) {
-//            
-//            UIButton * alarms = [[UIButton alloc]initWithFrame:CGRectMake(10,10 + (i * 70), SCREEN_WIDTH - 40, 60)];
-//            
-//            alarms.backgroundColor = [UIColor colorWithRed:0.882f green:0.824f blue:0.098f alpha:0.8f];
-//            
-//            [alarms setTitle:[[ACAalarmData maindata].sortedTimes[i] objectForKey:@"NSString"] forState:UIControlStateNormal];
-//            
-//            [scrollView addSubview:alarms];
-//        }
+
         
 
         UIButton * snooze2 = [[UIButton alloc] initWithFrame: CGRectMake((SCREEN_WIDTH / 2) - 25, boxHeight + 85, 50, 50)];

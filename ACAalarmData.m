@@ -29,13 +29,18 @@
         _alarmList = [@[] mutableCopy];
     }
     
+    NSSortDescriptor *sortByDateAscending = [NSSortDescriptor sortDescriptorWithKey:@"NSDateNoDay" ascending:YES];
+    NSMutableArray *descriptors = [[NSMutableArray  arrayWithObject:sortByDateAscending] mutableCopy];
+    
+    _alarmList = [[_alarmList sortedArrayUsingDescriptors:descriptors] mutableCopy];
+    
     return _alarmList;
 }
 
 - (NSMutableArray *)sortedTimes{
-    if (_sortedTimes == nil) {
-        _sortedTimes = [@[] mutableCopy];
-    }
-    return _sortedTimes;
+    
+    return [self.alarmList copy];
 }
+
 @end
+

@@ -23,14 +23,13 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-//  [application cancelAllLocalNotifications];
+  [application cancelAllLocalNotifications];
     
     mainController = [[ACAViewController alloc] init];
     
     UINavigationController * nc = [[UINavigationController alloc] initWithRootViewController:mainController];
     
     [nc setNavigationBarHidden:YES];
-    
     
     self.window.rootViewController = nc;
     
@@ -45,15 +44,7 @@
 }
 - (void)application:(UIApplication *)application
 didReceiveLocalNotification:(UILocalNotification *)notification
-{
-//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alarming"
-//                                                        message:@"Wake Up!"
-//                                                       delegate:self cancelButtonTitle:@"OK"
-//                                              otherButtonTitles:nil];
-//    [alertView show];
-  
-//   ACAViewController * mainController = (ACAViewController *)self.window.rootViewController;
-    
+{    
     
    [mainController showAlarmView];
 }

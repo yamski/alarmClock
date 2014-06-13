@@ -154,19 +154,31 @@
 
         [self.delegate statusColor:2];
         
-        [[ACAalarmData maindata].alarmList removeObjectIdenticalTo:[ACAalarmData maindata].sortedTimes[indexPath.row]];
+        if ([ACAalarmData maindata].sortedTimes[indexPath.row][@"Notification"]) {
+
+        UILocalNotification * notification = [ACAalarmData maindata].alarmList[indexPath.row][@"Notification"];
+        [[UIApplication sharedApplication] cancelLocalNotification:notification];
+            
+        }
         
-        NSSortDescriptor *sortByDateAscending = [NSSortDescriptor sortDescriptorWithKey:@"NSDateNoDay" ascending:YES];
-        NSMutableArray *descriptors = [[NSMutableArray  arrayWithObject:sortByDateAscending] mutableCopy];
         
-        [ACAalarmData maindata].sortedTimes = [[[ACAalarmData maindata].alarmList sortedArrayUsingDescriptors:descriptors] mutableCopy];
+         [[ACAalarmData maindata].alarmList removeObjectAtIndex:indexPath.row];
+        
+        //[[ACAalarmData maindata].alarmList removeObjectIdenticalTo:[ACAalarmData maindata].sortedTimes[indexPath.row]];
+        
+       
+//        NSSortDescriptor *sortByDateAscending = [NSSortDescriptor sortDescriptorWithKey:@"NSDateNoDay" ascending:YES];
+//        NSMutableArray *descriptors = [[NSMutableArray  arrayWithObject:sortByDateAscending] mutableCopy];
+//        
+//        [ACAalarmData maindata].sortedTimes = [[[ACAalarmData maindata].alarmList sortedArrayUsingDescriptors:descriptors] mutableCopy];
 
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table vie
         
-    }   
+    }
+    
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -178,6 +190,8 @@
         [self.navigationController pushViewController:tweetVC animated:YES];
         
     }
+    
+    NSLog(@"you selected row %d", indexPath.row);
 }
 
 

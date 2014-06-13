@@ -342,9 +342,6 @@
         ringerD.alpha = 1;
     }];
     
-
-    
-
 }
 
 - (void)closeSounds

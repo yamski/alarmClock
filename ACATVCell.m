@@ -19,37 +19,28 @@
     if (self) {
         // Initialization code
         
+        self.alarmActive = YES;
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        self.alarmActive = YES;
         self.backgroundColor = [UIColor colorWithRed:0.824f green:0.898f blue:0.855f alpha:1.0f];
         
         self.bgLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
-        
         [self.contentView addSubview:self.bgLabel];
         
         self.timesLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 230, 0, 200, 100)];
-
         self.timesLabel.textAlignment = NSTextAlignmentRight;
         self.timesLabel.textColor = [UIColor grayColor];
         self.timesLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:42];
-        
         [self.contentView addSubview: self.timesLabel];
         
         
         
         self.activateButton = [[UIButton alloc] initWithFrame: CGRectMake(20, 30, 40, 40)];
-        
         self.activateButton.layer.cornerRadius = 20;
-        
         self.activateButton.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.2];
-        
         [self.activateButton addTarget:self action:@selector(selectedAlarmTime) forControlEvents:UIControlEventTouchUpInside];
-        
         [self.contentView addSubview:self.activateButton];
-        
-        
+ 
     }
     return self;
 }
@@ -57,8 +48,6 @@
 
 - (void) selectedAlarmTime
 {
-    NSLog(@"method ran");
-    
     if (!self.alarmActive) {
         
         [UIView animateWithDuration:0.75 animations:^{
@@ -72,12 +61,14 @@
             
             self.alarmActive = YES;
             
-            NSLog(@"alarm is active");
-            
             [self.delegate talktoTVC:1];
+            
+            NSLog(@"alarm is active");
             
         }];
     } else {
+        
+        NSLog(@"canceling alarm");
         
         [UIView animateWithDuration:0.75 animations:^{
             
@@ -85,18 +76,21 @@
             
             
         } completion:^(BOOL finished) {
+         
+            UILocalNotification * notification = [ACAalarmData maindata].alarmList[self.index][@"Notification"];
+            [[UIApplication sharedApplication] cancelLocalNotification:notification];
             
-            NSLog(@"canceling alarm");
             
-            [[ACAalarmData maindata].sortedTimes[self.index] removeObjectForKey:@"Notification"];
-            
-            NSLog(@"%@",[ACAalarmData maindata].sortedTimes[self.index][@"Notification"]);
+            [[ACAalarmData maindata].alarmList[self.index] removeObjectForKey:@"Notification"];
             
             self.alarmActive = NO;
           
             [self.delegate talktoTVC:2];
             
-
+            //////////////
+            UIApplication *app = [UIApplication sharedApplication];
+            NSArray *eventArray = [app scheduledLocalNotifications];
+            NSLog(@"These are the scheduled notifications%@", eventArray);
         }];
     }
 }
@@ -106,7 +100,6 @@
 - (void)setIndex:(NSInteger)index
 {
     _index = index;
-    
     [self setNeedsDisplay];
 }
 
@@ -119,13 +112,12 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
 }
 
 - (void) activateTime
 {
-    NSLog(@"activating alarm");
-    NSDate * alarmTime = [ACAalarmData maindata].sortedTimes[self.index][@"NSDateNoDay"];
+    // Grabs existing time
+    NSDate * alarmTime = [ACAalarmData maindata].alarmList[self.index][@"NSDateNoDay"];
     
     NSCalendar * calendar = [NSCalendar currentCalendar];
     NSDateComponents * components = [[NSDateComponents alloc] init];
@@ -136,34 +128,27 @@
     NSInteger hrs = [components hour];
     NSInteger mins = [components minute];
     
-    
+    // Grabs current date without hrs mins
     NSDate * now = [NSDate date];
     NSDateComponents * nowComponents = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:now];
     [nowComponents setHour:hrs];
     [nowComponents setMinute:mins];
-    //[nowComponents setSecond:0];
     
-    
+    // new alarm time composed w previous 2 times
     NSDate * newAlarmTime = [calendar dateFromComponents:nowComponents];
 
-///
    
-    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
-    [formatter setTimeStyle:NSDateFormatterShortStyle];
-    [formatter setDateFormat:@"d h:mm a"];
-    
-    NSLog(@"original alarm time is %@", [formatter stringFromDate:alarmTime]);
-    
-    NSLog(@"new alarm time is %@",[formatter stringFromDate:newAlarmTime]);
-    
-   
+//    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
+//    [formatter setTimeStyle:NSDateFormatterShortStyle];
+//    [formatter setDateFormat:@"d h:mm a"];
+
+    // making adjustment to day
     NSDate * completeAlarmTime;
 
     if ([newAlarmTime compare: now] != NSOrderedDescending) {
     
         NSDateComponents *oneDay = [[NSDateComponents alloc] init];
         [oneDay setDay: 1];
-        
         completeAlarmTime = [calendar dateByAddingComponents:oneDay toDate:newAlarmTime options:0];
         
     } else {
@@ -171,7 +156,7 @@
     }
 
     
-    NSLog(@"complete alarm time is %@",[formatter stringFromDate:completeAlarmTime]);
+    //NSLog(@"complete alarm time is %@",[formatter stringFromDate:completeAlarmTime]);
     
     //
     UILocalNotification * wakeUp = [[UILocalNotification alloc] init];
@@ -181,7 +166,7 @@
     wakeUp.soundName = UILocalNotificationDefaultSoundName;
     [[UIApplication sharedApplication] scheduleLocalNotification:wakeUp];
     
-    [[ACAalarmData maindata].sortedTimes[self.index]setObject:wakeUp forKey:@"Notification"];
+    [[ACAalarmData maindata].alarmList[self.index]setObject:wakeUp forKey:@"Notification"];
     
     NSLog(@"HERE ARE ALL OF YOUR DICTIONARIES:%@", [ACAalarmData maindata].sortedTimes);
     
@@ -189,3 +174,5 @@
 }
 
 @end
+
+
