@@ -19,6 +19,6 @@
 @property (nonatomic) AVAudioPlayer * player;
 
 - (void)showAlarmView;
-
-
+- (void)archiveData;
+- (void)addAlarmOptions: (NSMutableDictionary *)dict;
 @end

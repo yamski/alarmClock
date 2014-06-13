@@ -41,8 +41,7 @@
         [self.view addSubview:tweetText];
         
 
-        
-
+    
         UIButton * snooze2 = [[UIButton alloc] initWithFrame: CGRectMake((SCREEN_WIDTH / 2) - 25, boxHeight + 85, 50, 50)];
         
         snooze2.layer.cornerRadius = 25;

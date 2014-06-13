@@ -55,8 +55,14 @@
     
     UISwipeGestureRecognizer * swipeTVC;
     
-    //
-    int volumeSetting;
+    // dict that store everything for each alarm
+    NSMutableDictionary * timeKey;
+    NSMutableDictionary * alarmOptions;
+    
+    // menu vars
+  
+    NSMutableArray * songChoices;
+    
   
 }
 
@@ -65,7 +71,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         
-       // [self loadListItems];
+       [self loadListItems];
         
         //////////////////////
         //////////////////////
@@ -75,6 +81,10 @@
         
         //////////////////////
         ///////////////////////
+        
+        songChoices = [@[@"xylophone_tone.mp3", @"bells.mp3", @"cutebells.mps", @"kbwhistle.mp3"] mutableCopy];
+        
+        /////
         
         currentVal = [UIScreen mainScreen].brightness;
         
@@ -133,28 +143,28 @@
 }
 
 
-//- (void)archiveData
-//{
-//    NSString *path = [self listArchivePath];
-//    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:[ACAalarmData maindata].alarmList];
-//    [data writeToFile:path options:NSDataWritingAtomic error:nil];
-//}
-//
-//- (NSString *)listArchivePath
-//{
-//    NSArray *documentDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//    NSString *documentDirectory = documentDirectories[0];
-//    return [documentDirectory stringByAppendingPathComponent:@"list.data"];
-//}
-//
-//- (void)loadListItems
-//{
-//    NSString *path = [self listArchivePath];
-//    if([[NSFileManager defaultManager] fileExistsAtPath:path])
-//    {
-//        [ACAalarmData maindata].alarmList = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-//    }
-//}
+- (void)archiveData
+{
+    NSString *path = [self listArchivePath];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:[ACAalarmData maindata].alarmList];
+    [data writeToFile:path options:NSDataWritingAtomic error:nil];
+}
+
+- (NSString *)listArchivePath
+{
+    NSArray *documentDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = documentDirectories[0];
+    return [documentDirectory stringByAppendingPathComponent:@"list.data"];
+}
+
+- (void)loadListItems
+{
+    NSString *path = [self listArchivePath];
+    if([[NSFileManager defaultManager] fileExistsAtPath:path])
+    {
+        [ACAalarmData maindata].alarmList = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    }
+}
 
 
 
@@ -240,7 +250,7 @@
     
     NSString * formattedTime = [formatter stringFromDate:alarmTimeNoDay];
 
-    NSMutableDictionary * timeKey = [@{
+    timeKey = [@{
                @"NSDate": alarmTime,
                @"NSDateNoDay": alarmTimeNoDay,
                @"NSString": formattedTime,
@@ -259,10 +269,18 @@
     NSLog(@"this is the alarmtime WHEN I HIT SAVE: %@",[formatter stringFromDate:alarmTime]);
     NSLog(@"notification: %@",wakeUp);
     
-    
-//////////////
-    //[self archiveData];
-////////////
+    [self archiveData];
+}
+
+- (void)updateAlarmOptions: (NSMutableDictionary *)dict
+{
+    alarmOptions = dict;
+}
+
+
+- (void)addAlarmOptions
+{
+    [timeKey setObject:alarmOptions forKey:@"Options"];
 }
 
 - (void)statusColor: (NSInteger)num
@@ -343,6 +361,7 @@
                                          ofType:@"mp3"]];
     
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+    self.player.currentTime = 0;
     
     [self.player play];
     

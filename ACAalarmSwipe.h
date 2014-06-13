@@ -23,6 +23,7 @@
 @required
 
 - (void)updateAlarm:(NSTimeInterval) interval;
+- (void)updateAlarmOptions: (NSMutableDictionary *)dict;
 
 @end
 

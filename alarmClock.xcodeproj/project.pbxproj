@@ -32,6 +32,11 @@
 		D06DB9C91937B81E00DCF445 /* ACATVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9C81937B81E00DCF445 /* ACATVCell.m */; };
 		D06DB9CC1937C57900DCF445 /* ACAalarmData.m in Sources */ = {isa = PBXBuildFile; fileRef = D06DB9CB1937C57900DCF445 /* ACAalarmData.m */; };
 		D098800F19496248005A886D /* song.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D098800E19496248005A886D /* song.mp3 */; };
+		D0988073194AA13F005A886D /* xylophone_tone.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D0988072194AA13F005A886D /* xylophone_tone.mp3 */; };
+		D0988075194AA303005A886D /* kbwhistle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D0988074194AA303005A886D /* kbwhistle.mp3 */; };
+		D0988077194AA31E005A886D /* bells.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D0988076194AA31E005A886D /* bells.mp3 */; };
+		D0988079194AA353005A886D /* cutebells.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D0988078194AA353005A886D /* cutebells.mp3 */; };
+		D098807C194AB46E005A886D /* ACAvolumeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = D098807B194AB46E005A886D /* ACAvolumeSlider.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +90,12 @@
 		D06DB9CA1937C57900DCF445 /* ACAalarmData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAalarmData.h; sourceTree = "<group>"; };
 		D06DB9CB1937C57900DCF445 /* ACAalarmData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAalarmData.m; sourceTree = "<group>"; };
 		D098800E19496248005A886D /* song.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song.mp3; sourceTree = "<group>"; };
+		D0988072194AA13F005A886D /* xylophone_tone.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = xylophone_tone.mp3; sourceTree = "<group>"; };
+		D0988074194AA303005A886D /* kbwhistle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = kbwhistle.mp3; sourceTree = "<group>"; };
+		D0988076194AA31E005A886D /* bells.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bells.mp3; sourceTree = "<group>"; };
+		D0988078194AA353005A886D /* cutebells.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cutebells.mp3; sourceTree = "<group>"; };
+		D098807A194AB46E005A886D /* ACAvolumeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAvolumeSlider.h; sourceTree = "<group>"; };
+		D098807B194AB46E005A886D /* ACAvolumeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAvolumeSlider.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,7 +126,13 @@
 		D06DB9671933B4BB00DCF445 = {
 			isa = PBXGroup;
 			children = (
+				D098807A194AB46E005A886D /* ACAvolumeSlider.h */,
+				D098807B194AB46E005A886D /* ACAvolumeSlider.m */,
 				D098800E19496248005A886D /* song.mp3 */,
+				D0988072194AA13F005A886D /* xylophone_tone.mp3 */,
+				D0988076194AA31E005A886D /* bells.mp3 */,
+				D0988078194AA353005A886D /* cutebells.mp3 */,
+				D0988074194AA303005A886D /* kbwhistle.mp3 */,
 				D06DB9CA1937C57900DCF445 /* ACAalarmData.h */,
 				D06DB9CB1937C57900DCF445 /* ACAalarmData.m */,
 				D06DB9AD1934FB5500DCF445 /* ACAbgLayer.h */,
@@ -329,6 +346,10 @@
 				D06DB97E1933B4BB00DCF445 /* InfoPlist.strings in Resources */,
 				D06DB9861933B4BB00DCF445 /* Images.xcassets in Resources */,
 				D098800F19496248005A886D /* song.mp3 in Resources */,
+				D0988077194AA31E005A886D /* bells.mp3 in Resources */,
+				D0988073194AA13F005A886D /* xylophone_tone.mp3 in Resources */,
+				D0988075194AA303005A886D /* kbwhistle.mp3 in Resources */,
+				D0988079194AA353005A886D /* cutebells.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +390,7 @@
 				D06DB9B91935652600DCF445 /* ACAtimeButton.m in Sources */,
 				D06DB9C91937B81E00DCF445 /* ACATVCell.m in Sources */,
 				D06DB9CC1937C57900DCF445 /* ACAalarmData.m in Sources */,
+				D098807C194AB46E005A886D /* ACAvolumeSlider.m in Sources */,
 				D06DB9C21936447600DCF445 /* ACAmainButtons.m in Sources */,
 				D06DB9801933B4BB00DCF445 /* main.m in Sources */,
 				D06DB9A61933B63A00DCF445 /* ACAViewController.m in Sources */,

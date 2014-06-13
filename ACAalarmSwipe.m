@@ -7,7 +7,7 @@
 //
 
 #import "ACAalarmSwipe.h"
-
+#import "ACAvolumeSlider.h"
 
 @implementation ACAalarmSwipe
 {
@@ -45,7 +45,14 @@
     UIButton * vibrateOff;
     
     UIButton * volumeButton;
-    UISlider * volumeSlider;
+    ACAvolumeSlider * volumeSlider;
+    
+    float volumeValue;
+    int snoozeValue;
+    int vibrateIsOn;
+    int songChoice;
+    
+    NSMutableDictionary * alarmOptions;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -138,6 +145,15 @@
         [vibrateButton addTarget:self action:@selector(vibrateOptions) forControlEvents:UIControlEventTouchUpInside];
         [vibrateView addSubview:vibrateButton];
         
+        
+        //// default values
+     
+        snoozeValue = 10;
+        songChoice= 0;
+        vibrateIsOn = 1;
+        volumeValue = 0.7;
+        
+        
     }
     return self;
 }
@@ -149,6 +165,18 @@
         [self addSubview:self.options];
         self.options.alpha = 1;
     } ];
+}
+
+- (void) sendAlarmOptions
+{
+    alarmOptions = [@{
+                       @"Snooze": [NSNumber numberWithInt:snoozeValue],
+                       @"Song": [NSNumber numberWithInt:songChoice],
+                       @"Vibrate": [NSNumber numberWithInt:vibrateIsOn],
+                       @"Volume": [NSNumber numberWithFloat: volumeValue],
+                       } mutableCopy];
+    
+    [self.delegate updateAlarmOptions: alarmOptions];
 }
 
 - (void)optionsMenu
@@ -184,6 +212,8 @@
         
          [menuView removeFromSuperview];
         
+        [self sendAlarmOptions];
+        
     }];
     
 }
@@ -204,6 +234,9 @@
     [snooze5 setTitle:@"5m" forState:UIControlStateNormal];
     snooze5.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     snooze5.alpha = 0;
+    snooze5.tag = 5;
+    [snooze5 addTarget:self action:@selector(snoozeSelect:) forControlEvents:UIControlEventTouchUpInside];
+    
     [snoozeView addSubview:snooze5];
     
     
@@ -215,6 +248,8 @@
     [snooze60 setTitle:@"60m" forState:UIControlStateNormal];
     snooze60.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     snooze60.alpha = 0;
+    snooze60.tag = 60;
+    [snooze60 addTarget:self action:@selector(snoozeSelect:) forControlEvents:UIControlEventTouchUpInside];
     [snoozeView addSubview:snooze60];
     
     
@@ -226,6 +261,8 @@
     [snooze10 setTitle:@"10m" forState:UIControlStateNormal];
     snooze10.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     snooze10.alpha = 0;
+    snooze10.tag = 10;
+    [snooze10 addTarget:self action:@selector(snoozeSelect:) forControlEvents:UIControlEventTouchUpInside];
     [snoozeView addSubview:snooze10];
     
     
@@ -236,6 +273,8 @@
     [snooze30 setTitle:@"30m" forState:UIControlStateNormal];
     snooze30.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     snooze30.alpha = 0;
+    snooze30.tag = 30;
+    [snooze30 addTarget:self action:@selector(snoozeSelect:) forControlEvents:UIControlEventTouchUpInside];
     [snoozeView addSubview:snooze30];
     
     [UIView animateWithDuration:0.5 animations:^{
@@ -301,6 +340,7 @@
     [ringerA setTitle:@"A" forState:UIControlStateNormal];
     ringerA.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     ringerA.alpha = 0;
+    ringerA.tag = 0;
     [soundsView addSubview:ringerA];
     
     
@@ -311,6 +351,7 @@
     [ringerB setTitle:@"B" forState:UIControlStateNormal];
     ringerB.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     ringerB.alpha = 0;
+    ringerB.tag = 1;
     [soundsView addSubview:ringerB];
     
     
@@ -321,6 +362,7 @@
     [ringerC setTitle:@"C" forState:UIControlStateNormal];
     ringerC.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     ringerC.alpha = 0;
+    ringerC.tag = 2;
     [soundsView addSubview:ringerC];
     
     ringerD = [[UIButton alloc] initWithFrame: CGRectMake(middle + 86, 80, 50, 50)];
@@ -330,6 +372,7 @@
     [ringerD setTitle:@"D" forState:UIControlStateNormal];
     ringerD.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     ringerD.alpha = 0;
+    ringerD.tag = 3;
     [soundsView addSubview:ringerD];
     
     [UIView animateWithDuration:0.5 animations:^{
@@ -390,7 +433,7 @@
         volumeView.frame = CGRectMake(0, 20, SCREEN_WIDTH, 305);
     } completion:^(BOOL finished) {
         
-        volumeSlider = [[UISlider alloc]initWithFrame:CGRectMake((SCREEN_WIDTH /2) - 110, 120, 220, 2)];
+        volumeSlider = [[ACAvolumeSlider alloc]initWithFrame:CGRectMake((SCREEN_WIDTH /2) - 110, 120, 220, 2)];
         volumeSlider.minimumValue = 0.0;
         volumeSlider.maximumValue = 1.0;
         volumeSlider.value = .5;
@@ -423,6 +466,11 @@
     
 }
 
+- (void) volumeControl
+{
+    volumeValue = [volumeSlider value];
+}
+
 - (void)vibrateOptions
 {
     [vibrateButton removeTarget:self action:@selector(vibrateOptions) forControlEvents:UIControlEventTouchUpInside];
@@ -440,6 +488,9 @@
     [vibrateOn setTitle:@"On" forState:UIControlStateNormal];
     vibrateOn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     vibrateOn.alpha = 0;
+    vibrateOn.tag = 1;
+    
+    [vibrateOn addTarget:self action:@selector(setVibrate:) forControlEvents:UIControlEventTouchUpInside];
     [vibrateView addSubview:vibrateOn];
     
     
@@ -450,6 +501,9 @@
     [vibrateOff setTitle:@"Off" forState:UIControlStateNormal];
     vibrateOff.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     vibrateOff.alpha = 0;
+    vibrateOff.tag = 0;
+    
+    [vibrateOff addTarget:self action:@selector(setVibrate:) forControlEvents:UIControlEventTouchUpInside];
     [vibrateView addSubview:vibrateOff];
     
     [UIView animateWithDuration:0.5 animations:^{
@@ -486,6 +540,21 @@
 
 }
 
+- (void)setVibrate: (UIButton *)sender
+{
+    vibrateIsOn = sender.tag;
+}
+
+- (void)snoozeSelect: (UIButton *)sender
+{
+    snoozeValue = sender.tag;
+    
+}
+
+- (void)selectSong: (UIButton *)sender
+{
+    songChoice = sender.tag;
+}
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
