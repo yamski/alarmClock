@@ -157,9 +157,17 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
 
+//        if (indexPath.row > [[ACAalarmData maindata].sortedTimes count]) {
+//            return;
+//        }
+        
         [self.delegate statusColor:2];
         
-        if ([ACAalarmData maindata].sortedTimes[indexPath.row][@"Notification"]) {
+        //if ([ACAalarmData maindata].sortedTimes[indexPath.row][@"Notification"])
+        
+        if ([ACAalarmData maindata].alarmList[indexPath.row][@"Notification"])
+            
+        {
 
         UILocalNotification * notification = [ACAalarmData maindata].alarmList[indexPath.row][@"Notification"];
         [[UIApplication sharedApplication] cancelLocalNotification:notification];
@@ -167,14 +175,7 @@
         }
         
          [[ACAalarmData maindata].alarmList removeObjectAtIndex:indexPath.row];
-        
-        //[[ACAalarmData maindata].alarmList removeObjectIdenticalTo:[ACAalarmData maindata].sortedTimes[indexPath.row]];
-        
-       
-//        NSSortDescriptor *sortByDateAscending = [NSSortDescriptor sortDescriptorWithKey:@"NSDateNoDay" ascending:YES];
-//        NSMutableArray *descriptors = [[NSMutableArray  arrayWithObject:sortByDateAscending] mutableCopy];
-//        
-//        [ACAalarmData maindata].sortedTimes = [[[ACAalarmData maindata].alarmList sortedArrayUsingDescriptors:descriptors] mutableCopy];
+
 
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 
