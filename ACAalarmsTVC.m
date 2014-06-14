@@ -86,11 +86,16 @@
     [self.navigationController pushViewController:tweetVC animated:YES];
 }
 
--(void)talktoTVC:(NSInteger)num
+- (void)talktoTVC:(NSInteger)num
 {
     [self.delegate statusColor:num];
 }
 
+
+//- (void)setSnoozeValues: (NSInteger)num
+//{
+//    [self.delegate addingSnooze:num];
+//}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -161,7 +166,6 @@
             
         }
         
-        
          [[ACAalarmData maindata].alarmList removeObjectAtIndex:indexPath.row];
         
         //[[ACAalarmData maindata].alarmList removeObjectIdenticalTo:[ACAalarmData maindata].sortedTimes[indexPath.row]];
@@ -191,7 +195,7 @@
         
     }
     
-    NSLog(@"you selected row %d", indexPath.row);
+    NSLog(@"you selected row %ld", (long)indexPath.row);
 }
 
 

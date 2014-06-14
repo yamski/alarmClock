@@ -65,6 +65,8 @@
     
     NSMutableArray * snoozeNotifications;
     
+    UILocalNotification * currentNotification;
+    
   
 }
 
@@ -91,12 +93,15 @@
         /////
         
         alarmOptions = [@{
-                          @"Snooze": [NSNumber numberWithInt:10],
+                          @"Snooze": [NSNumber numberWithInt:(10 * 60)],
                           @"Song": [NSNumber numberWithInt:0],
                           @"Vibrate": [NSNumber numberWithInt:1],
                           @"Volume": [NSNumber numberWithFloat: 0.7],
                           } mutableCopy];
         //////
+        
+        snoozeNotifications = [@[] mutableCopy];
+        ///
         
         
         currentVal = [UIScreen mainScreen].brightness;
@@ -135,9 +140,9 @@
         timeScroll.delegate = self;
         
         alarmsTVC = [[ACAalarmsTVC alloc] initWithStyle:UITableViewStylePlain];
-        alarmsTVC.view.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
         alarmsTVC.delegate = self;
-        [self.view addSubview:alarmsTVC.view];
+
        
     }
     return self;
@@ -270,7 +275,7 @@
                @"NSDateNoDay": alarmTimeNoDay,
                @"NSString": formattedTime,
                @"Notification": wakeUp,
-             //  @"Options": alarmOptions
+               @"Options": alarmOptions
                } mutableCopy];
     
     [self addAlarmOptions];
@@ -284,23 +289,24 @@
     
     [alarmsTVC.tableView reloadData];
     
-    NSLog(@"this is the alarmtime WHEN I HIT SAVE: %@",[formatter stringFromDate:alarmTime]);
-    NSLog(@"notification: %@",wakeUp);
+
+//    NSLog(@"notification: %@",wakeUp);
     
     NSLog(@"HERES THAT TIMEKEY: %@ ",timeKey);
     
     [self archiveData];
 }
 
+
+// this updates the alarm options if user accesses menu. User doesn't press save yet.
 - (void)updateAlarmOptions: (NSMutableDictionary *)dict
 {
     NSLog(@"update alarm options ran");
     alarmOptions = dict;
-    
-   
 }
 
 
+// this is called when user saves alarm time. Saves in the dictionary object of the alarm.
 - (void)addAlarmOptions
 {
     [timeKey setObject:alarmOptions forKey:@"Options"];
@@ -308,16 +314,11 @@
 
 - (void)statusColor: (NSInteger)num
 {
-
     if (num == 1) {
-        
         self.alarmStatus.backgroundColor = [UIColor greenColor];
-        
     } else {
-        
         self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.2];
     }
-    
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -325,6 +326,7 @@
     UITouch * touch = [touches anyObject];
     prevLocation = [touch locationInView:self.view];
 }
+
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -351,8 +353,12 @@
 }
 
 
-- (void)showAlarmView
+- (void)showAlarmView:(UILocalNotification *)notification
 {
+    // create global current notification variable
+    // set current notification
+    currentNotification = notification;
+    
     alarmBG = [[UIView alloc]initWithFrame: CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     alarmBG.backgroundColor = [UIColor colorWithRed:0.937f green:0.863f blue:0.129f alpha:1.0f];
     [self.view addSubview:alarmBG];
@@ -370,7 +376,7 @@
     
     currentTimeLabel.textAlignment = NSTextAlignmentCenter;
    
-    [self.view addSubview:currentTimeLabel];
+    [alarmBG addSubview:currentTimeLabel];
     
     
     UILabel * alarmBGText = [[UILabel alloc] initWithFrame:CGRectMake(0, 70, SCREEN_WIDTH, 200)];
@@ -422,43 +428,71 @@
     
 }
 
+// runs when user hits snooze
 - (void)addingSnooze
 {
-    [self removeAlarmBG];
-
-    snoozeNotifications = [@[] mutableCopy];
     
-    if (snoozeNotifications[0]) {
+    NSDictionary * snoozeOptions;
+    
+    int index = 0;
+    
+    for (NSDictionary * alarmInfo in [ACAalarmData maindata].sortedTimes) {
         
-        UILocalNotification * notification = snoozeNotifications[0];
-        [[UIApplication sharedApplication] cancelLocalNotification:notification];
-        [snoozeNotifications removeObjectAtIndex:0];
+        if ([alarmInfo[@"Notification"] isEqual:currentNotification] || [alarmInfo[@"SnoozeNotification"] isEqual:currentNotification]) {
+            
+            // this is the alarmInfo we want
+            
+            index = [[ACAalarmData maindata].sortedTimes indexOfObject:alarmInfo];
+            
+            snoozeOptions = [ACAalarmData maindata].sortedTimes[index][@"Options"];
+
+            NSLog(@"this is the index: %d", index);
+            NSLog(@"%@", snoozeOptions);
+        }
     }
     
+    [self removeAlarmBG];
 
-    NSDate * snoozeDate = [NSDate dateWithTimeInterval:10 sinceDate:[NSDate date]];
-    UILocalNotification * snoozeNoti = [[UILocalNotification alloc] init];
     
+    NSDate * current = [NSDate date];
+    unsigned int flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit| NSHourCalendarUnit|NSMinuteCalendarUnit;
+    NSDateComponents * noSecs = [calendar components:flags fromDate:current];
+    NSDate * currentNoSecs = [calendar dateFromComponents:noSecs];
+    
+    
+    NSDate * snoozeDate = [NSDate dateWithTimeInterval: [snoozeOptions[@"Snooze"] intValue] sinceDate: currentNoSecs];
+    UILocalNotification * snoozeNoti= [[UILocalNotification alloc] init];
     snoozeNoti.fireDate = snoozeDate;
     snoozeNoti.timeZone = [NSTimeZone localTimeZone];
     snoozeNoti.alertBody = @"It's time to wake up!";
-    snoozeNoti.soundName = UILocalNotificationDefaultSoundName;
+    snoozeNoti.soundName = songChoices[[snoozeOptions[@"Song"] intValue]];
     
     [[UIApplication sharedApplication] scheduleLocalNotification:snoozeNoti];
     
-    [snoozeNotifications addObject:snoozeNoti];
+    NSLog(@"%@",currentNoSecs);
+    NSLog(@"%@",snoozeOptions[@"Snooze"]);
+    
+    
+    // set SnoozeNotification
+    
+    [[ACAalarmData maindata].alarmList[index] setObject:snoozeNoti forKey:@"SnoozeNotification"];
+  
+    
+    NSLog(@"here is the new snooze %@", snoozeNoti);
+    NSLog(@"this is the snooze date: %@", [formatter stringFromDate:snoozeDate]);
 
 }
 
-- (void) removeAlarmBG
+- (void)removeAlarmBG
 {
+  
+    
     [UIView animateWithDuration:1.0 animations:^{
         
         alarmBG.alpha = 0;
         
     } completion:^(BOOL finished) {
         [alarmBG removeFromSuperview];
-        
         [self.player stop];
     }];
     

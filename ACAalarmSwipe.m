@@ -234,7 +234,7 @@
     [snooze5 setTitle:@"5m" forState:UIControlStateNormal];
     snooze5.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     snooze5.alpha = 0;
-    snooze5.tag = 5;
+    snooze5.tag = (5 * 60);
     [snooze5 addTarget:self action:@selector(snoozeSelect:) forControlEvents:UIControlEventTouchUpInside];
     
     [snoozeView addSubview:snooze5];
@@ -248,7 +248,13 @@
     [snooze60 setTitle:@"60m" forState:UIControlStateNormal];
     snooze60.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     snooze60.alpha = 0;
-    snooze60.tag = 60;
+    
+    //////
+    ///////
+    snooze60.tag = (60);
+    
+    //////////
+    //////////
     [snooze60 addTarget:self action:@selector(snoozeSelect:) forControlEvents:UIControlEventTouchUpInside];
     [snoozeView addSubview:snooze60];
     
@@ -261,7 +267,7 @@
     [snooze10 setTitle:@"10m" forState:UIControlStateNormal];
     snooze10.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     snooze10.alpha = 0;
-    snooze10.tag = 10;
+    snooze10.tag = (10 * 60);
     [snooze10 addTarget:self action:@selector(snoozeSelect:) forControlEvents:UIControlEventTouchUpInside];
     [snoozeView addSubview:snooze10];
     
@@ -273,7 +279,7 @@
     [snooze30 setTitle:@"30m" forState:UIControlStateNormal];
     snooze30.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     snooze30.alpha = 0;
-    snooze30.tag = 30;
+    snooze30.tag = (30 * 60);
     [snooze30 addTarget:self action:@selector(snoozeSelect:) forControlEvents:UIControlEventTouchUpInside];
     [snoozeView addSubview:snooze30];
     
@@ -341,6 +347,8 @@
     ringerA.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     ringerA.alpha = 0;
     ringerA.tag = 0;
+    [ringerA addTarget:self action:@selector(selectSong:) forControlEvents:UIControlEventTouchUpInside];
+    
     [soundsView addSubview:ringerA];
     
     
@@ -352,6 +360,7 @@
     ringerB.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     ringerB.alpha = 0;
     ringerB.tag = 1;
+    [ringerB addTarget:self action:@selector(selectSong:) forControlEvents:UIControlEventTouchUpInside];
     [soundsView addSubview:ringerB];
     
     
@@ -363,6 +372,7 @@
     ringerC.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     ringerC.alpha = 0;
     ringerC.tag = 2;
+    [ringerC addTarget:self action:@selector(selectSong:) forControlEvents:UIControlEventTouchUpInside];
     [soundsView addSubview:ringerC];
     
     ringerD = [[UIButton alloc] initWithFrame: CGRectMake(middle + 86, 80, 50, 50)];
@@ -373,6 +383,7 @@
     ringerD.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     ringerD.alpha = 0;
     ringerD.tag = 3;
+    [ringerD addTarget:self action:@selector(selectSong:) forControlEvents:UIControlEventTouchUpInside];
     [soundsView addSubview:ringerD];
     
     [UIView animateWithDuration:0.5 animations:^{

@@ -171,6 +171,10 @@
     NSLog(@"HERE ARE ALL OF YOUR DICTIONARIES:%@", [ACAalarmData maindata].sortedTimes);
     
     
+    //talks to TVC, then rootVC. Tells snooze func the location of its options in the singleton dict
+   // [self.delegate setSnoozeValues:self.index];
+    
+    
 }
 
 @end

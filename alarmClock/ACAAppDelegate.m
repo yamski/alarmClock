@@ -23,7 +23,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-  [application cancelAllLocalNotifications];
+  //[application cancelAllLocalNotifications];
     
     mainController = [[ACAViewController alloc] init];
     
@@ -46,7 +46,7 @@
 didReceiveLocalNotification:(UILocalNotification *)notification
 {    
     
-   [mainController showAlarmView];
+   [mainController showAlarmView:notification];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

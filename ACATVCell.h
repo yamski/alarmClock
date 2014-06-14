@@ -24,5 +24,6 @@
 @protocol ACATVCellDelegate <NSObject>
 
 -(void)talktoTVC :(NSInteger)num;
+//- (void)setSnoozeValues: (NSInteger)num;
 
 @end

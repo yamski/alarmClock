@@ -18,7 +18,7 @@
 @property (nonatomic) UIButton * alarmStatus;
 @property (nonatomic) AVAudioPlayer * player;
 
-- (void)showAlarmView;
+- (void)showAlarmView:(UILocalNotification *)notification;
 - (void)archiveData;
 - (void)addAlarmOptions;
 @end
