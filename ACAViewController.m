@@ -261,7 +261,7 @@
     wakeUp.fireDate = alarmTime;
     wakeUp.timeZone = [NSTimeZone localTimeZone];
     wakeUp.alertBody = @"It's time to wake up!";
-    wakeUp.soundName = UILocalNotificationDefaultSoundName;
+    wakeUp.soundName = songChoices[[alarmOptions[@"Song"]intValue]];
     
     [[UIApplication sharedApplication] scheduleLocalNotification:wakeUp];
     

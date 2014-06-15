@@ -51,9 +51,9 @@
         rightGest.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rightGest];
         
-        UISwipeGestureRecognizer * leftGest = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeft:)];
-        leftGest.direction = UISwipeGestureRecognizerDirectionLeft;
-        [self.view addGestureRecognizer:leftGest];
+//        UISwipeGestureRecognizer * leftGest = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeft:)];
+//        leftGest.direction = UISwipeGestureRecognizerDirectionLeft;
+//        [self.view addGestureRecognizer:leftGest];
         
         [self.tableView registerClass:[ACATVCell class] forCellReuseIdentifier:@"cell"];
 
@@ -79,12 +79,12 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (void)swipeLeft:gesture
-{
-    ACATweetVC * tweetVC = [[ACATweetVC alloc] init];
-    
-    [self.navigationController pushViewController:tweetVC animated:YES];
-}
+//- (void)swipeLeft:gesture
+//{
+//    ACATweetVC * tweetVC = [[ACATweetVC alloc] init];
+//    
+//    [self.navigationController pushViewController:tweetVC animated:YES];
+//}
 
 - (void)talktoTVC:(NSInteger)num
 {
@@ -163,7 +163,6 @@
         
         [self.delegate statusColor:2];
         
-        //if ([ACAalarmData maindata].sortedTimes[indexPath.row][@"Notification"])
         
         if ([ACAalarmData maindata].alarmList[indexPath.row][@"Notification"])
             
