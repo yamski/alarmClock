@@ -158,6 +158,14 @@
     self.alarmStatus.alpha = 0;
     [self.view addSubview:self.alarmStatus];
     
+//    UIApplication * alarmApp = [UIApplication sharedApplication];
+//    NSArray *notificationsList = [alarmApp scheduledLocalNotifications];
+    
+//    if (!notificationsList.count) {
+//        self.alarmStatus.backgroundColor = [UIColor greenColor];
+//    } else {
+//        self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.2];
+//    }
 }
 
 
@@ -412,7 +420,7 @@
     
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     self.player.currentTime = 0;
-    
+    self.player.numberOfLoops = -1;
     [self.player play];
     
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);

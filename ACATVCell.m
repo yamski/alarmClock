@@ -61,7 +61,7 @@
             
             self.alarmActive = YES;
             
-            [self.delegate talktoTVC:1];
+           [self.delegate talktoTVC:1];
             
             NSLog(@"alarm is active");
             

@@ -25,6 +25,8 @@
     
   //[application cancelAllLocalNotifications];
     
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
+    
     mainController = [[ACAViewController alloc] init];
     
     UINavigationController * nc = [[UINavigationController alloc] initWithRootViewController:mainController];
