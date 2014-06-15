@@ -355,9 +355,11 @@
 
 - (void)showAlarmView:(UILocalNotification *)notification
 {
-    // create global current notification variable
-    // set current notification
+    NSLog(@"SHOW ALARM VIEW IS RAN");
+    
     currentNotification = notification;
+    
+    NSLog(@"this is the previous notification SOUND NAME%@", currentNotification.soundName);
     
     alarmBG = [[UIView alloc]initWithFrame: CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     alarmBG.backgroundColor = [UIColor colorWithRed:0.937f green:0.863f blue:0.129f alpha:1.0f];
@@ -367,13 +369,9 @@
     UILabel * currentTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 130)];
     NSDate * currentDate = [NSDate date];
     currentTimeLabel.text = [formatter stringFromDate:currentDate];
-    
     currentTimeLabel.backgroundColor = [UIColor clearColor];
-    
     currentTimeLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
-    
     currentTimeLabel.textColor = [UIColor whiteColor];
-    
     currentTimeLabel.textAlignment = NSTextAlignmentCenter;
    
     [alarmBG addSubview:currentTimeLabel];
@@ -381,9 +379,7 @@
     
     UILabel * alarmBGText = [[UILabel alloc] initWithFrame:CGRectMake(0, 70, SCREEN_WIDTH, 200)];
     alarmBGText.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.1];
-    
     alarmBGText.backgroundColor = [UIColor clearColor];
-    
     alarmBGText.text = @"It's about that time!";
     alarmBGText.textAlignment = NSTextAlignmentCenter;
     alarmBGText.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:35];
@@ -394,10 +390,8 @@
     UIButton * dismissNotif = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 125, 275, 100, 100)];
     dismissNotif.layer.cornerRadius = 20;
     dismissNotif.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
-    
     [dismissNotif setTitle:@"Dismiss" forState:UIControlStateNormal];;
     dismissNotif.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:21];
-    
     [dismissNotif addTarget:self action:@selector(removeAlarmBG) forControlEvents:UIControlEventTouchUpInside];
 
     [alarmBG addSubview:dismissNotif];
@@ -408,16 +402,13 @@
     snoozeButton.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
     [snoozeButton setTitle:@"Snooze" forState:UIControlStateNormal];
     snoozeButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:21];
-    
     [snoozeButton addTarget:self action:@selector(addingSnooze) forControlEvents:UIControlEventTouchUpInside];
     
     [alarmBG addSubview:snoozeButton];
     
-    ////
+
     
-    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle]
-                                         pathForResource:@"song"
-                                         ofType:@"mp3"]];
+    NSURL * url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], currentNotification.soundName]];
     
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     self.player.currentTime = 0;
@@ -468,25 +459,18 @@
     snoozeNoti.soundName = songChoices[[snoozeOptions[@"Song"] intValue]];
     
     [[UIApplication sharedApplication] scheduleLocalNotification:snoozeNoti];
-    
-    NSLog(@"%@",currentNoSecs);
-    NSLog(@"%@",snoozeOptions[@"Snooze"]);
-    
-    
-    // set SnoozeNotification
+
     
     [[ACAalarmData maindata].alarmList[index] setObject:snoozeNoti forKey:@"SnoozeNotification"];
-  
     
     NSLog(@"here is the new snooze %@", snoozeNoti);
-    NSLog(@"this is the snooze date: %@", [formatter stringFromDate:snoozeDate]);
+
 
 }
 
 - (void)removeAlarmBG
 {
   
-    
     [UIView animateWithDuration:1.0 animations:^{
         
         alarmBG.alpha = 0;
