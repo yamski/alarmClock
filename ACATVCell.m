@@ -54,7 +54,6 @@
             
             self.bgLabel.backgroundColor = [UIColor colorWithRed:0.235f green:0.878f blue:0.388f alpha:1.0f];
             
-            
         } completion:^(BOOL finished) {
             
             [self activateTime];
@@ -137,10 +136,6 @@
     // new alarm time composed w previous 2 times
     NSDate * newAlarmTime = [calendar dateFromComponents:nowComponents];
 
-   
-//    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
-//    [formatter setTimeStyle:NSDateFormatterShortStyle];
-//    [formatter setDateFormat:@"d h:mm a"];
 
     // making adjustment to day
     NSDate * completeAlarmTime;

@@ -51,10 +51,6 @@
         rightGest.direction = UISwipeGestureRecognizerDirectionRight;
         [self.view addGestureRecognizer:rightGest];
         
-//        UISwipeGestureRecognizer * leftGest = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeft:)];
-//        leftGest.direction = UISwipeGestureRecognizerDirectionLeft;
-//        [self.view addGestureRecognizer:leftGest];
-        
         [self.tableView registerClass:[ACATVCell class] forCellReuseIdentifier:@"cell"];
 
         
@@ -79,12 +75,6 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-//- (void)swipeLeft:gesture
-//{
-//    ACATweetVC * tweetVC = [[ACATweetVC alloc] init];
-//    
-//    [self.navigationController pushViewController:tweetVC animated:YES];
-//}
 
 - (void)talktoTVC:(NSInteger)num
 {
@@ -92,10 +82,7 @@
 }
 
 
-//- (void)setSnoozeValues: (NSInteger)num
-//{
-//    [self.delegate addingSnooze:num];
-//}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -119,17 +106,21 @@
     
     cell.timesLabel.text = [[ACAalarmData maindata].sortedTimes[indexPath.row] objectForKey:@"NSString"];
     
-    if ([ACAalarmData maindata].sortedTimes[indexPath.row][@"Notification"] != NULL) {
+    if ([[ACAalarmData maindata].sortedTimes[indexPath.row] objectForKey:@"Notification"] ) {
     
         cell.bgLabel.backgroundColor = [UIColor colorWithRed:0.235f green:0.878f blue:0.388f alpha:1.0f];
         cell.alarmActive = YES;
         
         [self.delegate statusColor:1];
+        
+        NSLog(@"NOTIFICATIONS ARE NOT EMPTY");
+        
+        NSLog(@"printing objects in the notification key %@", [[ACAalarmData maindata].sortedTimes[indexPath.row] objectForKey:@"Notification"]);
     
     } else {
         cell.bgLabel.backgroundColor = [UIColor colorWithRed:0.212f green:0.392f blue:0.475f alpha:1.0f];
         cell.alarmActive = NO;
-        
+        cell.timesLabel.textColor = [UIColor whiteColor];
         [self.delegate statusColor:2];
 
     }
@@ -155,7 +146,8 @@
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
 
 //        if (indexPath.row > [[ACAalarmData maindata].sortedTimes count]) {
 //            return;
@@ -163,18 +155,16 @@
         
         [self.delegate statusColor:2];
         
-        
         if ([ACAalarmData maindata].alarmList[indexPath.row][@"Notification"])
             
-        {
+            {
 
-        UILocalNotification * notification = [ACAalarmData maindata].alarmList[indexPath.row][@"Notification"];
-        [[UIApplication sharedApplication] cancelLocalNotification:notification];
-            
-        }
+            UILocalNotification * notification = [ACAalarmData maindata].alarmList[indexPath.row][@"Notification"];
+            [[UIApplication sharedApplication] cancelLocalNotification:notification];
+                
+            }
         
-         [[ACAalarmData maindata].alarmList removeObjectAtIndex:indexPath.row];
-
+        [[ACAalarmData maindata].alarmList removeObjectAtIndex:indexPath.row];
 
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 
@@ -187,12 +177,13 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([ACAalarmData maindata].sortedTimes[indexPath.row][@"Notification"]) {
-        
+    if ([ACAalarmData maindata].sortedTimes[indexPath.row][@"Notification"])
+    {
         ACATweetVC * tweetVC = [[ACATweetVC alloc] init];
         
-        [self.navigationController pushViewController:tweetVC animated:YES];
+        [tweetVC getAlarmIndex:indexPath.row];
         
+        [self.navigationController pushViewController:tweetVC animated:YES];
     }
     
     NSLog(@"you selected row %ld", (long)indexPath.row);

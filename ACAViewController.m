@@ -21,6 +21,8 @@
 #import "ACATVCell.h"
 #import <AudioToolbox/AudioServices.h>
 
+#import "STTwitter.h"
+
 @interface ACAViewController () <ACAalarmSwipeDelegate, UIGestureRecognizerDelegate, ACAalarmsTVCDelegate>
 
 @end
@@ -67,6 +69,9 @@
     
     UILocalNotification * currentNotification;
     
+    int snoozeCounter;
+    STTwitterAPI * twitter;
+    
   
 }
 
@@ -89,6 +94,8 @@
         ///////////////////////
         
         songChoices = [@[@"xylophone_tone.mp3", @"bells.mp3", @"cutebells.mps", @"kbwhistle.mp3"] mutableCopy];
+        
+        snoozeCounter = 0;
         
         /////
         
@@ -425,6 +432,9 @@
     
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     
+    
+   
+    
 }
 
 // runs when user hits snooze
@@ -472,8 +482,59 @@
     [[ACAalarmData maindata].alarmList[index] setObject:snoozeNoti forKey:@"SnoozeNotification"];
     
     NSLog(@"here is the new snooze %@", snoozeNoti);
+    
+    
+    snoozeCounter += 1;
+    
+    if (snoozeCounter > [[ACAalarmData maindata].sortedTimes[index][@"Tweet"][@"SnoozeCount"] intValue])
+    {
+        [self sendTweet:index];
+    }
+    
+    NSLog(@"this is the SNOOZE COUNT : %d", snoozeCounter);
+}
 
+- (void)sendTweet: (int)num
+{
+    NSLog(@"sent tweet method ran");
+    
+    twitter = [STTwitterAPI twitterAPIOSWithFirstAccount];
+    
+    [twitter verifyCredentialsWithSuccessBlock:^(NSString *username) {
+        
+        NSLog(@"success %@", username);
+        
+    } errorBlock:^(NSError *error) {
+        
+        NSLog(@"%@", error.userInfo);
+        
+    }];
+    
+    
+//    NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString * documentPath = paths[0];
+    
+    //NSData * imageData = UIImagePNGRepresentation(bigSmilie.image);
+    
+    NSString * str = [ACAalarmData maindata].sortedTimes[num][@"Tweet"][@"Message"];
+    
+//    NSData * data = [str dataUsingEncoding:NSUTF8StringEncoding];
+//    
+//    NSString * pngPath = [documentPath stringByAppendingPathComponent:@"big_smilie.png"];
+//    [imageData writeToFile:pngPath atomically:YES];
+//    NSURL * url = [NSURL fileURLWithPath:pngPath];
+    
 
+    
+    [twitter postStatusUpdate:str inReplyToStatusID:nil latitude:nil longitude:nil placeID:nil displayCoordinates:nil trimUser:nil successBlock:^(NSDictionary *status) {
+        
+        NSLog(@"%@",status);
+        
+    } errorBlock:^(NSError *error) {
+        
+        NSLog(@"this is the error: %@",error.userInfo);
+        
+    }];
 }
 
 - (void)removeAlarmBG

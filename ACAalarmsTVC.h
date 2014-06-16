@@ -22,7 +22,7 @@
 @protocol ACAalarmsTVCDelegate <NSObject>
 
 - (void)statusColor: (NSInteger)num;
-//- (void)addingSnooze: (NSInteger)num;
+
 
 @end
 

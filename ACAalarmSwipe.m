@@ -73,7 +73,7 @@
         [self buttonAppear];
 
         
-        menuView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 160, SCREEN_WIDTH, 325)];
+        menuView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 160, SCREEN_WIDTH, 300)];
         menuView.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.3];
         menuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         

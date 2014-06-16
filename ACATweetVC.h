@@ -10,4 +10,6 @@
 
 @interface ACATweetVC : UIViewController
 
+- (void)getAlarmIndex: (int)num;
+
 @end
