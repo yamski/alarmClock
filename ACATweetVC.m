@@ -186,7 +186,6 @@
 }
 
 
-
 - (void)swipeRight:gesture
 {
     [self.navigationController popViewControllerAnimated:YES];

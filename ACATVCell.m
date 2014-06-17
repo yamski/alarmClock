@@ -59,7 +59,7 @@
             
             self.alarmActive = YES;
             
-           [self.delegate talktoTVC:1];
+            [self.delegate changeColor];
             
             NSLog(@"alarm is active");
             
@@ -79,13 +79,24 @@
             
             [[ACAalarmData maindata].alarmList[self.index] removeObjectForKey:@"Notification"];
             
+            [[UIApplication sharedApplication] cancelLocalNotification:notification];
+            
             self.alarmActive = NO;
           
-            [self.delegate talktoTVC:2];
+            [self.delegate changeColor];
             
             self.timesLabel.textColor = [UIColor whiteColor];
+            
+            
+            NSLog(@"here are the notifications: %@",[ACAalarmData maindata].sortedTimes );
+            
+            UIApplication * alarmApp = [UIApplication sharedApplication];
+            NSArray *notificationsList = [alarmApp scheduledLocalNotifications];
+            
+            NSLog(@"THESE are the SCHEDULED notifications%@", notificationsList);
         }];
     }
+    
 }
 
 

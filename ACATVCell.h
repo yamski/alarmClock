@@ -23,6 +23,7 @@
 
 @protocol ACATVCellDelegate <NSObject>
 
--(void)talktoTVC :(NSInteger)num;
+
+- (void)changeColor;
 
 @end

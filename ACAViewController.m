@@ -126,10 +126,8 @@
             
         }];
 
-        
-        
         /////////
-        
+ 
         
         currentVal = [UIScreen mainScreen].brightness;
         
@@ -169,7 +167,6 @@
         alarmsTVC = [[ACAalarmsTVC alloc] initWithStyle:UITableViewStylePlain];
 
         alarmsTVC.delegate = self;
-
        
     }
     return self;
@@ -185,14 +182,7 @@
     self.alarmStatus.alpha = 0;
     [self.view addSubview:self.alarmStatus];
     
-//    UIApplication * alarmApp = [UIApplication sharedApplication];
-//    NSArray *notificationsList = [alarmApp scheduledLocalNotifications];
-    
-//    if (!notificationsList.count) {
-//        self.alarmStatus.backgroundColor = [UIColor greenColor];
-//    } else {
-//        self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.2];
-//    }
+    [self checkActiveAlarms];
 }
 
 
@@ -219,8 +209,17 @@
     }
 }
 
-
-
+- (void)checkActiveAlarms
+{
+    UIApplication * alarmApp = [UIApplication sharedApplication];
+    NSArray *notificationsList = [alarmApp scheduledLocalNotifications];
+    
+    if (notificationsList.count) {
+        self.alarmStatus.backgroundColor = [UIColor greenColor];
+    } else {
+        self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.2];
+    }
+}
 
 
 - (void) swipeLeft:(UISwipeGestureRecognizer *)gesture
@@ -288,9 +287,8 @@
     
     self.alarmStatus.backgroundColor = [UIColor greenColor];
 
-    // LOCAL NOTIFICATIONS
     
-
+    // LOCAL NOTIFICATIONS
     UILocalNotification * wakeUp = [[UILocalNotification alloc] init];
     
     wakeUp.fireDate = alarmTime;
@@ -302,7 +300,6 @@
     
     
     // CREATING DICTIONARY AND ADDING TO ARRAY
-    
     NSString * formattedTime = [formatter stringFromDate:alarmTimeNoDay];
 
     timeKey = [@{
@@ -340,14 +337,7 @@
     [timeKey setObject:alarmOptions forKey:@"Options"];
 }
 
-- (void)statusColor: (NSInteger)num
-{
-    if (num == 1) {
-        self.alarmStatus.backgroundColor = [UIColor greenColor];
-    } else {
-        self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.2];
-    }
-}
+
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -383,11 +373,8 @@
 
 - (void)showAlarmView:(UILocalNotification *)notification
 {
-    NSLog(@"SHOW ALARM VIEW IS RAN");
     
     currentNotification = notification;
-    
-    NSLog(@"this is the previous notification SOUND NAME%@", currentNotification.soundName);
     
     alarmBG = [[UIView alloc]initWithFrame: CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     alarmBG.backgroundColor = [UIColor colorWithRed:0.937f green:0.863f blue:0.129f alpha:1.0f];
@@ -448,7 +435,6 @@
 
 - (int)getIndex
 {
-    
     for (NSDictionary * alarmInfo in [ACAalarmData maindata].sortedTimes) {
         
         if ([alarmInfo[@"Notification"] isEqual:currentNotification] || [alarmInfo[@"SnoozeNotification"] isEqual:currentNotification])
@@ -458,7 +444,6 @@
             index = [[ACAalarmData maindata].sortedTimes indexOfObject:alarmInfo];
         }
     }
-
     return index;
 }
 

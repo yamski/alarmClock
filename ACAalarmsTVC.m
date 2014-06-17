@@ -84,12 +84,10 @@
 }
 
 
-- (void)talktoTVC:(NSInteger)num
+- (void)changeColor
 {
-    [self.delegate statusColor:num];
+    [self.delegate checkActiveAlarms];
 }
-
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -119,20 +117,15 @@
         cell.bgLabel.backgroundColor = [UIColor colorWithRed:0.235f green:0.878f blue:0.388f alpha:1.0f];
         cell.timesLabel.textColor = GRAY;
         cell.alarmActive = YES;
-        
-        [self.delegate statusColor:1];
     
     } else {
         
         cell.bgLabel.backgroundColor = [UIColor colorWithRed:0.212f green:0.392f blue:0.475f alpha:1.0f];
-        cell.alarmActive = NO;
         cell.timesLabel.textColor = [UIColor whiteColor];
-        [self.delegate statusColor:2];
+        cell.alarmActive = NO;
 
     }
     return cell;
-    
-      NSLog(@"printing objects in the notification key %@", [[ACAalarmData maindata].sortedTimes[indexPath.row] objectForKey:@"Notification"]);
 }
 
 
@@ -156,8 +149,7 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        
-        [self.delegate statusColor:2];
+        [self.delegate checkActiveAlarms];
         
         if ([ACAalarmData maindata].alarmList[indexPath.row][@"Notification"])
             
@@ -189,39 +181,10 @@
         
         [tweetVC getAlarmIndex:indexPath.row];
         
-        //ACAtweetView * tweetView = [[ACAtweetView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-//        
-//        UIImageView * bgImage = [[UIImageView alloc]initWithImage:[tweetView blurView]];
-//        
-//        [self.view.window addSubview:bgImage];
-        
-        //[self.view.window addSubview:tweetVC.view];
-        
         [self.navigationController pushViewController:tweetVC animated:YES];
-        
-        
     }
-    
-    NSLog(@"you selected row %ld", (long)indexPath.row);
-    
-   // [self authorizeTwitter];
+
 }
-
-
-//- (void)authorizeTwitter
-//{
-//    twitter = [STTwitterAPI twitterAPIOSWithFirstAccount];
-//    
-//    [twitter verifyCredentialsWithSuccessBlock:^(NSString *username) {
-//        
-//        NSLog(@"success %@", username);
-//        
-//    } errorBlock:^(NSError *error) {
-//        
-//        NSLog(@"%@", error.userInfo);
-//        
-//    }];
-//}
 
 
 /*

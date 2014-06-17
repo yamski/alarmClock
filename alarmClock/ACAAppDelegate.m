@@ -34,7 +34,6 @@
     
     [Crashlytics startWithAPIKey:@"de2e55b9cfbb6d5fef305b952886de5d7f96f7cd"];
     
-    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;

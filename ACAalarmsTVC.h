@@ -21,8 +21,8 @@
 
 @protocol ACAalarmsTVCDelegate <NSObject>
 
-- (void)statusColor: (NSInteger)num;
+//- (void)statusColor: (NSInteger)num;
 
-
+- (void)checkActiveAlarms;
 @end
 
