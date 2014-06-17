@@ -117,15 +117,13 @@
     if ([[ACAalarmData maindata].sortedTimes[indexPath.row] objectForKey:@"Notification"] ) {
     
         cell.bgLabel.backgroundColor = [UIColor colorWithRed:0.235f green:0.878f blue:0.388f alpha:1.0f];
+        cell.timesLabel.textColor = GRAY;
         cell.alarmActive = YES;
         
         [self.delegate statusColor:1];
-        
-        NSLog(@"NOTIFICATIONS ARE NOT EMPTY");
-        
-        NSLog(@"printing objects in the notification key %@", [[ACAalarmData maindata].sortedTimes[indexPath.row] objectForKey:@"Notification"]);
     
     } else {
+        
         cell.bgLabel.backgroundColor = [UIColor colorWithRed:0.212f green:0.392f blue:0.475f alpha:1.0f];
         cell.alarmActive = NO;
         cell.timesLabel.textColor = [UIColor whiteColor];
@@ -133,6 +131,8 @@
 
     }
     return cell;
+    
+      NSLog(@"printing objects in the notification key %@", [[ACAalarmData maindata].sortedTimes[indexPath.row] objectForKey:@"Notification"]);
 }
 
 
@@ -156,10 +156,6 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-
-//        if (indexPath.row > [[ACAalarmData maindata].sortedTimes count]) {
-//            return;
-//        }
         
         [self.delegate statusColor:2];
         
@@ -175,7 +171,6 @@
         [[ACAalarmData maindata].alarmList removeObjectAtIndex:indexPath.row];
 
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        
         
         [self.tableView reloadData];
 

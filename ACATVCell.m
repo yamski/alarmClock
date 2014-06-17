@@ -29,7 +29,7 @@
         
         self.timesLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 230, 0, 200, 100)];
         self.timesLabel.textAlignment = NSTextAlignmentRight;
-        self.timesLabel.textColor = [UIColor grayColor];
+        self.timesLabel.textColor = GRAY;
         self.timesLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:42];
         [self.contentView addSubview: self.timesLabel];
         
@@ -53,6 +53,7 @@
         [UIView animateWithDuration:0.75 animations:^{
             
             self.bgLabel.backgroundColor = [UIColor colorWithRed:0.235f green:0.878f blue:0.388f alpha:1.0f];
+            self.timesLabel.textColor = GRAY;
             
         } completion:^(BOOL finished) {
             
@@ -86,10 +87,7 @@
           
             [self.delegate talktoTVC:2];
             
-            //////////////
-            UIApplication *app = [UIApplication sharedApplication];
-            NSArray *eventArray = [app scheduledLocalNotifications];
-            NSLog(@"These are the scheduled notifications%@", eventArray);
+            self.timesLabel.textColor = [UIColor whiteColor];
         }];
     }
 }
@@ -158,12 +156,14 @@
     wakeUp.fireDate = completeAlarmTime;
     wakeUp.timeZone = [NSTimeZone localTimeZone];
     wakeUp.alertBody = @"It's time to wake up!";
-    wakeUp.soundName = UILocalNotificationDefaultSoundName;
+    wakeUp.soundName = [ACAalarmData maindata].sortedTimes[self.index][@"Options"][@"Song"];
     [[UIApplication sharedApplication] scheduleLocalNotification:wakeUp];
     
     [[ACAalarmData maindata].alarmList[self.index]setObject:wakeUp forKey:@"Notification"];
     
     NSLog(@"HERE ARE ALL OF YOUR DICTIONARIES:%@", [ACAalarmData maindata].sortedTimes);
+    
+    NSLog(@"THE SONG NAME %@", wakeUp.soundName);
     
     
     //talks to TVC, then rootVC. Tells snooze func the location of its options in the singleton dict
