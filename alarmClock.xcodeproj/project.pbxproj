@@ -54,7 +54,6 @@
 		D0D3D238194E9E6D00950FC9 /* BAVPlistNode.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D3D229194E9E6D00950FC9 /* BAVPlistNode.m */; };
 		D0D3D239194E9E6D00950FC9 /* JSONSyntaxHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D3D22B194E9E6D00950FC9 /* JSONSyntaxHighlight.m */; };
 		D0D3D23A194E9E6D00950FC9 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D3D22D194E9E6D00950FC9 /* STHTTPRequest.m */; };
-		D0D3D23D194F7DD100950FC9 /* ACAtweetView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D3D23C194F7DD100950FC9 /* ACAtweetView.m */; };
 		D0D3D240194F8CB300950FC9 /* ACAyellow.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D3D23F194F8CB300950FC9 /* ACAyellow.m */; };
 /* End PBXBuildFile section */
 
@@ -147,8 +146,6 @@
 		D0D3D22B194E9E6D00950FC9 /* JSONSyntaxHighlight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONSyntaxHighlight.m; sourceTree = "<group>"; };
 		D0D3D22C194E9E6D00950FC9 /* STHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STHTTPRequest.h; sourceTree = "<group>"; };
 		D0D3D22D194E9E6D00950FC9 /* STHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STHTTPRequest.m; sourceTree = "<group>"; };
-		D0D3D23B194F7DD100950FC9 /* ACAtweetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAtweetView.h; sourceTree = "<group>"; };
-		D0D3D23C194F7DD100950FC9 /* ACAtweetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAtweetView.m; sourceTree = "<group>"; };
 		D0D3D23E194F8CB300950FC9 /* ACAyellow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAyellow.h; sourceTree = "<group>"; };
 		D0D3D23F194F8CB300950FC9 /* ACAyellow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAyellow.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -294,8 +291,6 @@
 			children = (
 				D06DB9BD193588E100DCF445 /* ACAalarmSwipe.h */,
 				D06DB9BE193588E100DCF445 /* ACAalarmSwipe.m */,
-				D0D3D23B194F7DD100950FC9 /* ACAtweetView.h */,
-				D0D3D23C194F7DD100950FC9 /* ACAtweetView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -501,7 +496,6 @@
 				D06DB9841933B4BB00DCF445 /* ACAAppDelegate.m in Sources */,
 				D0D3D232194E9E6D00950FC9 /* STTwitterAPI.m in Sources */,
 				D0D3D237194E9E6D00950FC9 /* STTwitterOSRequest.m in Sources */,
-				D0D3D23D194F7DD100950FC9 /* ACAtweetView.m in Sources */,
 				D06DB9BF193588E100DCF445 /* ACAalarmSwipe.m in Sources */,
 				D06DB9B91935652600DCF445 /* ACAtimeButton.m in Sources */,
 				D0D3D231194E9E6D00950FC9 /* STHTTPRequest+STTwitter.m in Sources */,

@@ -45,9 +45,6 @@
         bgLayer.frame = self.view.bounds;
         [self.view.layer insertSublayer:bgLayer atIndex:0];
         
-        
-        //self.view.backgroundColor = GOLD;
-        
         boxWidth = SCREEN_WIDTH - 20;
         boxHeight = 210;
         messageBox = [[UITextView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH /2) - (boxWidth/2) , 35, boxWidth, boxHeight)];
@@ -89,7 +86,6 @@
     
         //
         
-        
         UIButton * snooze1 = [[UIButton alloc] initWithFrame: CGRectMake((SCREEN_WIDTH / 2) - 125, boxHeight + 190, 50, 50)];
         snooze1.layer.cornerRadius = 25;
         snooze1.layer.borderColor = GRAY.CGColor;
@@ -101,7 +97,6 @@
         
         [snooze1 addTarget:self action:@selector(setSnoozeCount:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:snooze1];
-        
 
         //
         UIButton * snooze3 = [[UIButton alloc] initWithFrame: CGRectMake((SCREEN_WIDTH / 2) + 75, boxHeight + 190, 50, 50)];
@@ -114,7 +109,7 @@
         snooze3.tag = 5;
         
         [snooze3 addTarget:self action:@selector(setSnoozeCount:) forControlEvents:UIControlEventTouchUpInside];
-       [self.view addSubview:snooze3];
+        [self.view addSubview:snooze3];
         
         UIView * line = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 80, SCREEN_WIDTH, 1)];
         line.backgroundColor = GRAY;
@@ -137,7 +132,6 @@
         [sendTweet addTarget:self action:@selector(saveTweet) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:sendTweet];
         
-    
 
         UISwipeGestureRecognizer * rightGest = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
         rightGest.direction = UISwipeGestureRecognizerDirectionRight;
@@ -187,14 +181,12 @@
     NSMutableDictionary * tweet = [@{
                                      @"SnoozeCount": maxSnooze,
                                      @"Message": message
-                                     
                                      } mutableCopy];
     
     [[ACAalarmData maindata].alarmList[alarmIndex] setObject:tweet forKey:@"Tweet"];
     
     
     NSLog(@"tweet was saved");
-    NSLog(@"heres the tweet info: %@", tweet);
 }
 
 

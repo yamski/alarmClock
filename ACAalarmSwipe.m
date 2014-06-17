@@ -101,7 +101,6 @@
         
         soundsView = [[UIView alloc] initWithFrame:CGRectMake(0, 105, SCREEN_WIDTH, 80)];
         soundsView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.1];
-     
         
         [menuView addSubview:soundsView];
         //
@@ -117,7 +116,6 @@
         
         volumeView = [[UIView alloc] initWithFrame:CGRectMake(0, 190, SCREEN_WIDTH, 80)];
         volumeView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.1];
-
         
         [menuView addSubview:volumeView];
         
@@ -144,7 +142,6 @@
         vibrateButton.titleLabel.textAlignment = NSTextAlignmentCenter;
         [vibrateButton addTarget:self action:@selector(vibrateOptions) forControlEvents:UIControlEventTouchUpInside];
         [vibrateView addSubview:vibrateButton];
-        
         
         //// default values
      
@@ -201,7 +198,6 @@
 - (void)removeMenu
 {
     [self.options removeTarget:self action:@selector(removeMenu) forControlEvents:UIControlEventTouchUpInside];
-    
     [self.options addTarget:self action:@selector(optionsMenu) forControlEvents:UIControlEventTouchUpInside];
     
     [UIView animateWithDuration:0.5 animations:^{
@@ -257,7 +253,6 @@
     //////////
     [snooze60 addTarget:self action:@selector(snoozeSelect:) forControlEvents:UIControlEventTouchUpInside];
     [snoozeView addSubview:snooze60];
-    
     
     //
     snooze10 = [[UIButton alloc] initWithFrame: CGRectMake(middle - 62, 80, 50, 50)];

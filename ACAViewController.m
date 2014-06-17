@@ -69,6 +69,8 @@
     
     UILocalNotification * currentNotification;
     
+    int index;
+    
     int snoozeCounter;
    
      STTwitterAPI * twitter;
@@ -84,6 +86,8 @@
         
         //[self showAlarmView];
         
+        index = 0;
+        
         //////////////////////
         //////////////////////
         UIApplication *app = [UIApplication sharedApplication];
@@ -93,7 +97,7 @@
         //////////////////////
         ///////////////////////
         
-        songChoices = [@[@"xylophone_tone.mp3", @"bells.mp3", @"cutebells.mps", @"kbwhistle.mp3"] mutableCopy];
+        songChoices = [@[@"xylophone_tone.mp3", @"bells.mp3", @"cutebells.mp3", @"kbwhistle.mp3"] mutableCopy];
         
         snoozeCounter = 0;
         
@@ -431,7 +435,6 @@
     [alarmBG addSubview:snoozeButton];
     
 
-    
     NSURL * url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], currentNotification.soundName]];
     
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
@@ -440,35 +443,38 @@
     [self.player play];
     
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-    
-    
-   
-    
 }
+
+
+- (int)getIndex
+{
+    
+    for (NSDictionary * alarmInfo in [ACAalarmData maindata].sortedTimes) {
+        
+        if ([alarmInfo[@"Notification"] isEqual:currentNotification] || [alarmInfo[@"SnoozeNotification"] isEqual:currentNotification])
+        {
+            // this is the alarmInfo we want
+            
+            index = [[ACAalarmData maindata].sortedTimes indexOfObject:alarmInfo];
+        }
+    }
+
+    return index;
+}
+
 
 // runs when user hits snooze
 - (void)addingSnooze
 {
+    index = [self getIndex];
     
     NSDictionary * snoozeOptions;
     
-    int index = 0;
-    
-    for (NSDictionary * alarmInfo in [ACAalarmData maindata].sortedTimes) {
-        
-        if ([alarmInfo[@"Notification"] isEqual:currentNotification] || [alarmInfo[@"SnoozeNotification"] isEqual:currentNotification]) {
-            
-            // this is the alarmInfo we want
-            
-            index = [[ACAalarmData maindata].sortedTimes indexOfObject:alarmInfo];
-            
-            snoozeOptions = [ACAalarmData maindata].sortedTimes[index][@"Options"];
+    snoozeOptions = [ACAalarmData maindata].sortedTimes[index][@"Options"];
 
-            NSLog(@"this is the index: %d", index);
-            NSLog(@"%@", snoozeOptions);
-        }
-    }
-    
+    NSLog(@"this is the index: %d", index);
+    NSLog(@"%@", snoozeOptions);
+  
     [self removeAlarmBG];
 
     
@@ -499,17 +505,13 @@
     {
         [self sendTweet:index];
     }
-    
-    NSLog(@"this is the SNOOZE COUNT : %d", snoozeCounter);
 }
 
 
 
 - (void)sendTweet: (int)num
 {
-    NSLog(@"sent tweet method ran");
-    
-    
+ 
     NSString * str = [ACAalarmData maindata].sortedTimes[num][@"Tweet"][@"Message"];
     
     [twitter postStatusUpdate:str inReplyToStatusID:nil latitude:nil longitude:nil placeID:nil displayCoordinates:nil trimUser:nil successBlock:^(NSDictionary *status) {
@@ -525,6 +527,10 @@
 
 - (void)removeAlarmBG
 {
+    index = [self getIndex];
+    
+    [[ACAalarmData maindata].alarmList[index] removeObjectForKey: @"Notification"];
+    
   
     [UIView animateWithDuration:1.0 animations:^{
         
