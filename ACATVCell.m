@@ -33,8 +33,6 @@
         self.timesLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:42];
         [self.contentView addSubview: self.timesLabel];
         
-        
-        
         self.activateButton = [[UIButton alloc] initWithFrame: CGRectMake(20, 25, 50, 50)];
         self.activateButton.layer.cornerRadius = 25;
         self.activateButton.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.2];
@@ -74,12 +72,10 @@
             
             self.bgLabel.backgroundColor = [UIColor colorWithRed:0.212f green:0.392f blue:0.475f alpha:1.0f];
             
-            
         } completion:^(BOOL finished) {
          
             UILocalNotification * notification = [ACAalarmData maindata].alarmList[self.index][@"Notification"];
             [[UIApplication sharedApplication] cancelLocalNotification:notification];
-            
             
             [[ACAalarmData maindata].alarmList[self.index] removeObjectForKey:@"Notification"];
             
@@ -148,9 +144,7 @@
         completeAlarmTime = newAlarmTime;
     }
 
-    
-    //NSLog(@"complete alarm time is %@",[formatter stringFromDate:completeAlarmTime]);
-    
+
     //
     UILocalNotification * wakeUp = [[UILocalNotification alloc] init];
     wakeUp.fireDate = completeAlarmTime;
@@ -162,13 +156,6 @@
     [[ACAalarmData maindata].alarmList[self.index]setObject:wakeUp forKey:@"Notification"];
     
     NSLog(@"HERE ARE ALL OF YOUR DICTIONARIES:%@", [ACAalarmData maindata].sortedTimes);
-    
-    NSLog(@"THE SONG NAME %@", wakeUp.soundName);
-    
-    
-    //talks to TVC, then rootVC. Tells snooze func the location of its options in the singleton dict
-   // [self.delegate setSnoozeValues:self.index];
-    
     
 }
 

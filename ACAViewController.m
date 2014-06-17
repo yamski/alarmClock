@@ -499,14 +499,16 @@
     NSLog(@"here is the new snooze %@", snoozeNoti);
     
     
-    snoozeCounter += 1;
-    
-    if (snoozeCounter > [[ACAalarmData maindata].sortedTimes[index][@"Tweet"][@"SnoozeCount"] intValue])
-    {
-        [self sendTweet:index];
+    if ([ACAalarmData maindata].sortedTimes[index][@"Tweet"]) {
+        
+        snoozeCounter += 1;
+        
+        if (snoozeCounter > [[ACAalarmData maindata].sortedTimes[index][@"Tweet"][@"SnoozeCount"] intValue])
+        {
+            [self sendTweet:index];
+        }
     }
 }
-
 
 
 - (void)sendTweet: (int)num

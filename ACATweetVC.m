@@ -21,16 +21,12 @@
  
     int boxWidth;
     int boxHeight;
+    int alarmIndex;
     
     NSNumber * maxSnooze;
     NSString * message;
-    
-    int alarmIndex;
-    
     UIButton * snooze2;
     UILabel * time;
-    
-
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -57,7 +53,6 @@
         
         time = [[UILabel alloc] initWithFrame:CGRectMake((SCREEN_WIDTH /2) - (boxWidth/2) , 270, boxWidth, 60)];
         time.textColor = [UIColor colorWithWhite:1.0 alpha:1.0];
-       // time.textColor = GRAY;
         time.textAlignment = NSTextAlignmentCenter;
         time.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:55];
         [self.view addSubview:time];
@@ -198,8 +193,6 @@
 
 
 - (void)dismissKeyboard {
-    
-    NSLog(@"keyboard dismiss ran");
     
     [messageBox resignFirstResponder];
 }
