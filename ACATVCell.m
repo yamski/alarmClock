@@ -30,7 +30,7 @@
         self.timesLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 230, 0, 200, 100)];
         self.timesLabel.textAlignment = NSTextAlignmentRight;
         self.timesLabel.textColor = GRAY;
-        self.timesLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:42];
+        self.timesLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:43];
         [self.contentView addSubview: self.timesLabel];
         
         self.activateButton = [[UIButton alloc] initWithFrame: CGRectMake(20, 25, 50, 50)];
@@ -82,8 +82,6 @@
             [[UIApplication sharedApplication] cancelLocalNotification:notification];
             
             self.alarmActive = NO;
-          
-            [self.delegate changeColor];
             
             self.timesLabel.textColor = [UIColor whiteColor];
             
@@ -96,7 +94,7 @@
             NSLog(@"THESE are the SCHEDULED notifications%@", notificationsList);
         }];
     }
-    
+    [self.delegate changeColor];
 }
 
 

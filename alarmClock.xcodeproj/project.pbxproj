@@ -54,7 +54,6 @@
 		D0D3D238194E9E6D00950FC9 /* BAVPlistNode.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D3D229194E9E6D00950FC9 /* BAVPlistNode.m */; };
 		D0D3D239194E9E6D00950FC9 /* JSONSyntaxHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D3D22B194E9E6D00950FC9 /* JSONSyntaxHighlight.m */; };
 		D0D3D23A194E9E6D00950FC9 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D3D22D194E9E6D00950FC9 /* STHTTPRequest.m */; };
-		D0D3D240194F8CB300950FC9 /* ACAyellow.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D3D23F194F8CB300950FC9 /* ACAyellow.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,8 +145,6 @@
 		D0D3D22B194E9E6D00950FC9 /* JSONSyntaxHighlight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONSyntaxHighlight.m; sourceTree = "<group>"; };
 		D0D3D22C194E9E6D00950FC9 /* STHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STHTTPRequest.h; sourceTree = "<group>"; };
 		D0D3D22D194E9E6D00950FC9 /* STHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STHTTPRequest.m; sourceTree = "<group>"; };
-		D0D3D23E194F8CB300950FC9 /* ACAyellow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAyellow.h; sourceTree = "<group>"; };
-		D0D3D23F194F8CB300950FC9 /* ACAyellow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAyellow.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,7 +176,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D06DB9671933B4BB00DCF445 = {
+		D064D2F11950F6DA00CF379F /* random */ = {
 			isa = PBXGroup;
 			children = (
 				D098807A194AB46E005A886D /* ACAvolumeSlider.h */,
@@ -193,8 +190,14 @@
 				D06DB9CB1937C57900DCF445 /* ACAalarmData.m */,
 				D06DB9AD1934FB5500DCF445 /* ACAbgLayer.h */,
 				D06DB9AE1934FB5500DCF445 /* ACAbgLayer.m */,
-				D0D3D23E194F8CB300950FC9 /* ACAyellow.h */,
-				D0D3D23F194F8CB300950FC9 /* ACAyellow.m */,
+			);
+			name = random;
+			sourceTree = "<group>";
+		};
+		D06DB9671933B4BB00DCF445 = {
+			isa = PBXGroup;
+			children = (
+				D064D2F11950F6DA00CF379F /* random */,
 				D06DBA141938FA0E00DCF445 /* cell related */,
 				D06DB9C31936448100DCF445 /* buttons */,
 				D06DB9B619355DC900DCF445 /* Labels */,
@@ -499,7 +502,6 @@
 				D06DB9BF193588E100DCF445 /* ACAalarmSwipe.m in Sources */,
 				D06DB9B91935652600DCF445 /* ACAtimeButton.m in Sources */,
 				D0D3D231194E9E6D00950FC9 /* STHTTPRequest+STTwitter.m in Sources */,
-				D0D3D240194F8CB300950FC9 /* ACAyellow.m in Sources */,
 				D06DB9C91937B81E00DCF445 /* ACATVCell.m in Sources */,
 				D06DB9CC1937C57900DCF445 /* ACAalarmData.m in Sources */,
 				D0D3D234194E9E6D00950FC9 /* STTwitterHTML.m in Sources */,

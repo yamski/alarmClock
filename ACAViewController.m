@@ -179,7 +179,7 @@
     self.alarmStatus = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2 - 20, SCREEN_HEIGHT - 60, 40, 40)];
     self.alarmStatus.layer.cornerRadius = 20;
     self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.2];
-    self.alarmStatus.alpha = 0;
+    self.alarmStatus.alpha = 1;
     [self.view addSubview:self.alarmStatus];
     
     [self checkActiveAlarms];
@@ -215,7 +215,7 @@
     NSArray *notificationsList = [alarmApp scheduledLocalNotifications];
     
     if (notificationsList.count) {
-        self.alarmStatus.backgroundColor = [UIColor greenColor];
+        self.alarmStatus.backgroundColor = [UIColor colorWithRed:0.235f green:0.878f blue:0.388f alpha:1.0f];
     } else {
         self.alarmStatus.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.2];
     }
@@ -421,15 +421,26 @@
     
     [alarmBG addSubview:snoozeButton];
     
+    index = [self getIndex];
 
     NSURL * url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], currentNotification.soundName]];
     
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     self.player.currentTime = 0;
     self.player.numberOfLoops = -1;
+    self.player.volume = [[ACAalarmData maindata].sortedTimes[index][@"Options"][@"Volume"] floatValue];
     [self.player play];
     
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    NSLog(@"this is the volume %f",self.player.volume);
+    
+    if ([[ACAalarmData maindata].sortedTimes[index][@"Options"][@"Vibrate"] intValue] == 1) {
+        
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+        
+    } else {
+        return;
+    }
+    
 }
 
 

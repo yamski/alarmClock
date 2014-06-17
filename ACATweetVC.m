@@ -9,7 +9,7 @@
 #import "ACATweetVC.h"
 #import "ACAalarmData.h"
 #import "ACAalarmsTVC.h"
-#import "ACAyellow.h"
+#import "ACAbgLayer.h"
 
 @interface ACATweetVC () <UITextViewDelegate>
 
@@ -37,7 +37,7 @@
         
         maxSnooze = 0;
         
-        CAGradientLayer *bgLayer = [ACAyellow blueGradient];
+        CAGradientLayer *bgLayer = [ACAbgLayer greenGradient];
         bgLayer.frame = self.view.bounds;
         [self.view.layer insertSublayer:bgLayer atIndex:0];
         

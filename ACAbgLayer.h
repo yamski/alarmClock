@@ -11,7 +11,7 @@
 
 @interface ACAbgLayer : NSObject
 
-+(CAGradientLayer*) greyGradient;
++(CAGradientLayer*) greenGradient;
 +(CAGradientLayer*) blueGradient;
 
 @end
