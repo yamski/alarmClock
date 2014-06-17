@@ -180,6 +180,7 @@
     
     [[ACAalarmData maindata].alarmList[alarmIndex] setObject:tweet forKey:@"Tweet"];
     
+    [self dismiss];
     
     NSLog(@"tweet was saved");
 }
