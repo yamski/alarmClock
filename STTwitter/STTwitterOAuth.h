@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "STTwitterProtocol.h"
 
-extern NSString * const kSTPOSTDataKey;
-
 /*
  Based on the following documentation
  http://oauth.net/core/1.0/

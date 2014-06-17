@@ -15,12 +15,20 @@
 #import "ACATweetVC.h"
 
 
+#import "STTwitter.h"
+
+
+
+
 
 @interface ACAalarmsTVC () <ACATVCellDelegate>
 
 @end
 
 @implementation ACAalarmsTVC
+{
+     STTwitterAPI * twitter;
+}
 
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -167,6 +175,9 @@
         [[ACAalarmData maindata].alarmList removeObjectAtIndex:indexPath.row];
 
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+        
+        [self.tableView reloadData];
 
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table vie
@@ -183,12 +194,39 @@
         
         [tweetVC getAlarmIndex:indexPath.row];
         
+        //ACAtweetView * tweetView = [[ACAtweetView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+//        
+//        UIImageView * bgImage = [[UIImageView alloc]initWithImage:[tweetView blurView]];
+//        
+//        [self.view.window addSubview:bgImage];
+        
+        //[self.view.window addSubview:tweetVC.view];
+        
         [self.navigationController pushViewController:tweetVC animated:YES];
+        
+        
     }
     
     NSLog(@"you selected row %ld", (long)indexPath.row);
+    
+   // [self authorizeTwitter];
 }
 
+
+//- (void)authorizeTwitter
+//{
+//    twitter = [STTwitterAPI twitterAPIOSWithFirstAccount];
+//    
+//    [twitter verifyCredentialsWithSuccessBlock:^(NSString *username) {
+//        
+//        NSLog(@"success %@", username);
+//        
+//    } errorBlock:^(NSError *error) {
+//        
+//        NSLog(@"%@", error.userInfo);
+//        
+//    }];
+//}
 
 
 /*

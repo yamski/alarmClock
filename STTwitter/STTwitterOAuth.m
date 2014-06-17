@@ -19,8 +19,6 @@
 #   define STLog(...)
 #endif
 
-NSString * const kSTPOSTDataKey = @"kSTPOSTDataKey";
-
 @interface NSData (Base64)
 - (NSString *)base64Encoding; // private API
 @end
@@ -544,13 +542,17 @@ downloadProgressBlock:(void(^)(id r, id json))downloadProgressBlock
 	NSString *postKey = [params valueForKey:kSTPOSTDataKey];
     // https://dev.twitter.com/docs/api/1.1/post/statuses/update_with_media
     NSData *postData = [params valueForKey:postKey];
+    NSString *postMediaFileName = [params valueForKey:kSTPOSTMediaFileNameKey];
     
     NSMutableDictionary *mutableParams = [params mutableCopy];
     [mutableParams removeObjectForKey:kSTPOSTDataKey];
+    [mutableParams removeObjectForKey:kSTPOSTMediaFileNameKey];
     if(postData) {
         [mutableParams removeObjectForKey:postKey];
         
-        [r addDataToUpload:postData parameterName:postKey mimeType:@"application/octet-stream" fileName:@"media.jpg"];
+        NSString *filename = postMediaFileName ? postMediaFileName : @"media.jpg";
+        
+        [r addDataToUpload:postData parameterName:postKey mimeType:@"application/octet-stream" fileName:filename];
     }
     
     [self signRequest:r isMediaUpload:(postData != nil) oauthCallback:oauthCallback];

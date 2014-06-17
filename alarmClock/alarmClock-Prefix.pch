@@ -18,3 +18,6 @@
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
+
+#define GOLD [UIColor colorWithRed:0.937f green:0.863f blue:0.129f alpha:1.0f]
+#define GRAY [UIColor colorWithRed:0.325f green:0.369f blue:0.353f alpha:1.0f]

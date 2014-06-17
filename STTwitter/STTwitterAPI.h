@@ -348,6 +348,20 @@ downloadProgressBlock:(void(^)(id json))downloadProgressBlock
             successBlock:(void(^)(NSDictionary *status))successBlock
               errorBlock:(void(^)(NSError *error))errorBlock;
 
+// starting May 28th, 2014
+// https://dev.twitter.com/notifications/multiple-media-entities-in-tweets
+// https://dev.twitter.com/docs/api/multiple-media-extended-entities
+- (void)postStatusUpdate:(NSString *)status
+       inReplyToStatusID:(NSString *)existingStatusID
+                mediaIDs:(NSArray *)mediaIDs
+                latitude:(NSString *)latitude
+               longitude:(NSString *)longitude
+                 placeID:(NSString *)placeID
+      displayCoordinates:(NSNumber *)displayCoordinates
+                trimUser:(NSNumber *)trimUser
+            successBlock:(void(^)(NSDictionary *status))successBlock
+              errorBlock:(void(^)(NSError *error))errorBlock;
+
 /*
  POST	statuses/retweet/:id
  
@@ -607,7 +621,8 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
  */
 
 - (void)postDirectMessage:(NSString *)status
-					   to:(NSString *)screenName
+            forScreenName:(NSString *)screenName
+                 orUserID:(NSString *)userID
              successBlock:(void(^)(NSDictionary *message))successBlock
                errorBlock:(void(^)(NSError *error))errorBlock;
 
@@ -1901,6 +1916,25 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
 					 successBlock:(void(^)(NSArray *tweets))successBlock
 					   errorBlock:(void(^)(NSError *error))errorBlock;
 
+#pragma mark Media
+
+/*
+ POST media/upload.json
+ 
+ https://dev.twitter.com/docs/api/multiple-media-extended-entities
+ */
+
+- (void)postMediaUpload:(NSURL *)mediaURL
+    uploadProgressBlock:(void(^)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite))uploadProgressBlock
+           successBlock:(void(^)(NSDictionary *imageDictionary, NSString *mediaID, NSString *size))successBlock
+             errorBlock:(void(^)(NSError *error))errorBlock;
+
+- (void)postMediaUploadData:(NSData *)data
+                   fileName:(NSString *)fileName
+        uploadProgressBlock:(void(^)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite))uploadProgressBlock
+               successBlock:(void(^)(NSDictionary *imageDictionary, NSString *mediaID, NSString *size))successBlock
+                 errorBlock:(void(^)(NSError *error))errorBlock;
+
 #pragma mark -
 #pragma mark UNDOCUMENTED APIs
 
@@ -1998,5 +2032,15 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
                   sendErrorCodes:(NSNumber *)sendErrorCodes
                     successBlock:(void(^)(id results))successBlock
                       errorBlock:(void(^)(NSError *error))errorBlock;
+
+// POST direct_messages/new.json
+// only the media_id is part of the private API
+- (void)_postDirectMessage:(NSString *)status
+             forScreenName:(NSString *)screenName
+                  orUserID:(NSString *)userID
+                   mediaID:(NSString *)mediaID // returned by POST media/upload.json
+              successBlock:(void(^)(NSDictionary *message))successBlock
+                errorBlock:(void(^)(NSError *error))errorBlock;
+
 
 @end

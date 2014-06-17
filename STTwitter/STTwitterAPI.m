@@ -15,6 +15,7 @@
 #import "STHTTPRequest.h"
 
 NSString *kBaseURLStringAPI = @"https://api.twitter.com/1.1";
+NSString *kBaseURLStringUpload = @"https://upload.twitter.com/1.1";
 NSString *kBaseURLStringStream = @"https://stream.twitter.com/1.1";
 NSString *kBaseURLStringUserStream = @"https://userstream.twitter.com/1.1";
 NSString *kBaseURLStringSiteStream = @"https://sitestream.twitter.com/1.1";
@@ -817,6 +818,7 @@ downloadProgressBlock:nil
 
 - (void)postStatusUpdate:(NSString *)status
        inReplyToStatusID:(NSString *)existingStatusID
+                mediaIDs:(NSArray *)mediaIDs
                 latitude:(NSString *)latitude
                longitude:(NSString *)longitude
                  placeID:(NSString *)placeID // wins over lat/lon
@@ -825,13 +827,18 @@ downloadProgressBlock:nil
             successBlock:(void(^)(NSDictionary *status))successBlock
               errorBlock:(void(^)(NSError *error))errorBlock {
     
-    if(status == nil) {
+    if([mediaIDs count] == 0 && status == nil) {
         NSError *error = [NSError errorWithDomain:NSStringFromClass([self class]) code:STTwitterAPICannotPostEmptyStatus userInfo:@{NSLocalizedDescriptionKey : @"cannot post empty status"}];
         errorBlock(error);
         return;
     }
     
     NSMutableDictionary *md = [NSMutableDictionary dictionaryWithObject:status forKey:@"status"];
+    
+    if([mediaIDs count] > 0) {
+        NSString *mediaIDsString = [mediaIDs componentsJoinedByString:@","];
+        md[@"media_ids"] = mediaIDsString;
+    }
     
     if(existingStatusID) {
         md[@"in_reply_to_status_id"] = existingStatusID;
@@ -851,6 +858,28 @@ downloadProgressBlock:nil
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
+}
+
+- (void)postStatusUpdate:(NSString *)status
+       inReplyToStatusID:(NSString *)existingStatusID
+                latitude:(NSString *)latitude
+               longitude:(NSString *)longitude
+                 placeID:(NSString *)placeID // wins over lat/lon
+      displayCoordinates:(NSNumber *)displayCoordinates
+                trimUser:(NSNumber *)trimUser
+            successBlock:(void(^)(NSDictionary *status))successBlock
+              errorBlock:(void(^)(NSError *error))errorBlock {
+    
+    [self postStatusUpdate:status
+         inReplyToStatusID:existingStatusID
+                  mediaIDs:nil
+                  latitude:latitude
+                 longitude:longitude
+                   placeID:placeID
+        displayCoordinates:displayCoordinates
+                  trimUser:trimUser
+              successBlock:successBlock
+                errorBlock:errorBlock];
 }
 
 - (void)postStatusUpdate:(NSString *)status
@@ -1484,17 +1513,55 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
 }
 
 - (void)postDirectMessage:(NSString *)status
-					   to:(NSString *)screenName
+            forScreenName:(NSString *)screenName
+                 orUserID:(NSString *)userID
              successBlock:(void(^)(NSDictionary *message))successBlock
                errorBlock:(void(^)(NSError *error))errorBlock {
     NSMutableDictionary *md = [NSMutableDictionary dictionaryWithObject:status forKey:@"text"];
-    [md setObject:screenName forKey:@"screen_name"];
     
-    [self postAPIResource:@"direct_messages/new.json" parameters:md successBlock:^(NSDictionary *rateLimits, id response) {
-        successBlock(response);
-    } errorBlock:^(NSError *error) {
-        errorBlock(error);
-    }];
+    NSAssert(screenName != nil || userID != nil, @"screenName OR userID is required");
+    
+    if(screenName) {
+        md[@"screen_name"] = screenName;
+    } else {
+        md[@"user_id"] = userID;
+    }
+    
+    [self postAPIResource:@"direct_messages/new.json"
+               parameters:md
+             successBlock:^(NSDictionary *rateLimits, id response) {
+                 successBlock(response);
+             } errorBlock:^(NSError *error) {
+                 errorBlock(error);
+             }];
+}
+
+- (void)_postDirectMessage:(NSString *)status
+             forScreenName:(NSString *)screenName
+                  orUserID:(NSString *)userID
+                   mediaID:(NSString *)mediaID
+              successBlock:(void(^)(NSDictionary *message))successBlock
+                errorBlock:(void(^)(NSError *error))errorBlock {
+    
+    NSMutableDictionary *md = [NSMutableDictionary dictionaryWithObject:status forKey:@"text"];
+    
+    NSAssert(screenName != nil || userID != nil, @"screenName OR userID is required");
+    
+    if(screenName) {
+        md[@"screen_name"] = screenName;
+    } else {
+        md[@"user_id"] = userID;
+    }
+    
+    if(mediaID) md[@"media_id"] = mediaID;
+    
+    [self postAPIResource:@"direct_messages/new.json"
+               parameters:md
+             successBlock:^(NSDictionary *rateLimits, id response) {
+                 successBlock(response);
+             } errorBlock:^(NSError *error) {
+                 errorBlock(error);
+             }];
 }
 
 #pragma mark Friends & Followers
@@ -1856,7 +1923,7 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
                      orScreenName:screenName
                            cursor:nil
                             count:nil
-                       skipStatus:NO
+                       skipStatus:@(NO)
               includeUserEntities:@(YES)
                      successBlock:^(NSArray *users, NSString *previousCursor, NSString *nextCursor) {
                          successBlock(users);
@@ -3940,6 +4007,59 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
+}
+
+#pragma mark Media
+
+- (void)postMediaUpload:(NSURL *)mediaURL
+    uploadProgressBlock:(void(^)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite))uploadProgressBlock
+           successBlock:(void(^)(NSDictionary *imageDictionary, NSString *mediaID, NSString *size))successBlock
+             errorBlock:(void(^)(NSError *error))errorBlock {
+    
+    NSData *data = [NSData dataWithContentsOfURL:mediaURL];
+    
+    NSString *fileName = [mediaURL isFileURL] ? [[mediaURL path] lastPathComponent] : @"media.jpg";
+    
+    [self postMediaUploadData:data
+                     fileName:fileName
+          uploadProgressBlock:uploadProgressBlock
+                 successBlock:successBlock
+                   errorBlock:errorBlock];
+}
+
+- (void)postMediaUploadData:(NSData *)data
+                   fileName:(NSString *)fileName
+        uploadProgressBlock:(void(^)(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite))uploadProgressBlock
+               successBlock:(void(^)(NSDictionary *imageDictionary, NSString *mediaID, NSString *size))successBlock
+                 errorBlock:(void(^)(NSError *error))errorBlock {
+    
+    // https://dev.twitter.com/docs/api/multiple-media-extended-entities
+    
+    if(data == nil) {
+        NSError *error = [NSError errorWithDomain:NSStringFromClass([self class]) code:STTwitterAPIMediaDataIsEmpty userInfo:@{NSLocalizedDescriptionKey : @"data is nil"}];
+        errorBlock(error);
+        return;
+    }
+    
+    NSMutableDictionary *md = [NSMutableDictionary dictionary];
+    md[@"media"] = data;
+    md[kSTPOSTDataKey] = @"media";
+    md[kSTPOSTMediaFileNameKey] = fileName;
+    
+    [self postResource:@"media/upload.json"
+         baseURLString:kBaseURLStringUpload
+            parameters:md
+   uploadProgressBlock:uploadProgressBlock
+ downloadProgressBlock:nil
+          successBlock:^(NSDictionary *rateLimits, id response) {
+              
+              NSDictionary *imageDictionary = [response valueForKey:@"image"];
+              NSString *mediaID = [response valueForKey:@"media_id_string"];
+              NSString *size = [response valueForKey:@"size"];
+              
+              successBlock(imageDictionary, mediaID, size);
+          }
+            errorBlock:errorBlock];
 }
 
 #pragma mark -

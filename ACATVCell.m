@@ -35,8 +35,8 @@
         
         
         
-        self.activateButton = [[UIButton alloc] initWithFrame: CGRectMake(20, 30, 40, 40)];
-        self.activateButton.layer.cornerRadius = 20;
+        self.activateButton = [[UIButton alloc] initWithFrame: CGRectMake(20, 25, 50, 50)];
+        self.activateButton.layer.cornerRadius = 25;
         self.activateButton.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.2];
         [self.activateButton addTarget:self action:@selector(selectedAlarmTime) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:self.activateButton];

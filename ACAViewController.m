@@ -70,8 +70,8 @@
     UILocalNotification * currentNotification;
     
     int snoozeCounter;
-    STTwitterAPI * twitter;
-    
+   
+     STTwitterAPI * twitter;
   
 }
 
@@ -108,7 +108,23 @@
         //////
         
         snoozeNotifications = [@[] mutableCopy];
-        ///
+        ///////
+        
+        twitter = [STTwitterAPI twitterAPIOSWithFirstAccount];
+        
+        [twitter verifyCredentialsWithSuccessBlock:^(NSString *username) {
+            
+            NSLog(@"success %@", username);
+            
+        } errorBlock:^(NSError *error) {
+            
+            NSLog(@"%@", error.userInfo);
+            
+        }];
+
+        
+        
+        /////////
         
         
         currentVal = [UIScreen mainScreen].brightness;
@@ -297,15 +313,8 @@
     
     [[ACAalarmData maindata].alarmList addObject:timeKey];
     
-//    NSSortDescriptor *sortByDateAscending = [NSSortDescriptor sortDescriptorWithKey:@"NSDateNoDay" ascending:YES];
-//    NSMutableArray *descriptors = [[NSMutableArray  arrayWithObject:sortByDateAscending] mutableCopy];
-//    
-//    [ACAalarmData maindata].sortedTimes = [[[ACAalarmData maindata].alarmList sortedArrayUsingDescriptors:descriptors] mutableCopy];
-    
     [alarmsTVC.tableView reloadData];
     
-
-//    NSLog(@"notification: %@",wakeUp);
     
     NSLog(@"HERES THAT TIMEKEY: %@ ",timeKey);
     
@@ -494,37 +503,14 @@
     NSLog(@"this is the SNOOZE COUNT : %d", snoozeCounter);
 }
 
+
+
 - (void)sendTweet: (int)num
 {
     NSLog(@"sent tweet method ran");
     
-    twitter = [STTwitterAPI twitterAPIOSWithFirstAccount];
-    
-    [twitter verifyCredentialsWithSuccessBlock:^(NSString *username) {
-        
-        NSLog(@"success %@", username);
-        
-    } errorBlock:^(NSError *error) {
-        
-        NSLog(@"%@", error.userInfo);
-        
-    }];
-    
-    
-//    NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//    NSString * documentPath = paths[0];
-    
-    //NSData * imageData = UIImagePNGRepresentation(bigSmilie.image);
     
     NSString * str = [ACAalarmData maindata].sortedTimes[num][@"Tweet"][@"Message"];
-    
-//    NSData * data = [str dataUsingEncoding:NSUTF8StringEncoding];
-//    
-//    NSString * pngPath = [documentPath stringByAppendingPathComponent:@"big_smilie.png"];
-//    [imageData writeToFile:pngPath atomically:YES];
-//    NSURL * url = [NSURL fileURLWithPath:pngPath];
-    
-
     
     [twitter postStatusUpdate:str inReplyToStatusID:nil latitude:nil longitude:nil placeID:nil displayCoordinates:nil trimUser:nil successBlock:^(NSDictionary *status) {
         
