@@ -96,7 +96,7 @@
              [self.delegate changeColor];
         }];
     }
-   
+   //[self.delegate changeColor];
 }
 
 

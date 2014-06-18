@@ -25,8 +25,8 @@
     
     NSNumber * maxSnooze;
     NSString * message;
-    UIButton * snooze2;
     UILabel * time;
+    UILabel * warning;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -48,7 +48,14 @@
         messageBox.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.7];
         [messageBox setFont:[UIFont systemFontOfSize:18]];
         messageBox.delegate = self;
-       [self.view addSubview:messageBox];
+        [self.view addSubview:messageBox];
+        
+        
+        warning = [[UILabel alloc] initWithFrame:CGRectMake((SCREEN_WIDTH /2) - (boxWidth/2) , 35, boxWidth, boxHeight)];
+        warning.backgroundColor = GOLD;
+        warning.textColor = GRAY;
+        warning.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:24];
+        warning.textAlignment = NSTextAlignmentCenter;
         
         
         time = [[UILabel alloc] initWithFrame:CGRectMake((SCREEN_WIDTH /2) - (boxWidth/2) , 270, boxWidth, 60)];
@@ -67,7 +74,7 @@
         [self.view addSubview:selectSnooze];
         
 
-        snooze2 = [[UIButton alloc] initWithFrame: CGRectMake((SCREEN_WIDTH / 2) - 25, boxHeight + 190, 50, 50)];
+        UIButton * snooze2 = [[UIButton alloc] initWithFrame: CGRectMake((SCREEN_WIDTH / 2) - 25, boxHeight + 190, 50, 50)];
         snooze2.layer.cornerRadius = 25;
         snooze2.layer.borderColor = GRAY.CGColor;
         snooze2.layer.borderWidth = .9f;
@@ -77,6 +84,7 @@
         snooze2.tag = 3;
         
         [snooze2 addTarget:self action:@selector(setSnoozeCount:) forControlEvents:UIControlEventTouchUpInside];
+        [snooze2 addTarget:self action:@selector(buttonHighlight:) forControlEvents:UIControlEventTouchDown];
         [self.view addSubview:snooze2];
     
         //
@@ -91,6 +99,7 @@
         snooze1.tag = 1;
         
         [snooze1 addTarget:self action:@selector(setSnoozeCount:) forControlEvents:UIControlEventTouchUpInside];
+        [snooze1 addTarget:self action:@selector(buttonHighlight:) forControlEvents:UIControlEventTouchDown];
         [self.view addSubview:snooze1];
 
         //
@@ -104,6 +113,7 @@
         snooze3.tag = 5;
         
         [snooze3 addTarget:self action:@selector(setSnoozeCount:) forControlEvents:UIControlEventTouchUpInside];
+        [snooze3 addTarget:self action:@selector(buttonHighlight:) forControlEvents:UIControlEventTouchDown];
         [self.view addSubview:snooze3];
         
         UIView * line = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 80, SCREEN_WIDTH, 1)];
@@ -114,7 +124,7 @@
         UIButton * cancelTweet = [[UIButton alloc]initWithFrame:CGRectMake((SCREEN_WIDTH / 2) - 140, SCREEN_HEIGHT - 65, 120, 50)];
         [cancelTweet setTitle:@"Cancel Tweet" forState:UIControlStateNormal];
         [cancelTweet setTitleColor:GRAY forState:UIControlStateNormal];
-        cancelTweet.titleLabel.font = [UIFont systemFontOfSize:14];
+        cancelTweet.titleLabel.font = [UIFont systemFontOfSize:15];
         [cancelTweet addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:cancelTweet];
         
@@ -122,7 +132,7 @@
         UIButton * sendTweet = [[UIButton alloc]initWithFrame:CGRectMake((SCREEN_WIDTH / 2) + 20, SCREEN_HEIGHT - 65, 120, 50)];
         [sendTweet setTitle:@"Schedule Tweet" forState:UIControlStateNormal];
         [sendTweet setTitleColor:GRAY forState:UIControlStateNormal];
-        sendTweet.titleLabel.font = [UIFont systemFontOfSize:14];
+        sendTweet.titleLabel.font = [UIFont systemFontOfSize:15];
         
         [sendTweet addTarget:self action:@selector(saveTweet) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:sendTweet];
@@ -144,6 +154,32 @@
     [self.view addGestureRecognizer:tap];
 }
 
+- (void)buttonHighlight: (UIButton *)sender
+{
+    UIButton * fill = [[UIButton alloc]init];
+    
+    fill.frame = sender.frame;
+    fill.layer.cornerRadius = sender.layer.cornerRadius;
+    
+    fill.backgroundColor = GOLD;
+    
+    fill.alpha = 0.7;
+    
+    [self.view addSubview:fill];
+    
+    [UIView animateWithDuration:1.0 animations:^{
+        
+         fill.alpha = 0;
+
+    } completion:^(BOOL finished) {
+       
+        [fill removeFromSuperview];
+    
+    }];
+    
+    
+}
+
 - (void)getAlarmIndex: (int)num
 {
     alarmIndex = num;
@@ -156,7 +192,9 @@
 {
     maxSnooze = [NSNumber numberWithInt: sender.tag];
     
-    NSLog(@"set snooze count method ran");
+    NSLog(@"set snooze count method ran %@", maxSnooze);
+    
+
 }
 
 - (void)dismiss
@@ -167,9 +205,45 @@
 - (void)saveTweet
 {
     if (maxSnooze == 0){
+        
+        warning.alpha = 0.8;
+        warning.text = @"Enter a snooze count";
+        [self.view addSubview:warning];
+        
+        [UIView animateWithDuration:3.0 animations:^{
+            warning.alpha = 0;
+        }completion:^(BOOL finished) {
+            [warning removeFromSuperview];
+        }];
+        return;
+        
+    } else if (messageBox.text.length == 0) {
+        warning.alpha = 0.8;
+        warning.text = @"Please include a message";
+        [self.view addSubview:warning];
+        
+        [UIView animateWithDuration:3.0 animations:^{
+            warning.alpha = 0;
+        }completion:^(BOOL finished) {
+            [warning removeFromSuperview];
+        }];
+        
+        return;
+        
+    } else if (messageBox.text.length > 140) {
+        warning.alpha = 1;
+        warning.text = @"You're over 140 characters!";
+        [self.view addSubview:warning];
+        
+        [UIView animateWithDuration:6.0 animations:^{
+            warning.alpha = 0;
+        }completion:^(BOOL finished) {
+            [warning removeFromSuperview];
+        }];
+        
         return;
     }
-    
+ 
     message = messageBox.text;
     messageBox.text = @"";
     
@@ -180,9 +254,21 @@
     
     [[ACAalarmData maindata].alarmList[alarmIndex] setObject:tweet forKey:@"Tweet"];
     
-    [self dismiss];
+    warning.alpha = 1;
+    warning.text = @"Message Saved!";
+    [self.view addSubview:warning];
     
-    NSLog(@"tweet was saved");
+    [UIView animateWithDuration:3.0 animations:^{
+        
+        warning.alpha = 0;
+        
+    }completion:^(BOOL finished) {
+        
+        [warning removeFromSuperview];
+        
+        [self dismiss];
+    }];
+
 }
 
 

@@ -15,6 +15,7 @@
 @property (nonatomic, assign) id <ACAalarmSwipeDelegate> delegate;
 @property (nonatomic) UIButton * options;
 
+
 @end
 
 
@@ -24,6 +25,8 @@
 
 - (void)updateAlarm:(NSTimeInterval) interval;
 - (void)updateAlarmOptions: (NSMutableDictionary *)dict;
+- (void)playSample: (int)num;
+- (void)stopSound;
 
 @end
 

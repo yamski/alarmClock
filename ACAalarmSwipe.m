@@ -9,6 +9,8 @@
 #import "ACAalarmSwipe.h"
 #import "ACAvolumeSlider.h"
 
+
+
 @implementation ACAalarmSwipe
 {
     CGPoint prevLocation;
@@ -39,6 +41,7 @@
     UIButton * ringerB;
     UIButton * ringerC;
     UIButton * ringerD;
+    UIButton * stopSoundButton;
     
     UIButton * vibrateButton;
     UIButton * vibrateOn;
@@ -77,7 +80,7 @@
         menuView.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.3];
         menuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         
-        menuView.contentSize = CGSizeMake(SCREEN_WIDTH,480);
+        menuView.contentSize = CGSizeMake(SCREEN_WIDTH,340);
         menuView.alpha = 0;
         
         //
@@ -278,13 +281,15 @@
     [snooze30 addTarget:self action:@selector(snoozeSelect:) forControlEvents:UIControlEventTouchUpInside];
     [snoozeView addSubview:snooze30];
     
+    
     [UIView animateWithDuration:0.5 animations:^{
        
-        snoozeView.frame = CGRectMake(0, 20, SCREEN_WIDTH, 305);
+        snoozeView.frame = CGRectMake(0, 20, SCREEN_WIDTH, 320);
         snooze5.alpha = 1;
         snooze60.alpha = 1;
         snooze10.alpha = 1;
         snooze30.alpha = 1;
+       
     }];
 
 }
@@ -381,14 +386,23 @@
     [ringerD addTarget:self action:@selector(selectSong:) forControlEvents:UIControlEventTouchUpInside];
     [soundsView addSubview:ringerD];
     
+    stopSoundButton = [[UIButton alloc]initWithFrame:CGRectMake(middle - 30, 170, 60, 60)];
+    stopSoundButton.layer.cornerRadius = 30;
+    stopSoundButton.backgroundColor = [UIColor magentaColor];
+    stopSoundButton.alpha = 0;
+    [stopSoundButton addTarget:self action:@selector(stopSamplePlay) forControlEvents:UIControlEventTouchUpInside];
+    [soundsView addSubview:stopSoundButton];
+    
+    
     [UIView animateWithDuration:0.5 animations:^{
         
-        soundsView.frame = CGRectMake(0, 20, SCREEN_WIDTH, 460);
+        soundsView.frame = CGRectMake(0, 20, SCREEN_WIDTH, 320);
         
         ringerA.alpha = 1;
         ringerB.alpha = 1;
         ringerC.alpha = 1;
         ringerD.alpha = 1;
+        stopSoundButton.alpha = .6;
     }];
     
 }
@@ -410,12 +424,15 @@
         ringerB.alpha = 0;
         ringerC.alpha = 0;
         ringerD.alpha = 0;
+        stopSoundButton.alpha = 0;
+        
     } completion:^(BOOL finished) {
         
         [ringerA removeFromSuperview];
         [ringerB removeFromSuperview];
         [ringerC removeFromSuperview];
         [ringerD removeFromSuperview];
+        [stopSoundButton removeFromSuperview];
         
         [menuView addSubview:snoozeView];
         [menuView addSubview:volumeView];
@@ -436,7 +453,7 @@
     
     [UIView animateWithDuration:0.5 animations:^{
         
-        volumeView.frame = CGRectMake(0, 20, SCREEN_WIDTH, 305);
+        volumeView.frame = CGRectMake(0, 20, SCREEN_WIDTH, 320);
     } completion:^(BOOL finished) {
         
         volumeSlider = [[ACAvolumeSlider alloc]initWithFrame:CGRectMake((SCREEN_WIDTH /2) - 110, 120, 220, 2)];
@@ -514,7 +531,7 @@
     
     [UIView animateWithDuration:0.5 animations:^{
         
-        vibrateView.frame = CGRectMake(0, 20, SCREEN_WIDTH, 305);
+        vibrateView.frame = CGRectMake(0, 20, SCREEN_WIDTH, 320);
         
         vibrateOn.alpha = 1;
         vibrateOff.alpha = 1;
@@ -560,6 +577,13 @@
 - (void)selectSong: (UIButton *)sender
 {
     songChoice = sender.tag;
+    
+    [self.delegate playSample:songChoice];
+}
+
+- (void)stopSamplePlay
+{
+    [self.delegate stopSound];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event

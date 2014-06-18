@@ -221,6 +221,19 @@
     }
 }
 
+- (void)playSample: (int)num
+{
+    NSURL * url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], songChoices[num]]];
+    
+    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+    self.player.currentTime = 0;
+    [self.player play];
+}
+
+- (void)stopSound
+{
+    [self.player stop];
+}
 
 - (void) swipeLeft:(UISwipeGestureRecognizer *)gesture
 {
@@ -541,6 +554,7 @@
         [self.player stop];
     }];
     
+    [self checkActiveAlarms];
 }
 
 - (void)didReceiveMemoryWarning
