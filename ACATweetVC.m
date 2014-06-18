@@ -176,8 +176,6 @@
         [fill removeFromSuperview];
     
     }];
-    
-    
 }
 
 - (void)getAlarmIndex: (int)num

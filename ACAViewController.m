@@ -40,7 +40,6 @@
     NSDate * nowNoSecs;
     NSDateFormatter * formatter;
     NSDateFormatter * amPMFormat;
-    
     NSCalendar * calendar;
     NSDateComponents * components;
     
@@ -62,18 +61,14 @@
     NSMutableDictionary * alarmOptions;
     
     // menu vars
-  
     NSMutableArray * songChoices;
-    
     NSMutableArray * snoozeNotifications;
-    
     UILocalNotification * currentNotification;
     
     int index;
-    
     int snoozeCounter;
    
-     STTwitterAPI * twitter;
+    STTwitterAPI * twitter;
   
 }
 
@@ -83,25 +78,19 @@
     if (self) {
         
        [self loadListItems];
-        
-        //[self showAlarmView];
+
         
         index = 0;
-        
-        //////////////////////
+
         //////////////////////
         UIApplication *app = [UIApplication sharedApplication];
         NSArray *eventArray = [app scheduledLocalNotifications];
         NSLog(@"These are the scheduled notifications%@", eventArray);
-        
-        //////////////////////
         ///////////////////////
         
         songChoices = [@[@"xylophone_tone.mp3", @"bells.mp3", @"cutebells.mp3", @"kbwhistle.mp3"] mutableCopy];
         
         snoozeCounter = 0;
-        
-        /////
         
         alarmOptions = [@{
                           @"Snooze": [NSNumber numberWithInt:(10 * 60)],
@@ -127,15 +116,12 @@
         }];
 
         /////////
- 
-        
+
         currentVal = [UIScreen mainScreen].brightness;
         
         CAGradientLayer *bgLayer = [ACAbgLayer blueGradient];
         bgLayer.frame = self.view.bounds;
         [self.view.layer insertSublayer:bgLayer atIndex:0];
-        
-        ///
         
         calendar = [NSCalendar currentCalendar];
         formatter = [[NSDateFormatter alloc] init];
@@ -146,6 +132,8 @@
         unsigned int flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit| NSHourCalendarUnit|NSMinuteCalendarUnit;
         NSDateComponents * noSecs = [calendar components:flags fromDate:now];
         nowNoSecs = [calendar dateFromComponents:noSecs];
+        
+        //update every min nstimer
         alarmTime = nowNoSecs;
 
         alarmLabel = [[ACAtimeButton  alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 130)];
@@ -252,8 +240,8 @@
     
     [UIView animateWithDuration:1.5 delay:0.0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
         
-        alarmLabel.backgroundColor = [UIColor colorWithRed:0.898f green:0.996f blue:0.412f alpha:1.0f];
-        [alarmLabel setTitleColor:[UIColor colorWithRed:0.231f green:0.427f blue:0.506f alpha:1.0f] forState:UIControlStateNormal];
+        alarmLabel.backgroundColor = GOLD;
+        [alarmLabel setTitleColor:GRAY forState:UIControlStateNormal];
         self.alarmStatus.alpha = 1;
         
     } completion:^(BOOL finished) {

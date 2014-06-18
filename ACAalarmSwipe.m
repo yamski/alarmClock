@@ -8,6 +8,7 @@
 
 #import "ACAalarmSwipe.h"
 #import "ACAvolumeSlider.h"
+#import "ACAoptionsButton.h"
 
 
 
@@ -31,21 +32,21 @@
     UIView * vibrateView;
     
     UIButton * snoozeButton;
-    UIButton * snooze5;
-    UIButton * snooze10;
-    UIButton * snooze30;
-    UIButton * snooze60;
+    ACAoptionsButton * snooze5;
+    ACAoptionsButton * snooze10;
+    ACAoptionsButton * snooze30;
+    ACAoptionsButton * snooze60;
     
     UIButton * soundsButton;
-    UIButton * ringerA;
-    UIButton * ringerB;
-    UIButton * ringerC;
-    UIButton * ringerD;
+    ACAoptionsButton * ringerA;
+    ACAoptionsButton * ringerB;
+    ACAoptionsButton * ringerC;
+    ACAoptionsButton * ringerD;
     UIButton * stopSoundButton;
     
     UIButton * vibrateButton;
-    UIButton * vibrateOn;
-    UIButton * vibrateOff;
+    ACAoptionsButton * vibrateOn;
+    ACAoptionsButton * vibrateOff;
     
     UIButton * volumeButton;
     ACAvolumeSlider * volumeSlider;
@@ -77,7 +78,8 @@
 
         
         menuView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 160, SCREEN_WIDTH, 320)];
-        menuView.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.3];
+        menuView.backgroundColor = [UIColor colorWithWhite:0.4 alpha:0.6];
+        
         menuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         
         menuView.contentSize = CGSizeMake(SCREEN_WIDTH,340);
@@ -87,7 +89,6 @@
         
         snoozeView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, 80)];
         snoozeView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.1];
-        
         [menuView addSubview:snoozeView];
         
         //
@@ -96,6 +97,8 @@
         [snoozeButton setTitle:@"Snooze" forState:UIControlStateNormal];
         snoozeButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:26];
         [snoozeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        
+        
         snoozeButton.titleLabel.textAlignment = NSTextAlignmentCenter;
         [snoozeButton addTarget:self action:@selector(snoozeOptions) forControlEvents:UIControlEventTouchUpInside];
         [snoozeView addSubview:snoozeButton];
@@ -226,59 +229,36 @@
     [volumeView removeFromSuperview];
     [vibrateView removeFromSuperview];
     
-    snooze5 = [[UIButton alloc] initWithFrame: CGRectMake(middle - 136, 80, 50, 50)];
-    snooze5.layer.cornerRadius = 25;
-    snooze5.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.3];
-    [snooze5 setTitleColor:[UIColor colorWithRed:0.431f green:0.835f blue:0.318f alpha:1.0f] forState:UIControlStateNormal];
+    snooze5 = [[ACAoptionsButton alloc] initWithFrame: CGRectMake(middle - 136, 80, 50, 50)];
     [snooze5 setTitle:@"5m" forState:UIControlStateNormal];
-    snooze5.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-    snooze5.alpha = 0;
     snooze5.tag = (5 * 60);
     [snooze5 addTarget:self action:@selector(snoozeSelect:) forControlEvents:UIControlEventTouchUpInside];
-    
+    [snooze5 addTarget:self action:@selector(buttonHighlight:) forControlEvents:UIControlEventTouchDown];
     [snoozeView addSubview:snooze5];
     
     
     
-    snooze60 = [[UIButton alloc] initWithFrame: CGRectMake(middle + 86, 80, 50, 50)];
-    snooze60.layer.cornerRadius = 25;
-    snooze60.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.3];
-    [snooze60 setTitleColor:[UIColor colorWithRed:0.431f green:0.835f blue:0.318f alpha:1.0f] forState:UIControlStateNormal];
+    snooze60 = [[ACAoptionsButton alloc] initWithFrame: CGRectMake(middle + 86, 80, 50, 50)];
     [snooze60 setTitle:@"60m" forState:UIControlStateNormal];
-    snooze60.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-    snooze60.alpha = 0;
-    
-    //////
-    ///////
-    snooze60.tag = (60);
-    
-    //////////
-    //////////
+    snooze60.tag = (60 * 60);
     [snooze60 addTarget:self action:@selector(snoozeSelect:) forControlEvents:UIControlEventTouchUpInside];
+    [snooze60 addTarget:self action:@selector(buttonHighlight:) forControlEvents:UIControlEventTouchDown];
     [snoozeView addSubview:snooze60];
     
     //
-    snooze10 = [[UIButton alloc] initWithFrame: CGRectMake(middle - 62, 80, 50, 50)];
-    snooze10.layer.cornerRadius = 25;
-    snooze10.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.3];
-    [snooze10 setTitleColor:[UIColor colorWithRed:0.431f green:0.835f blue:0.318f alpha:1.0f] forState:UIControlStateNormal];
+    snooze10 = [[ACAoptionsButton alloc] initWithFrame: CGRectMake(middle - 62, 80, 50, 50)];
     [snooze10 setTitle:@"10m" forState:UIControlStateNormal];
-    snooze10.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-    snooze10.alpha = 0;
     snooze10.tag = (10 * 60);
     [snooze10 addTarget:self action:@selector(snoozeSelect:) forControlEvents:UIControlEventTouchUpInside];
+    [snooze10 addTarget:self action:@selector(buttonHighlight:) forControlEvents:UIControlEventTouchDown];
     [snoozeView addSubview:snooze10];
     
     
-    snooze30 = [[UIButton alloc] initWithFrame: CGRectMake(middle + 12, 80, 50, 50)];
-    snooze30.layer.cornerRadius = 25;
-    snooze30.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.3];
-    [snooze30 setTitleColor:[UIColor colorWithRed:0.431f green:0.835f blue:0.318f alpha:1.0f] forState:UIControlStateNormal];
+    snooze30 = [[ACAoptionsButton alloc] initWithFrame: CGRectMake(middle + 12, 80, 50, 50)];
     [snooze30 setTitle:@"30m" forState:UIControlStateNormal];
-    snooze30.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-    snooze30.alpha = 0;
     snooze30.tag = (30 * 60);
     [snooze30 addTarget:self action:@selector(snoozeSelect:) forControlEvents:UIControlEventTouchUpInside];
+    [snooze30 addTarget:self action:@selector(buttonHighlight:) forControlEvents:UIControlEventTouchDown];
     [snoozeView addSubview:snooze30];
     
     
@@ -339,58 +319,47 @@
     [vibrateView removeFromSuperview];
     
     
-    ringerA = [[UIButton alloc] initWithFrame: CGRectMake(middle - 136, 80, 50, 50)];
-    ringerA.layer.cornerRadius = 25;
-    ringerA.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.3];
-    [ringerA setTitleColor:[UIColor colorWithRed:0.431f green:0.835f blue:0.318f alpha:1.0f] forState:UIControlStateNormal];
+    ringerA = [[ACAoptionsButton alloc] initWithFrame: CGRectMake(middle - 136, 80, 50, 50)];
     [ringerA setTitle:@"A" forState:UIControlStateNormal];
-    ringerA.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-    ringerA.alpha = 0;
     ringerA.tag = 0;
     [ringerA addTarget:self action:@selector(selectSong:) forControlEvents:UIControlEventTouchUpInside];
-    
+    [ringerA addTarget:self action:@selector(buttonHighlight:) forControlEvents:UIControlEventTouchDown];
     [soundsView addSubview:ringerA];
     
     
-    ringerB = [[UIButton alloc] initWithFrame: CGRectMake(middle - 62, 80, 50, 50)];
-    ringerB.layer.cornerRadius = 25;
-    ringerB.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.3];
-    [ringerB setTitleColor:[UIColor colorWithRed:0.431f green:0.835f blue:0.318f alpha:1.0f] forState:UIControlStateNormal];
+    ringerB = [[ACAoptionsButton alloc] initWithFrame: CGRectMake(middle - 62, 80, 50, 50)];
     [ringerB setTitle:@"B" forState:UIControlStateNormal];
-    ringerB.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-    ringerB.alpha = 0;
     ringerB.tag = 1;
     [ringerB addTarget:self action:@selector(selectSong:) forControlEvents:UIControlEventTouchUpInside];
+    [ringerB addTarget:self action:@selector(buttonHighlight:) forControlEvents:UIControlEventTouchDown];
     [soundsView addSubview:ringerB];
     
     
-    ringerC = [[UIButton alloc] initWithFrame: CGRectMake(middle + 12, 80, 50, 50)];
-    ringerC.layer.cornerRadius = 25;
-    ringerC.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.3];
-    [ringerC setTitleColor:[UIColor colorWithRed:0.431f green:0.835f blue:0.318f alpha:1.0f] forState:UIControlStateNormal];
+    ringerC = [[ACAoptionsButton alloc] initWithFrame: CGRectMake(middle + 12, 80, 50, 50)];
     [ringerC setTitle:@"C" forState:UIControlStateNormal];
-    ringerC.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-    ringerC.alpha = 0;
     ringerC.tag = 2;
     [ringerC addTarget:self action:@selector(selectSong:) forControlEvents:UIControlEventTouchUpInside];
+    [ringerC addTarget:self action:@selector(buttonHighlight:) forControlEvents:UIControlEventTouchDown];
     [soundsView addSubview:ringerC];
     
-    ringerD = [[UIButton alloc] initWithFrame: CGRectMake(middle + 86, 80, 50, 50)];
-    ringerD.layer.cornerRadius = 25;
-    ringerD.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.3];
-    [ringerD setTitleColor:[UIColor colorWithRed:0.431f green:0.835f blue:0.318f alpha:1.0f] forState:UIControlStateNormal];
+    ringerD = [[ACAoptionsButton alloc] initWithFrame: CGRectMake(middle + 86, 80, 50, 50)];
     [ringerD setTitle:@"D" forState:UIControlStateNormal];
-    ringerD.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-    ringerD.alpha = 0;
     ringerD.tag = 3;
     [ringerD addTarget:self action:@selector(selectSong:) forControlEvents:UIControlEventTouchUpInside];
+    [ringerD addTarget:self action:@selector(buttonHighlight:) forControlEvents:UIControlEventTouchDown];
     [soundsView addSubview:ringerD];
     
-    stopSoundButton = [[UIButton alloc]initWithFrame:CGRectMake(middle - 30, 170, 60, 60)];
-    stopSoundButton.layer.cornerRadius = 30;
-    stopSoundButton.backgroundColor = [UIColor magentaColor];
+    stopSoundButton = [[UIButton alloc]initWithFrame:CGRectMake(middle - 25, 170, 50, 50)];
+    stopSoundButton.layer.cornerRadius = 25;
+    stopSoundButton.layer.borderWidth = 1.0f;
+    stopSoundButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    [stopSoundButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [stopSoundButton setTitle:@"X" forState:UIControlStateNormal];
+    stopSoundButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
+  
     stopSoundButton.alpha = 0;
     [stopSoundButton addTarget:self action:@selector(stopSamplePlay) forControlEvents:UIControlEventTouchUpInside];
+    [stopSoundButton addTarget:self action:@selector(buttonHighlight:) forControlEvents:UIControlEventTouchDown];
     [soundsView addSubview:stopSoundButton];
     
     
@@ -402,7 +371,7 @@
         ringerB.alpha = 1;
         ringerC.alpha = 1;
         ringerD.alpha = 1;
-        stopSoundButton.alpha = .6;
+        stopSoundButton.alpha = 1;
     }];
     
 }
@@ -504,29 +473,19 @@
     [volumeView removeFromSuperview];
     //
     
-    vibrateOn = [[UIButton alloc] initWithFrame: CGRectMake(middle - 82, 80, 50, 50)];
-    vibrateOn.layer.cornerRadius = 25;
-    vibrateOn.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.3];
-    [vibrateOn setTitleColor:[UIColor colorWithRed:0.431f green:0.835f blue:0.318f alpha:1.0f] forState:UIControlStateNormal];
+    vibrateOn = [[ACAoptionsButton alloc] initWithFrame: CGRectMake(middle - 82, 80, 50, 50)];
     [vibrateOn setTitle:@"On" forState:UIControlStateNormal];
-    vibrateOn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-    vibrateOn.alpha = 0;
     vibrateOn.tag = 1;
-    
     [vibrateOn addTarget:self action:@selector(setVibrate:) forControlEvents:UIControlEventTouchUpInside];
+    [vibrateOn addTarget:self action:@selector(buttonHighlight:) forControlEvents:UIControlEventTouchDown];
     [vibrateView addSubview:vibrateOn];
     
     
-    vibrateOff = [[UIButton alloc] initWithFrame: CGRectMake(middle + 32, 80, 50, 50)];
-    vibrateOff.layer.cornerRadius = 25;
-    vibrateOff.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.3];
-    [vibrateOff setTitleColor:[UIColor colorWithRed:0.431f green:0.835f blue:0.318f alpha:1.0f] forState:UIControlStateNormal];
+    vibrateOff = [[ACAoptionsButton alloc] initWithFrame: CGRectMake(middle + 32, 80, 50, 50)];
     [vibrateOff setTitle:@"Off" forState:UIControlStateNormal];
-    vibrateOff.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
-    vibrateOff.alpha = 0;
     vibrateOff.tag = 0;
-    
     [vibrateOff addTarget:self action:@selector(setVibrate:) forControlEvents:UIControlEventTouchUpInside];
+    [vibrateOff addTarget:self action:@selector(buttonHighlight:) forControlEvents:UIControlEventTouchDown];
     [vibrateView addSubview:vibrateOff];
     
     [UIView animateWithDuration:0.5 animations:^{
@@ -572,6 +531,8 @@
 {
     snoozeValue = sender.tag;
     
+    NSLog(@"this is the snooze value: %d", snoozeValue);
+    
 }
 
 - (void)selectSong: (UIButton *)sender
@@ -584,6 +545,32 @@
 - (void)stopSamplePlay
 {
     [self.delegate stopSound];
+}
+
+- (void)buttonHighlight: (UIButton *)sender
+{
+    UIButton * fill = [[UIButton alloc]init];
+    
+    fill.frame = sender.frame;
+    fill.layer.cornerRadius = sender.layer.cornerRadius;
+    fill.layer.borderColor = GRAY.CGColor;
+    fill.layer.borderWidth = sender.layer.borderWidth;
+    fill.backgroundColor = GRAY;
+    fill.alpha = 0.7;
+    
+    UIView *parentView = [(UIView *)sender superview];
+    
+    [parentView addSubview:fill];
+    
+    [UIView animateWithDuration:1.0 animations:^{
+        
+        fill.alpha = 0;
+        
+    } completion:^(BOOL finished) {
+        
+        [fill removeFromSuperview];
+        
+    }];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D0197B4919462CE500A140C4 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0197B4819462CE500A140C4 /* Crashlytics.framework */; };
 		D02FA47F193CE0B000A05AA4 /* ACATweetVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D02FA47E193CE0B000A05AA4 /* ACATweetVC.m */; };
+		D064D2F71951C77100CF379F /* ACAoptionsButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D064D2F61951C77100CF379F /* ACAoptionsButton.m */; };
 		D06DB9741933B4BB00DCF445 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D06DB9731933B4BB00DCF445 /* Foundation.framework */; };
 		D06DB9761933B4BB00DCF445 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D06DB9751933B4BB00DCF445 /* CoreGraphics.framework */; };
 		D06DB9781933B4BB00DCF445 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D06DB9771933B4BB00DCF445 /* UIKit.framework */; };
@@ -70,6 +71,8 @@
 		D0197B4819462CE500A140C4 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		D02FA47D193CE0B000A05AA4 /* ACATweetVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACATweetVC.h; sourceTree = "<group>"; };
 		D02FA47E193CE0B000A05AA4 /* ACATweetVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACATweetVC.m; sourceTree = "<group>"; };
+		D064D2F51951C77100CF379F /* ACAoptionsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAoptionsButton.h; sourceTree = "<group>"; };
+		D064D2F61951C77100CF379F /* ACAoptionsButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAoptionsButton.m; sourceTree = "<group>"; };
 		D06DB9701933B4BB00DCF445 /* alarmClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = alarmClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D06DB9731933B4BB00DCF445 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D06DB9751933B4BB00DCF445 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -314,6 +317,8 @@
 		D06DB9C31936448100DCF445 /* buttons */ = {
 			isa = PBXGroup;
 			children = (
+				D064D2F51951C77100CF379F /* ACAoptionsButton.h */,
+				D064D2F61951C77100CF379F /* ACAoptionsButton.m */,
 				D06DB9C01936447600DCF445 /* ACAmainButtons.h */,
 				D06DB9C11936447600DCF445 /* ACAmainButtons.m */,
 			);
@@ -515,6 +520,7 @@
 				D0D3D233194E9E6D00950FC9 /* STTwitterAppOnly.m in Sources */,
 				D06DB9C619375E7F00DCF445 /* ACAalarmsTVC.m in Sources */,
 				D06DB9AF1934FB5500DCF445 /* ACAbgLayer.m in Sources */,
+				D064D2F71951C77100CF379F /* ACAoptionsButton.m in Sources */,
 				D02FA47F193CE0B000A05AA4 /* ACATweetVC.m in Sources */,
 				D0D3D22F194E9E6D00950FC9 /* NSError+STTwitter.m in Sources */,
 				D0D3D235194E9E6D00950FC9 /* STTwitterOAuth.m in Sources */,
