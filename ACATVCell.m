@@ -92,9 +92,11 @@
             NSArray *notificationsList = [alarmApp scheduledLocalNotifications];
             
             NSLog(@"THESE are the SCHEDULED notifications%@", notificationsList);
+            
+             [self.delegate changeColor];
         }];
     }
-    [self.delegate changeColor];
+   
 }
 
 

@@ -434,13 +434,15 @@
     NSLog(@"this is the volume %f",self.player.volume);
     
     if ([[ACAalarmData maindata].sortedTimes[index][@"Options"][@"Vibrate"] intValue] == 1) {
-        
-        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+       
+        if (self.player.playing) {
+            
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+        }
         
     } else {
         return;
     }
-    
 }
 
 
