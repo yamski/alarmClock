@@ -20,7 +20,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-  //[application cancelAllLocalNotifications];
+//[application cancelAllLocalNotifications];
     
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     

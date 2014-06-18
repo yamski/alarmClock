@@ -35,13 +35,18 @@
     
     UIButton * alarmToggle;
     
+    NSDate * currentDate;
     NSDate * alarmTimeNoDay;
     NSDate * alarmTime;
     NSDate * nowNoSecs;
     NSDateFormatter * formatter;
     NSDateFormatter * amPMFormat;
+    
     NSCalendar * calendar;
     NSDateComponents * components;
+    NSDateComponents * noSecs;
+    
+    unsigned int flags;
     
     CGPoint prevLocation;
     CGPoint location;
@@ -104,7 +109,6 @@
         ///////
         
         twitter = [STTwitterAPI twitterAPIOSWithFirstAccount];
-        
         [twitter verifyCredentialsWithSuccessBlock:^(NSString *username) {
             
             NSLog(@"success %@", username);
@@ -112,7 +116,6 @@
         } errorBlock:^(NSError *error) {
             
             NSLog(@"%@", error.userInfo);
-            
         }];
 
         /////////
@@ -127,17 +130,33 @@
         formatter = [[NSDateFormatter alloc] init];
         [formatter setTimeStyle:NSDateFormatterShortStyle];
         [formatter setDateFormat:@"h:mm  a"];
+
         
-        NSDate * now = [NSDate date];
-        unsigned int flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit| NSHourCalendarUnit|NSMinuteCalendarUnit;
-        NSDateComponents * noSecs = [calendar components:flags fromDate:now];
+        currentDate = [NSDate date];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"ss"];
+        int currentTimeSeconds = [dateFormatter stringFromDate:currentDate].intValue;
+        
+        NSDate *fireDate = [NSDate dateWithTimeIntervalSinceNow:60 - currentTimeSeconds];
+        NSTimer *updateTimer = [[NSTimer alloc] initWithFireDate:fireDate
+                                                        interval:60
+                                                          target:self
+                                                        selector:@selector(updateClock)
+                                                        userInfo:nil
+                                                         repeats:YES];
+        
+        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+        [runLoop addTimer:updateTimer forMode:NSDefaultRunLoopMode];
+        
+        flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit| NSHourCalendarUnit|NSMinuteCalendarUnit;
+        noSecs = [calendar components:flags fromDate:currentDate];
         nowNoSecs = [calendar dateFromComponents:noSecs];
-        
-        //update every min nstimer
         alarmTime = nowNoSecs;
+       
+        ////
 
         alarmLabel = [[ACAtimeButton  alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 130)];
-        [alarmLabel setTitle:[formatter stringFromDate:nowNoSecs] forState:UIControlStateNormal];
+        [alarmLabel setTitle:[formatter stringFromDate:currentDate] forState:UIControlStateNormal];
         [alarmLabel addTarget:self action:@selector(setAlarmTime) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:alarmLabel];
         
@@ -173,6 +192,21 @@
     [self checkActiveAlarms];
 }
 
+- (void)updateClock
+{
+    currentDate = [NSDate date];
+    [alarmLabel setTitle:[formatter stringFromDate:currentDate] forState:UIControlStateNormal];
+    
+    //flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit| NSHourCalendarUnit|NSMinuteCalendarUnit;
+
+    noSecs = [calendar components:flags fromDate:currentDate];
+    nowNoSecs = [calendar dateFromComponents:noSecs];
+    alarmTime = nowNoSecs;
+    
+    NSLog(@"current date %@", currentDate);
+    NSLog(@"Now No Seconds %@", nowNoSecs);
+    NSLog(@"ALARM TIME %@", alarmTime);
+}
 
 - (void)archiveData
 {
@@ -232,6 +266,8 @@
 
 - (void)setAlarmTime
 {
+    //[self updateAlarm:0];
+    
     // disabled to not interfere with swiping hrs/mins
     swipeTVC.enabled = NO;
     [alarmLabel addTarget:self action:@selector(savedData) forControlEvents:UIControlEventTouchUpInside];
@@ -269,11 +305,10 @@
     [timeScroll removeFromSuperview];
     
     swipeTVC.enabled = YES;
-    
     ///
     
-    int flags = NSHourCalendarUnit | NSMinuteCalendarUnit;
-    NSDateComponents* hrMinComp = [calendar components:flags fromDate:alarmTime];
+    int hrMin = NSHourCalendarUnit | NSMinuteCalendarUnit;
+    NSDateComponents* hrMinComp = [calendar components:hrMin fromDate:alarmTime];
     alarmTimeNoDay = [calendar dateFromComponents:hrMinComp];
     
     
@@ -284,10 +319,12 @@
         [alarmLabel setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
     } completion:nil];
-    ///
-    
-    self.alarmStatus.backgroundColor = [UIColor greenColor];
 
+    /////////////////////////
+    /////////////////////////
+    self.alarmStatus.backgroundColor = [UIColor greenColor];
+    /////////////////////////
+    /////////////////////////
     
     // LOCAL NOTIFICATIONS
     UILocalNotification * wakeUp = [[UILocalNotification alloc] init];
@@ -321,6 +358,8 @@
     NSLog(@"HERES THAT TIMEKEY: %@ ",timeKey);
     
     [self archiveData];
+    
+    [alarmLabel setTitle:[formatter stringFromDate:currentDate] forState:UIControlStateNormal];
 }
 
 
@@ -383,7 +422,7 @@
     
     
     UILabel * currentTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 130)];
-    NSDate * currentDate = [NSDate date];
+    //NSDate * currentDate = [NSDate date];
     currentTimeLabel.text = [formatter stringFromDate:currentDate];
     currentTimeLabel.backgroundColor = [UIColor clearColor];
     currentTimeLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
@@ -477,10 +516,10 @@
     [self removeAlarmBG];
 
     
-    NSDate * current = [NSDate date];
-    unsigned int flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit| NSHourCalendarUnit|NSMinuteCalendarUnit;
-    NSDateComponents * noSecs = [calendar components:flags fromDate:current];
-    NSDate * currentNoSecs = [calendar dateFromComponents:noSecs];
+   // NSDate * current = [NSDate date];
+   // unsigned int flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit| NSHourCalendarUnit|NSMinuteCalendarUnit;
+    NSDateComponents * noSeconds = [calendar components:flags fromDate:currentDate];
+    NSDate * currentNoSecs = [calendar dateFromComponents:noSeconds];
     
     
     NSDate * snoozeDate = [NSDate dateWithTimeInterval: [snoozeOptions[@"Snooze"] intValue] sinceDate: currentNoSecs];
