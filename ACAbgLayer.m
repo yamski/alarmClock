@@ -34,7 +34,7 @@
     
     UIColor *colorOne = [UIColor lightGrayColor];
     //UIColor *colorTwo = [UIColor colorWithRed:0.996f green:1.000f blue:0.635f alpha:1.0f];
-    UIColor *colorTwo = GOLD;
+    UIColor *colorTwo = [UIColor colorWithRed:0.114f green:0.600f blue:0.855f alpha:1.0f];
     
     NSArray *colors = [NSArray arrayWithObjects:(id)colorOne.CGColor, colorTwo.CGColor, nil];
     NSNumber *stopOne = [NSNumber numberWithFloat:0.0];

@@ -93,7 +93,7 @@
         NSLog(@"These are the scheduled notifications%@", eventArray);
         ///////////////////////
         
-        songChoices = [@[@"xylophone_tone.mp3", @"bells.mp3", @"cutebells.mp3", @"kbwhistle.mp3"] mutableCopy];
+        songChoices = [@[@"xylophone_tone.mp3", @"bells.mp3", @"cutebells.mp3", @"magicalbells.mp3"] mutableCopy];
         
         snoozeCounter = 0;
         

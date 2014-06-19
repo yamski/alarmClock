@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D010E3A119528AF200BDF718 /* magicalbells.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D010E3A019528AF200BDF718 /* magicalbells.mp3 */; };
 		D0197B4919462CE500A140C4 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0197B4819462CE500A140C4 /* Crashlytics.framework */; };
 		D02FA47F193CE0B000A05AA4 /* ACATweetVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D02FA47E193CE0B000A05AA4 /* ACATweetVC.m */; };
 		D064D2F71951C77100CF379F /* ACAoptionsButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D064D2F61951C77100CF379F /* ACAoptionsButton.m */; };
@@ -68,25 +69,26 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D010E3A019528AF200BDF718 /* magicalbells.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = magicalbells.mp3; sourceTree = "<group>"; };
 		D0197B4819462CE500A140C4 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		D02FA47D193CE0B000A05AA4 /* ACATweetVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACATweetVC.h; sourceTree = "<group>"; };
 		D02FA47E193CE0B000A05AA4 /* ACATweetVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACATweetVC.m; sourceTree = "<group>"; };
 		D064D2F51951C77100CF379F /* ACAoptionsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAoptionsButton.h; sourceTree = "<group>"; };
 		D064D2F61951C77100CF379F /* ACAoptionsButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAoptionsButton.m; sourceTree = "<group>"; };
-		D06DB9701933B4BB00DCF445 /* alarmClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = alarmClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D06DB9701933B4BB00DCF445 /* Tweet Alarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tweet Alarm.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D06DB9731933B4BB00DCF445 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D06DB9751933B4BB00DCF445 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		D06DB9771933B4BB00DCF445 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		D06DB97B1933B4BB00DCF445 /* alarmClock-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "alarmClock-Info.plist"; sourceTree = "<group>"; };
+		D06DB97B1933B4BB00DCF445 /* Tweet Alarm-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tweet Alarm-Info.plist"; sourceTree = "<group>"; };
 		D06DB97D1933B4BB00DCF445 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D06DB97F1933B4BB00DCF445 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D06DB9811933B4BB00DCF445 /* alarmClock-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "alarmClock-Prefix.pch"; sourceTree = "<group>"; };
+		D06DB9811933B4BB00DCF445 /* Tweet Alarm-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tweet Alarm-Prefix.pch"; sourceTree = "<group>"; };
 		D06DB9821933B4BB00DCF445 /* ACAAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACAAppDelegate.h; sourceTree = "<group>"; };
 		D06DB9831933B4BB00DCF445 /* ACAAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ACAAppDelegate.m; sourceTree = "<group>"; };
 		D06DB9851933B4BB00DCF445 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		D06DB98B1933B4BB00DCF445 /* alarmClockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = alarmClockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D06DB98B1933B4BB00DCF445 /* Tweet AlarmTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tweet AlarmTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D06DB98C1933B4BB00DCF445 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		D06DB9941933B4BB00DCF445 /* alarmClockTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "alarmClockTests-Info.plist"; sourceTree = "<group>"; };
+		D06DB9941933B4BB00DCF445 /* Tweet AlarmTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tweet AlarmTests-Info.plist"; sourceTree = "<group>"; };
 		D06DB9961933B4BB00DCF445 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D06DB9981933B4BB00DCF445 /* alarmClockTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = alarmClockTests.m; sourceTree = "<group>"; };
 		D06DB9A41933B63A00DCF445 /* ACAViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAViewController.h; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 		D064D2F11950F6DA00CF379F /* random */ = {
 			isa = PBXGroup;
 			children = (
+				D010E3A019528AF200BDF718 /* magicalbells.mp3 */,
 				D098807A194AB46E005A886D /* ACAvolumeSlider.h */,
 				D098807B194AB46E005A886D /* ACAvolumeSlider.m */,
 				D098800E19496248005A886D /* song.mp3 */,
@@ -216,8 +219,8 @@
 		D06DB9711933B4BB00DCF445 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D06DB9701933B4BB00DCF445 /* alarmClock.app */,
-				D06DB98B1933B4BB00DCF445 /* alarmClockTests.xctest */,
+				D06DB9701933B4BB00DCF445 /* Tweet Alarm.app */,
+				D06DB98B1933B4BB00DCF445 /* Tweet AlarmTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -253,10 +256,10 @@
 		D06DB97A1933B4BB00DCF445 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D06DB97B1933B4BB00DCF445 /* alarmClock-Info.plist */,
+				D06DB97B1933B4BB00DCF445 /* Tweet Alarm-Info.plist */,
 				D06DB97C1933B4BB00DCF445 /* InfoPlist.strings */,
 				D06DB97F1933B4BB00DCF445 /* main.m */,
-				D06DB9811933B4BB00DCF445 /* alarmClock-Prefix.pch */,
+				D06DB9811933B4BB00DCF445 /* Tweet Alarm-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -273,7 +276,7 @@
 		D06DB9931933B4BB00DCF445 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D06DB9941933B4BB00DCF445 /* alarmClockTests-Info.plist */,
+				D06DB9941933B4BB00DCF445 /* Tweet AlarmTests-Info.plist */,
 				D06DB9951933B4BB00DCF445 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -380,9 +383,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D06DB96F1933B4BB00DCF445 /* alarmClock */ = {
+		D06DB96F1933B4BB00DCF445 /* Tweet Alarm */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D06DB99C1933B4BB00DCF445 /* Build configuration list for PBXNativeTarget "alarmClock" */;
+			buildConfigurationList = D06DB99C1933B4BB00DCF445 /* Build configuration list for PBXNativeTarget "Tweet Alarm" */;
 			buildPhases = (
 				D06DB96C1933B4BB00DCF445 /* Sources */,
 				D06DB96D1933B4BB00DCF445 /* Frameworks */,
@@ -393,14 +396,14 @@
 			);
 			dependencies = (
 			);
-			name = alarmClock;
+			name = "Tweet Alarm";
 			productName = alarmClock;
-			productReference = D06DB9701933B4BB00DCF445 /* alarmClock.app */;
+			productReference = D06DB9701933B4BB00DCF445 /* Tweet Alarm.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D06DB98A1933B4BB00DCF445 /* alarmClockTests */ = {
+		D06DB98A1933B4BB00DCF445 /* Tweet AlarmTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D06DB99F1933B4BB00DCF445 /* Build configuration list for PBXNativeTarget "alarmClockTests" */;
+			buildConfigurationList = D06DB99F1933B4BB00DCF445 /* Build configuration list for PBXNativeTarget "Tweet AlarmTests" */;
 			buildPhases = (
 				D06DB9871933B4BB00DCF445 /* Sources */,
 				D06DB9881933B4BB00DCF445 /* Frameworks */,
@@ -411,9 +414,9 @@
 			dependencies = (
 				D06DB9911933B4BB00DCF445 /* PBXTargetDependency */,
 			);
-			name = alarmClockTests;
+			name = "Tweet AlarmTests";
 			productName = alarmClockTests;
-			productReference = D06DB98B1933B4BB00DCF445 /* alarmClockTests.xctest */;
+			productReference = D06DB98B1933B4BB00DCF445 /* Tweet AlarmTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -434,7 +437,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D06DB96B1933B4BB00DCF445 /* Build configuration list for PBXProject "alarmClock" */;
+			buildConfigurationList = D06DB96B1933B4BB00DCF445 /* Build configuration list for PBXProject "Tweet Alarm" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -446,8 +449,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D06DB96F1933B4BB00DCF445 /* alarmClock */,
-				D06DB98A1933B4BB00DCF445 /* alarmClockTests */,
+				D06DB96F1933B4BB00DCF445 /* Tweet Alarm */,
+				D06DB98A1933B4BB00DCF445 /* Tweet AlarmTests */,
 			);
 		};
 /* End PBXProject section */
@@ -463,6 +466,7 @@
 				D0988077194AA31E005A886D /* bells.mp3 in Resources */,
 				D0988073194AA13F005A886D /* xylophone_tone.mp3 in Resources */,
 				D0988075194AA303005A886D /* kbwhistle.mp3 in Resources */,
+				D010E3A119528AF200BDF718 /* magicalbells.mp3 in Resources */,
 				D0988079194AA353005A886D /* cutebells.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -542,7 +546,7 @@
 /* Begin PBXTargetDependency section */
 		D06DB9911933B4BB00DCF445 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D06DB96F1933B4BB00DCF445 /* alarmClock */;
+			target = D06DB96F1933B4BB00DCF445 /* Tweet Alarm */;
 			targetProxy = D06DB9901933B4BB00DCF445 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -649,10 +653,10 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "alarmClock/alarmClock-Prefix.pch";
-				INFOPLIST_FILE = "alarmClock/alarmClock-Info.plist";
+				GCC_PREFIX_HEADER = "alarmClock/Tweet Alarm-Prefix.pch";
+				INFOPLIST_FILE = "alarmClock/Tweet Alarm-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Tweet Alarm";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -670,10 +674,10 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "alarmClock/alarmClock-Prefix.pch";
-				INFOPLIST_FILE = "alarmClock/alarmClock-Info.plist";
+				GCC_PREFIX_HEADER = "alarmClock/Tweet Alarm-Prefix.pch";
+				INFOPLIST_FILE = "alarmClock/Tweet Alarm-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Tweet Alarm";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -694,8 +698,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "alarmClockTests/alarmClockTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "alarmClockTests/Tweet AlarmTests-Info.plist";
+				PRODUCT_NAME = "Tweet AlarmTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -712,8 +716,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "alarmClock/alarmClock-Prefix.pch";
-				INFOPLIST_FILE = "alarmClockTests/alarmClockTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "alarmClockTests/Tweet AlarmTests-Info.plist";
+				PRODUCT_NAME = "Tweet AlarmTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -722,7 +726,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D06DB96B1933B4BB00DCF445 /* Build configuration list for PBXProject "alarmClock" */ = {
+		D06DB96B1933B4BB00DCF445 /* Build configuration list for PBXProject "Tweet Alarm" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D06DB99A1933B4BB00DCF445 /* Debug */,
@@ -731,7 +735,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D06DB99C1933B4BB00DCF445 /* Build configuration list for PBXNativeTarget "alarmClock" */ = {
+		D06DB99C1933B4BB00DCF445 /* Build configuration list for PBXNativeTarget "Tweet Alarm" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D06DB99D1933B4BB00DCF445 /* Debug */,
@@ -740,7 +744,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D06DB99F1933B4BB00DCF445 /* Build configuration list for PBXNativeTarget "alarmClockTests" */ = {
+		D06DB99F1933B4BB00DCF445 /* Build configuration list for PBXNativeTarget "Tweet AlarmTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D06DB9A01933B4BB00DCF445 /* Debug */,

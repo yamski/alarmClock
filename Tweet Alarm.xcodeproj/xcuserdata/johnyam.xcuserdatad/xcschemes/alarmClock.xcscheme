@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D06DB96F1933B4BB00DCF445"
                BuildableName = "alarmClock.app"
-               BlueprintName = "alarmClock"
-               ReferencedContainer = "container:alarmClock.xcodeproj">
+               BlueprintName = "Tweet Alarm"
+               ReferencedContainer = "container:Tweet Alarm.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D06DB98A1933B4BB00DCF445"
                BuildableName = "alarmClockTests.xctest"
-               BlueprintName = "alarmClockTests"
-               ReferencedContainer = "container:alarmClock.xcodeproj">
+               BlueprintName = "Tweet AlarmTests"
+               ReferencedContainer = "container:Tweet Alarm.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,8 +44,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D06DB96F1933B4BB00DCF445"
             BuildableName = "alarmClock.app"
-            BlueprintName = "alarmClock"
-            ReferencedContainer = "container:alarmClock.xcodeproj">
+            BlueprintName = "Tweet Alarm"
+            ReferencedContainer = "container:Tweet Alarm.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D06DB96F1933B4BB00DCF445"
             BuildableName = "alarmClock.app"
-            BlueprintName = "alarmClock"
-            ReferencedContainer = "container:alarmClock.xcodeproj">
+            BlueprintName = "Tweet Alarm"
+            ReferencedContainer = "container:Tweet Alarm.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D06DB96F1933B4BB00DCF445"
             BuildableName = "alarmClock.app"
-            BlueprintName = "alarmClock"
-            ReferencedContainer = "container:alarmClock.xcodeproj">
+            BlueprintName = "Tweet Alarm"
+            ReferencedContainer = "container:Tweet Alarm.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
