@@ -77,11 +77,9 @@
         [self buttonAppear];
 
         
-        menuView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 160, SCREEN_WIDTH, 320)];
+        menuView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT / 3.5 , SCREEN_WIDTH, SCREEN_HEIGHT / 1.75)];
         menuView.backgroundColor = [UIColor colorWithWhite:0.4 alpha:0.6];
-        
         menuView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-        
         menuView.contentSize = CGSizeMake(SCREEN_WIDTH,340);
         menuView.alpha = 0;
         
@@ -352,8 +350,8 @@
     stopSoundButton = [[UIButton alloc]initWithFrame:CGRectMake(middle - 25, 170, 50, 50)];
     stopSoundButton.layer.cornerRadius = 25;
     stopSoundButton.layer.borderWidth = 1.0f;
-    stopSoundButton.layer.borderColor = [UIColor whiteColor].CGColor;
-    [stopSoundButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    stopSoundButton.layer.borderColor = GRAY.CGColor;
+    [stopSoundButton setTitleColor:GRAY forState:UIControlStateNormal];
     [stopSoundButton setTitle:@"X" forState:UIControlStateNormal];
     stopSoundButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
   
@@ -530,8 +528,6 @@
 - (void)snoozeSelect: (UIButton *)sender
 {
     snoozeValue = sender.tag;
-    
-    NSLog(@"this is the snooze value: %d", snoozeValue);
     
 }
 

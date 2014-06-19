@@ -51,7 +51,7 @@
     CGPoint prevLocation;
     CGPoint location;
     
-    UIView * menu;
+//    UIView * menu;
     UIView * alarmBG;
     
     ACAalarmSwipe * timeScroll;
@@ -155,14 +155,16 @@
        
         ////
 
-        alarmLabel = [[ACAtimeButton  alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 130)];
+        //alarmLabel = [[ACAtimeButton  alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 130)];
+       alarmLabel = [[ACAtimeButton  alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, (SCREEN_HEIGHT / 4))];
+        
         [alarmLabel setTitle:[formatter stringFromDate:currentDate] forState:UIControlStateNormal];
         [alarmLabel addTarget:self action:@selector(setAlarmTime) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:alarmLabel];
         
-        menu = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 170)];
-        menu.backgroundColor = [UIColor colorWithRed:0.890f green:1.000f blue:0.980f alpha:1.0f];
-        [self.view addSubview:menu];
+//        menu = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 170)];
+//        menu.backgroundColor = [UIColor colorWithRed:0.890f green:1.000f blue:0.980f alpha:1.0f];
+//        [self.view addSubview:menu];
 
         swipeTVC = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeft:)];
         swipeTVC.direction = UISwipeGestureRecognizerDirectionLeft;
@@ -196,16 +198,11 @@
 {
     currentDate = [NSDate date];
     [alarmLabel setTitle:[formatter stringFromDate:currentDate] forState:UIControlStateNormal];
-    
-    //flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit| NSHourCalendarUnit|NSMinuteCalendarUnit;
 
     noSecs = [calendar components:flags fromDate:currentDate];
     nowNoSecs = [calendar dateFromComponents:noSecs];
     alarmTime = nowNoSecs;
-    
-    NSLog(@"current date %@", currentDate);
-    NSLog(@"Now No Seconds %@", nowNoSecs);
-    NSLog(@"ALARM TIME %@", alarmTime);
+
 }
 
 - (void)archiveData
@@ -320,11 +317,7 @@
         
     } completion:nil];
 
-    /////////////////////////
-    /////////////////////////
-    self.alarmStatus.backgroundColor = [UIColor greenColor];
-    /////////////////////////
-    /////////////////////////
+    self.alarmStatus.backgroundColor =  [UIColor colorWithRed:0.235f green:0.878f blue:0.388f alpha:1.0f];
     
     // LOCAL NOTIFICATIONS
     UILocalNotification * wakeUp = [[UILocalNotification alloc] init];
@@ -366,7 +359,6 @@
 // this updates the alarm options if user accesses menu. User doesn't press save yet.
 - (void)updateAlarmOptions: (NSMutableDictionary *)dict
 {
-    NSLog(@"update alarm options ran");
     alarmOptions = dict;
 }
 
@@ -422,7 +414,6 @@
     
     
     UILabel * currentTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, 130)];
-    //NSDate * currentDate = [NSDate date];
     currentTimeLabel.text = [formatter stringFromDate:currentDate];
     currentTimeLabel.backgroundColor = [UIColor clearColor];
     currentTimeLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:45];
@@ -516,8 +507,8 @@
     [self removeAlarmBG];
 
     
-   // NSDate * current = [NSDate date];
-   // unsigned int flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit| NSHourCalendarUnit|NSMinuteCalendarUnit;
+//    NSDate * current = [NSDate date];
+//    unsigned int flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit| NSHourCalendarUnit|NSMinuteCalendarUnit;
     NSDateComponents * noSeconds = [calendar components:flags fromDate:currentDate];
     NSDate * currentNoSecs = [calendar dateFromComponents:noSeconds];
     
@@ -535,8 +526,7 @@
     [[ACAalarmData maindata].alarmList[index] setObject:snoozeNoti forKey:@"SnoozeNotification"];
     
     NSLog(@"here is the new snooze %@", snoozeNoti);
-    
-    
+        
     if ([ACAalarmData maindata].sortedTimes[index][@"Tweet"]) {
         
         snoozeCounter += 1;
